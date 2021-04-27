@@ -15,7 +15,7 @@ abstract class GeneralErrorHandlerImpl: ErrorHandler {
             is IOException,
             is UnknownHostException,
             is SocketException -> ErrorEntity.Network(message = "${throwable.message}//${throwable.cause}")
-            is SQLiteException -> ErrorEntity.Api(message = "${throwable.message}//${throwable.cause}")
+            is SQLiteException -> ErrorEntity.Database(message = "${throwable.message}//${throwable.cause}")
             is HttpException -> ErrorEntity.Api(message = throwable.response()?.message() ,code = throwable.code() ,errorBody = throwable.response()?.errorBody()?.string())
             else -> ErrorEntity.Unknown(message = "${throwable.message}//${throwable.cause}")
         }

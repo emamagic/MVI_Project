@@ -16,14 +16,14 @@ fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> =
                 )
             }
         }
-        ResultWrapper.Error(
+        ResultWrapper.Failed(
             ErrorEntity.Api(
                 message = message(), code = code(), errorBody = errorBody()?.string()
                     ?: "error body is null"
             )
         )
     } catch (t: Throwable) {
-        ResultWrapper.Error(errorHandler.getError(t))
+        ResultWrapper.Failed(errorHandler.getError(t))
     }
 
 
@@ -32,7 +32,7 @@ fun <T> LiveData<T>.toResult(errorHandler: ErrorHandler): LiveData<ResultWrapper
     try {
         ResultWrapper.Success(it)
     } catch (t: Throwable) {
-        ResultWrapper.Error(errorHandler.getError(t))
+        ResultWrapper.Failed(errorHandler.getError(t))
     }
 }
 
@@ -42,7 +42,7 @@ fun <T> Flow<T>.toResult(errorHandler: ErrorHandler): Flow<ResultWrapper<T>> = m
     try {
         ResultWrapper.Success(it)
     } catch (t: Throwable) {
-        ResultWrapper.Error(errorHandler.getError(t))
+        ResultWrapper.Failed(errorHandler.getError(t))
     }
 }
 
