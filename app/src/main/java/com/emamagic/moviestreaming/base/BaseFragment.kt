@@ -65,9 +65,9 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
         }
     }
 
-    abstract fun getFragmentBinding(inflater: LayoutInflater ,container: ViewGroup?): VB
-
     abstract val viewModel: VM
+
+    abstract fun getFragmentBinding(inflater: LayoutInflater ,container: ViewGroup?): VB
 
     abstract fun renderViewState(viewState: STATE)
 

@@ -12,9 +12,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.emamagic.moviestreaming.R
-import com.emamagic.moviestreaming.util.Const.MODE_TOAST_ERROR
-import com.emamagic.moviestreaming.util.Const.MODE_TOAST_SUCCESS
-import com.emamagic.moviestreaming.util.Const.MODE_TOAST_WARNING
 
 inline fun EditText.onTextChange(crossinline listener: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -52,20 +49,20 @@ inline fun SearchView.onQueryTextSubmitListener(crossinline listener: (String) -
 }
 
 
-fun Fragment.toasty(title: String, selectedMode: Int? = null) {
+fun Fragment.toasty(title: String ,@ToastyMode selectedMode: Int? = null) {
     val layout = layoutInflater.inflate(
         R.layout.toast_layout,
         requireView().findViewById(R.id.toast_root)
     )
     when (selectedMode) {
 
-        MODE_TOAST_SUCCESS -> {
+        ToastyMode.MODE_TOAST_SUCCESS -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_corroct_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)
                 .setBackgroundResource(R.drawable.bg_corroct_toast)
         }
-        MODE_TOAST_WARNING -> {
+        ToastyMode.MODE_TOAST_WARNING -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_warning_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)
@@ -73,7 +70,7 @@ fun Fragment.toasty(title: String, selectedMode: Int? = null) {
             layout.findViewById<TextView>(R.id.toast_txt)
                 .setTextColor(resources.getColor(R.color.black))
         }
-        MODE_TOAST_ERROR -> {
+        ToastyMode.MODE_TOAST_ERROR -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_error_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)
@@ -96,20 +93,20 @@ fun Fragment.toasty(title: String, selectedMode: Int? = null) {
 }
 
 
-fun Fragment.toasty(@StringRes titleId: Int, selectedMode: Int? = null) {
+fun Fragment.toasty(@StringRes titleId: Int ,@ToastyMode selectedMode: Int? = null) {
     val layout = layoutInflater.inflate(
         R.layout.toast_layout,
         requireView().findViewById(R.id.toast_root)
     )
     when (selectedMode) {
 
-        MODE_TOAST_SUCCESS -> {
+        ToastyMode.MODE_TOAST_SUCCESS -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_corroct_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)
                 .setBackgroundResource(R.drawable.bg_corroct_toast)
         }
-        MODE_TOAST_WARNING -> {
+        ToastyMode.MODE_TOAST_WARNING -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_warning_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)
@@ -117,7 +114,7 @@ fun Fragment.toasty(@StringRes titleId: Int, selectedMode: Int? = null) {
             layout.findViewById<TextView>(R.id.toast_txt)
                 .setTextColor(resources.getColor(R.color.black))
         }
-        MODE_TOAST_ERROR -> {
+        ToastyMode.MODE_TOAST_ERROR -> {
             layout.findViewById<ImageView>(R.id.toast_img)
                 .setImageResource(R.drawable.ic_error_toast)
             layout.findViewById<ConstraintLayout>(R.id.toast_root)

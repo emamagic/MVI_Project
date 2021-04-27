@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-val TAG = "C-Manager"
 
 /**
  * Save all available networks with an internet connection to a set (@validNetworks).
@@ -25,6 +24,7 @@ val TAG = "C-Manager"
  */
 class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
 
+    val TAG = "C-Manager"
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
     private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
