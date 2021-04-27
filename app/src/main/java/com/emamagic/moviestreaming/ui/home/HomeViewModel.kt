@@ -27,7 +27,6 @@ class HomeViewModel @Inject constructor(
         }.exhaustive
     }
 
-
     private fun getSliders() = viewModelScope.launch {
         setState { copy(sliderStatus = SliderStatus.Loading(true)) }
         repository.getSliders().collect {

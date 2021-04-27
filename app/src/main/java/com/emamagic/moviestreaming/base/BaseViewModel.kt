@@ -6,7 +6,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel< STATE : BaseState, EFFECT : BaseEffect ,EVENT : BaseEvent> : ViewModel() {
+abstract class BaseViewModel<STATE : BaseState ,EFFECT : BaseEffect ,EVENT : BaseEvent> : ViewModel() {
 
     // Create Initial State of View
     private val initialState : STATE by lazy { createInitialState() }
@@ -26,26 +26,16 @@ abstract class BaseViewModel< STATE : BaseState, EFFECT : BaseEffect ,EVENT : Ba
     val uiEffect = _uiEffect.receiveAsFlow()
 
 
-    /**
-     * Set new Event
-     */
     fun setEvent(event : EVENT) {
         val newEvent = event
         viewModelScope.launch { _uiEvent.emit(newEvent) }
     }
 
-
-    /**
-     * Set new Ui State
-     */
     protected fun setState(reduce: STATE.() -> STATE) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }
 
-    /**
-     * Set new Effect
-     */
     protected fun setEffect(builder: () -> EFFECT) {
         val effectValue = builder()
         viewModelScope.launch { _uiEffect.send(effectValue) }
@@ -55,9 +45,7 @@ abstract class BaseViewModel< STATE : BaseState, EFFECT : BaseEffect ,EVENT : Ba
         subscribeEvents()
     }
 
-    /**
-     * Start listening to Event
-     */
+
     private fun subscribeEvents() {
         viewModelScope.launch {
             uiEvent.collect {
@@ -66,8 +54,5 @@ abstract class BaseViewModel< STATE : BaseState, EFFECT : BaseEffect ,EVENT : Ba
         }
     }
 
-    /**
-     * Handle each event
-     */
     abstract fun handleEvent(event : EVENT)
 }
