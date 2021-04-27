@@ -65,10 +65,10 @@
 
 
                     <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/slider"
                         android:background="@color/colorPrimary"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:id="@+id/slider"/>
+                        android:layout_height="250dp"/>
 
                     <com.google.android.material.tabs.TabLayout
                         android:layout_width="match_parent"

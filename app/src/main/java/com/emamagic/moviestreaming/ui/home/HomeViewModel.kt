@@ -4,6 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
 import com.emamagic.moviestreaming.repository.home.*
 import com.emamagic.moviestreaming.safe.ResultWrapper
+import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
+import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
+import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect

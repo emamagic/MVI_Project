@@ -8,7 +8,7 @@ data class SliderListResponse(
 data class SliderResponse(
     val id: Long,
     val name: String,
-    val link_img: String? = null,
+    val link_img: String,
     val time: String,
     val published: String
 )

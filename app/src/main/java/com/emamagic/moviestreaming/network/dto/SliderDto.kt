@@ -13,9 +13,10 @@ class SliderDto @Inject constructor():
         return SliderEntity(
             id = entity.id,
             name = entity.name,
-            imgAddress = null,
             time = entity.time,
-            published = entity.published
+            published = entity.published,
+            link_img = entity.link_img,
+            imgAddress = null
         )
     }
 
@@ -23,7 +24,7 @@ class SliderDto @Inject constructor():
         return SliderResponse(
             id = domainModel.id,
             name = domainModel.name,
-            link_img = null,
+            link_img = domainModel.link_img,
             time = domainModel.time,
             published = domainModel.published
         )

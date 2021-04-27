@@ -6,7 +6,8 @@ import androidx.room.Entity
 data class SliderEntity(
     val id: Long,
     val name: String,
-    val imgAddress: String? = null,
     val time: String,
-    val published: String
+    val published: String,
+    val link_img: String,
+    val imgAddress: String? = null
 )
