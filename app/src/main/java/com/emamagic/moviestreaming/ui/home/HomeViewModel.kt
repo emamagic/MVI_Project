@@ -6,9 +6,8 @@ import com.emamagic.moviestreaming.repository.home.*
 import com.emamagic.moviestreaming.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +27,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getSliders() = viewModelScope.launch {
         setState { copy(sliderStatus = SliderStatus.Loading(true)) }
-        repository.getSliders().map {
-            Timber.e("getSlider")
+        repository.getSliders().collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(sliderStatus = SliderStatus.FetchList(it.data)) }
                 is ResultWrapper.Failed -> setEffect {
@@ -40,8 +38,6 @@ class HomeViewModel @Inject constructor(
             }.exhaustive
         }
     }
-
-
 
 
 

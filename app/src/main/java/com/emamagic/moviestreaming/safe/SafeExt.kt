@@ -39,7 +39,6 @@ fun <T> LiveData<T>.toResult(errorHandler: ErrorHandler): LiveData<ResultWrapper
 
 
 fun <T> Flow<T>.toResult(errorHandler: ErrorHandler): Flow<ResultWrapper<T>> = map {
-
     try {
         ResultWrapper.Success(it)
     } catch (t: Throwable) {

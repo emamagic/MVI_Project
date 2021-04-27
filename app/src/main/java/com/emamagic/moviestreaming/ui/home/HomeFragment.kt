@@ -11,6 +11,7 @@ import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding ,HomeState ,HomeEffect ,HomeEvent ,HomeViewModel>() {
@@ -31,9 +32,9 @@ class HomeFragment: BaseFragment<FragmentHomeBinding ,HomeState ,HomeEffect ,Hom
 
     override fun renderViewState(viewState: HomeState) {
         when(viewState.sliderStatus) {
-            SliderStatus.EmptyList -> toasty("emptylist")
-            is SliderStatus.FetchList -> toasty("fecth list ${viewState.sliderStatus.sliders}")
-            is SliderStatus.Loading -> toasty("loading ${viewState.sliderStatus.isLoading}")
+            SliderStatus.EmptyList -> Timber.e("emptyList")
+            is SliderStatus.FetchList -> Timber.e("fetch ${viewState.sliderStatus.sliders}")
+            is SliderStatus.Loading -> Timber.e("loading")
         }.exhaustive
     }
 

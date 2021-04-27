@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface HomeRepository {
 
     fun getSliders(): Flow<ResultWrapper<List<SliderEntity>>>
-    //  suspend fun getSliders(): ResultWrapper<SliderListResponse>
 
 }

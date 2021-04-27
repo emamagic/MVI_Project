@@ -12,7 +12,6 @@ fun <T, A> performOperation(
     saveCallResult: suspend (A) -> Unit
 ): Flow<T> = flow {
 
-    Timber.e("getSlider")
     val remoteSource = networkCall.invoke()
     var localSource = databaseQuery.invoke()
 
