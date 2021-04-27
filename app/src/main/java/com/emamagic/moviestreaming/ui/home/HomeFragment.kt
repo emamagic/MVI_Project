@@ -54,8 +54,8 @@ class HomeFragment :
 
     override fun renderViewEffect(viewEffect: HomeEffect) {
         when (viewEffect) {
-            is HomeEffect.Navigate -> TODO()
-            is HomeEffect.ShowSnackBar -> TODO()
+            is HomeEffect.Navigate -> { /* Do Nothing */ }
+            is HomeEffect.ShowSnackBar -> { /* Do Nothing */ }
             is HomeEffect.ShowToast -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_ERROR)
         }.exhaustive
     }
