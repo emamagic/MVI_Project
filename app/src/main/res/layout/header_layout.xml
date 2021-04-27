@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_margin="8dp"
+        android:id="@+id/img_profile"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email Address"
+        android:fontFamily="monospace"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_below="@id/img_profile"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/email_user"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:fontFamily="monospace"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_below="@id/email_user"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/phone_user"/>
+
+
+</RelativeLayout>

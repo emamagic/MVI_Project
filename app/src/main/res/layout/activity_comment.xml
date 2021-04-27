@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommentActivity"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/toolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:textColor="@color/textColor"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:fontFamily="monospace"/>
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+            android:layout_marginLeft="8dp"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/layout_comment"
+        android:id="@+id/recyclerView_comment"
+        android:layout_margin="4dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_comment"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:paddingLeft="8dp"
+            android:layout_height="40dp"
+            android:hint="Comment..."
+            android:background="@null"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColorHint="@color/textColor"/>
+
+        <ImageView
+            android:id="@+id/img_send_comment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/ic_baseline_send_24"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

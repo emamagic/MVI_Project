@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="75dp"
+        android:layout_height="105dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/otherColor"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:id="@+id/img_movie"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="-1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="@color/otherColor"
+        app:cardCornerRadius="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+
+        <RelativeLayout
+            android:layout_marginLeft="90dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:fontFamily="monospace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Name Movie"
+                android:maxLines="1"
+                android:textSize="10sp"
+                android:textColor="@color/textColor"
+                android:id="@+id/name_movie"/>
+
+
+            <TextView
+                android:maxLines="1"
+                android:fontFamily="monospace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:text="Director :"
+                android:textSize="10sp"
+                android:id="@+id/name_director"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/name_movie"/>
+
+
+            <TextView
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:fontFamily="monospace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:text="Published :"
+                android:id="@+id/published"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/name_director" />
+
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="4dp"
+                android:padding="3dp"
+                android:fontFamily="monospace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IMDb:8.5/10"
+                android:id="@+id/rate_imdb"
+                android:background="@drawable/bg_rate_imdb"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:textColor="@color/colorPrimary"/>
+
+
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_access_time_24"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/time_movie"
+                    android:textColor="@color/textColor"
+                    android:text="2h 25m"
+                    android:fontFamily="monospace"
+                    android:textSize="10sp"/>
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

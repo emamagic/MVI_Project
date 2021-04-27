@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".VerifyPhoneActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:text="Movie Streaming"
+        android:fontFamily="monospace"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:id="@+id/txt_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        android:text="Verify Phone Number"
+        android:layout_below="@id/txt_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_verify"
+        android:padding="16dp"
+        android:background="@drawable/bg_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="48dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verify Phone"
+            android:textColor="@color/textColor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/txt"
+            />
+
+        <LinearLayout
+            android:layout_marginBottom="36dp"
+            android:id="@+id/layout"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_baseline_phone_android_24"/>
+
+
+                    <EditText
+                        android:id="@+id/edt_phone"
+                        android:layout_marginLeft="8dp"
+                        android:inputType="phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:textColor="@color/textColor"
+                        android:textStyle="bold"
+                        android:background="@null"
+                        android:textColorHint="@color/textColor"
+                        android:hint="phone"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/textColor"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_send_code"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="@color/colorPrimary"
+        android:text="Send Code >"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:background="@drawable/bg_btn"
+        android:layout_below="@id/layout_verify"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="48dp"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:padding="8dp"
+        android:id="@+id/layout_pin"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <com.chaos.view.PinView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/pinView"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cursorWidth="2dp"
+            app:hideLineWhenFilled="false"
+            app:itemCount="4"
+            app:itemHeight="48dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="6dp"
+            app:itemWidth="48dp"
+            app:lineColor="@color/colorAccent"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
+
+        <Button
+            android:id="@+id/btn_check"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Check"
+            android:textAllCaps="false"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn"
+            android:layout_below="@id/pinView"
+            android:layout_marginTop="16sp"/>
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Retry"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn"
+            android:layout_below="@id/pinView"
+            android:layout_marginTop="16dp"/>
+
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

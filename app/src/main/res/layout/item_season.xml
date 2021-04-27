@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/otherColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="125dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/number_season"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Season 1"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                android:layout_centerInParent="true"/>
+
+
+            <ImageView
+                android:background="@color/colorPrimary"
+                android:alpha="0.35"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/img_season"
+                android:scaleType="centerCrop"/>
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:id="@+id/count_episodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Episodes : 29"
+        android:layout_below="@id/card"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>
