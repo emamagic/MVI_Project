@@ -1,7 +1,7 @@
 package com.emamagic.moviestreaming.di
 
 import com.emamagic.moviestreaming.BuildConfig
-import com.emamagic.moviestreaming.network.NewsApi
+import com.emamagic.moviestreaming.network.HomeApi
 import com.emamagic.moviestreaming.util.Const
 import dagger.Lazy
 import dagger.Module
@@ -52,8 +52,8 @@ object RetrofitModule {
     }
 
     @Provides
-    fun provideNewsApi(retrofit: Retrofit): NewsApi {
-        return retrofit.create(NewsApi::class.java)
+    fun provideNewsApi(retrofit: Retrofit): HomeApi {
+        return retrofit.create(HomeApi::class.java)
     }
 
 }
