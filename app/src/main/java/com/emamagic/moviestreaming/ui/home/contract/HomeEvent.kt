@@ -3,5 +3,6 @@ package com.emamagic.moviestreaming.ui.home.contract
 import com.emamagic.moviestreaming.base.BaseEvent
 
 sealed class HomeEvent: BaseEvent {
-    object GetSlider: HomeEvent()
+    object GetSliders: HomeEvent()
+    data class GetMovies(val category: String): HomeEvent()
 }

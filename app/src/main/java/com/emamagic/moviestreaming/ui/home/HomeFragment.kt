@@ -39,23 +39,19 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setEvent(HomeEvent.GetSlider)
-
+        viewModel.setEvent(HomeEvent.GetSliders)
+        viewModel.setEvent(HomeEvent.GetMovies("top_movie_imdb"))
 
     }
 
     override fun renderViewState(viewState: HomeState) {
-        when (viewState.sliderStatus) {
-            SliderStatus.EmptyList -> Timber.e("emptyList")
-            is SliderStatus.FetchList -> setUpSlider(requireContext(), viewState.sliderStatus.sliders)
-            is SliderStatus.Loading -> if (viewState.sliderStatus.isLoading) showLoading() else hideLoading()
-        }.exhaustive
+        if (viewState.isLoading) showLoading() else hideLoading()
+        setUpSlider(requireContext() ,viewState.sliders)
     }
 
     override fun renderViewEffect(viewEffect: HomeEffect) {
         when (viewEffect) {
-            is HomeEffect.Navigate -> { /* Do Nothing */ }
-            is HomeEffect.ShowSnackBar -> { /* Do Nothing */ }
+            is HomeEffect.Navigate -> {  }
             is HomeEffect.ShowToast -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_ERROR)
         }.exhaustive
     }

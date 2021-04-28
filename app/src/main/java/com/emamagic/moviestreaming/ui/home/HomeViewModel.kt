@@ -16,31 +16,40 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository
-): BaseViewModel<HomeState, HomeEffect, HomeEvent>() {
-    override fun createInitialState(): HomeState {
-        return HomeState(SliderStatus.EmptyList)
-    }
+) : BaseViewModel<HomeState, HomeEffect, HomeEvent>() {
+
+    override fun createInitialState() = HomeState.initial()
 
     override fun handleEvent(event: HomeEvent) {
-        when(event) {
-            HomeEvent.GetSlider -> getSliders()
+        when (event) {
+            HomeEvent.GetSliders -> getSliders()
+            is HomeEvent.GetMovies -> getMovies(event.category)
         }.exhaustive
     }
 
     private fun getSliders() = viewModelScope.launch {
-        setState { copy(sliderStatus = SliderStatus.Loading(true)) }
+        setState { copy(isLoading = true) }
         repository.getSliders().collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(sliderStatus = SliderStatus.FetchList(it.data)) }
+                is ResultWrapper.Success -> setState { copy(sliders = it.data) }
                 is ResultWrapper.Failed -> setEffect {
                     HomeEffect.ShowToast(
-                        it.error.message ?: "There is a Problem"
+                        it.error.message ?: "There is a Problem getSliders"
                     )
                 }
             }.exhaustive
         }
     }
 
+    private fun getMovies(category: String) = viewModelScope.launch {
+        repository.getMovies(category).collect {
+            setState { copy(isLoading = false) }
+            when (it) {
+                is ResultWrapper.Success -> setState { copy(movies = it.data) }
+                is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getMovies") }
+            }.exhaustive
+        }
+    }
 
 
 }
