@@ -7,13 +7,15 @@ import com.emamagic.moviestreaming.db.entity.SliderEntity
 data class HomeState(
     val sliders: List<SliderEntity>,
     val movies: List<MovieEntity>,
-    val isLoading: Boolean
+    val isLoading: Boolean,
+    @CurrentHomeState val currentState: Int
 ) : BaseState {
     companion object {
         fun initial() = HomeState (
             sliders = emptyList(),
             movies = emptyList(),
-            isLoading = false
+            isLoading = false,
+            CurrentHomeState.NON_STATE
         )
     }
 }

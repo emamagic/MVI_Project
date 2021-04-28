@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class MovieDao: BaseDao<MovieEntity> {
 
-    @Query("SELECT * FROM table_movie")
-    abstract fun getAllMovie(): Flow<List<MovieEntity>>
+    @Query("SELECT * FROM table_movie WHERE category_name = :category")
+    abstract fun getMovie(category: String): Flow<List<MovieEntity>>
 
 }

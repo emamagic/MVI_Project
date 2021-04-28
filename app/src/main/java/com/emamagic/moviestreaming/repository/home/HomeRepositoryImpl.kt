@@ -34,7 +34,7 @@ class HomeRepositoryImpl @Inject constructor(
 
     override fun getMovies(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
         return performOperation(
-            databaseQuery = { movieDao.getAllMovie().toResult(this) },
+            databaseQuery = { movieDao.getMovie(category).toResult(this) },
             networkCall = { homeApi.getMovies(category).toResult(this) },
             saveCallResult = { movieDao.upsert(movieDto.mapFromEntityList(it.movie_streaming)) }
         )

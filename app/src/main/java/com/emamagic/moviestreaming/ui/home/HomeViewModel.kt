@@ -4,12 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
 import com.emamagic.moviestreaming.repository.home.*
 import com.emamagic.moviestreaming.safe.ResultWrapper
+import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +33,7 @@ class HomeViewModel @Inject constructor(
         setState { copy(isLoading = true) }
         repository.getSliders().collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(sliders = it.data) }
+                is ResultWrapper.Success -> setState { copy(sliders = it.data ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                 is ResultWrapper.Failed -> setEffect {
                     HomeEffect.ShowToast(
                         it.error.message ?: "There is a Problem getSliders"
@@ -45,7 +47,7 @@ class HomeViewModel @Inject constructor(
         repository.getMovies(category).collect {
             setState { copy(isLoading = false) }
             when (it) {
-                is ResultWrapper.Success -> setState { copy(movies = it.data) }
+                is ResultWrapper.Success -> setState { copy(movies = it.data ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getMovies") }
             }.exhaustive
         }
