@@ -11,7 +11,7 @@ interface HomeApi {
 
 
     @GET("getSlider.php")
-    suspend fun getSliders(): Response<SliderListResponse>
+    suspend fun getSliders(): SliderListResponse
 
     @GET("getInformationHome.php")
     suspend fun getMovies(

@@ -8,6 +8,7 @@ import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
+import com.emamagic.moviestreaming.util.Resource
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -31,15 +32,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getSliders() = viewModelScope.launch {
-        setState { copy(isLoading = true) }
+
         repository.getSliders().collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(sliders = it.data ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
-                is ResultWrapper.Failed -> setEffect {
+                is Resource.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
+                is Resource.Error -> setEffect {
                     HomeEffect.ShowToast(
-                        it.error.message ?: "There is a Problem getSliders"
+                        it.error?.message ?: "There is a Problem getSliders"
                     )
                 }
+                is Resource.Loading -> setState { copy(isLoading = false) }
             }.exhaustive
         }
     }

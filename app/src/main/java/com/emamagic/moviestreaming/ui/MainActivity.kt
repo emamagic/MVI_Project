@@ -2,7 +2,6 @@ package com.emamagic.moviestreaming.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

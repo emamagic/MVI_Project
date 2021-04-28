@@ -14,6 +14,8 @@ import com.emamagic.moviestreaming.network.dto.SliderDto
 import com.emamagic.moviestreaming.safe.GeneralErrorHandlerImpl
 import com.emamagic.moviestreaming.safe.ResultWrapper
 import com.emamagic.moviestreaming.safe.toResult
+import com.emamagic.moviestreaming.util.Resource
+import com.emamagic.moviestreaming.util.networkBoundResource
 import com.emamagic.moviestreaming.util.performOperation
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -29,11 +31,11 @@ class HomeRepositoryImpl @Inject constructor(
 ) : GeneralErrorHandlerImpl(), HomeRepository {
 
 
-    override fun getSliders(): Flow<ResultWrapper<List<SliderEntity>>> {
-        return performOperation(
-            databaseQuery = { sliderDao.getAllSlider().toResult(this) },
-            networkCall = { homeApi.getSliders().toResult(this) },
-            saveCallResult = { sliderDao.upsert(sliderDto.mapFromEntityList(it.sliders)) }
+    override fun getSliders(): Flow<Resource<List<SliderEntity>>> {
+        return networkBoundResource(
+            query = { sliderDao.getAllSlider() },
+            fetch = { homeApi.getSliders() },
+            saveFetchResult = { sliderDao.upsert(sliderDto.mapFromEntityList(it.sliders)) }
         )
     }
 
