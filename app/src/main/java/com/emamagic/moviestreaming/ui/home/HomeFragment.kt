@@ -99,29 +99,29 @@ class HomeFragment :
                     if (movieIMDBAdapter == null){
                         Timber.e("call top movie")
                         movieIMDBAdapter = MovieAdapter()
+                    }
                         binding?.recyclerViewTopMovieImdb?.adapter = movieIMDBAdapter
                         binding?.recyclerViewTopMovieImdb?.setHasFixedSize(true)
                         movieIMDBAdapter?.submitList(list)
-                    }
 
                 }
                 Const.NEW_MOVIE -> {
                     if (movieNewAdapter == null){
                         Timber.e("call new movie")
                         movieNewAdapter = MovieAdapter()
+                    }
                         binding?.recyclerViewNewMovie?.adapter = movieNewAdapter
                         binding?.recyclerViewNewMovie?.setHasFixedSize(true)
                         movieNewAdapter?.submitList(list)
-                    }
                 }
                 Const.SERIES_MOVIE -> {
                     if (movieSeriesAdapter == null){
                         Timber.e("call series movie")
                         movieSeriesAdapter = MovieAdapter()
+                    }
                         binding?.recyclerViewSeries?.adapter = movieSeriesAdapter
                         binding?.recyclerViewSeries?.setHasFixedSize(true)
                         movieSeriesAdapter?.submitList(list)
-                    }
 
                 }
             }
