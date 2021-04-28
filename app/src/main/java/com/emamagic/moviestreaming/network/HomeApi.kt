@@ -1,5 +1,6 @@
 package com.emamagic.moviestreaming.network
 
+import com.emamagic.moviestreaming.network.response.GenreListResponse
 import com.emamagic.moviestreaming.network.response.MovieListResponse
 import com.emamagic.moviestreaming.network.response.SliderListResponse
 import retrofit2.Response
@@ -16,5 +17,8 @@ interface HomeApi {
     suspend fun getMovies(
         @Query("category_name") category: String
     ): Response<MovieListResponse>
+
+    @GET("getGenre.php")
+    suspend fun getGenre(): Response<GenreListResponse>
 
 }

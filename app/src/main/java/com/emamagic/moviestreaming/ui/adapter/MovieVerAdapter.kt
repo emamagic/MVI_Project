@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
-import com.emamagic.moviestreaming.databinding.ItemNewMovieBinding
 import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.util.Const
 import com.squareup.picasso.Picasso
 
-class MovieAdapter(private val interaction: Interaction? = null) :
+class MovieVerAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
@@ -55,7 +55,7 @@ class MovieAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: MovieEntity) = with(itemView) {
             setOnClickListener {
-                interaction?.onMovieClicked(adapterPosition, item)
+                interaction?.onMovieVerClicked(adapterPosition, item)
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
@@ -64,11 +64,14 @@ class MovieAdapter(private val interaction: Interaction? = null) :
                 binding.rankMovie.visibility = View.VISIBLE
                 binding.rankMovie.text = "Rank:${item.rank}"
             }else binding.rankMovie.visibility = View.GONE
+            if (item.category_name == Const.SERIES_MOVIE)
+                binding.imgMark.setImageResource(R.drawable.ic_baseline_folder_special_24)
+            else binding.imgMark.setImageResource(R.drawable.ic_baseline_access_time_24)
 
         }
     }
 
     interface Interaction {
-        fun onMovieClicked(position: Int, item: MovieEntity)
+        fun onMovieVerClicked(position: Int, item: MovieEntity)
     }
 }

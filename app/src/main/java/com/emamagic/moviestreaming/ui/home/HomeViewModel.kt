@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
         when (event) {
             HomeEvent.GetSliders -> getSliders()
             is HomeEvent.GetMovies -> getMovies(event.category)
+            HomeEvent.GetGenre -> getGenre()
         }.exhaustive
     }
 
@@ -45,7 +46,6 @@ class HomeViewModel @Inject constructor(
 
     private fun getMovies(category: String) = viewModelScope.launch {
         repository.getMovies(category).collect {
-            setState { copy(isLoading = false) }
             when (it) {
                 is ResultWrapper.Success -> setState { copy(movies = it.data ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getMovies") }
@@ -53,5 +53,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+
+    private fun getGenre() = viewModelScope.launch {
+        setState { copy(isLoading = false) }
+        repository.getGenre().collect {
+            when (it) {
+                is ResultWrapper.Success -> setState { copy(genres = it.data ,currentState = CurrentHomeState.GENRE_RECEIVE) }
+                is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getGenre") }
+            }.exhaustive
+        }
+    }
 
 }

@@ -28,4 +28,7 @@ object RoomModule {
 
     @Provides
     fun provideMovieDao(database: MovieDatabase) = database.movieDao()
+
+    @Provides
+    fun provideGenreDao(database: MovieDatabase) = database.genreDao()
 }
