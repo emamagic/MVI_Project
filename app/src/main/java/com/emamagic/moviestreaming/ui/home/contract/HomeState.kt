@@ -9,15 +9,15 @@ data class HomeState(
     val sliders: List<SliderEntity>,
     val movies: List<MovieEntity>,
     val genres: List<GenreEntity>,
-    val isLoading: Boolean,
+    val closeApp: Boolean,
     @CurrentHomeState val currentState: Int
 ) : BaseState {
     companion object {
-        fun initial() = HomeState (
+        fun initialize() = HomeState (
             sliders = emptyList(),
             movies = emptyList(),
             genres = emptyList(),
-            isLoading = false,
+            closeApp = false,
             CurrentHomeState.NON_STATE
         )
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemGenreBinding
 import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.squareup.picasso.Picasso
@@ -55,7 +56,7 @@ class GenreAdapter(private val interaction: Interaction? = null) :
                 interaction?.onGenreClicked(adapterPosition, item)
             }
             binding.nameGenre.text = item.name
-            Picasso.get().load(item.imageLing).into(binding.imgGenre)
+            Picasso.get().load(item.imageLing).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre)
         }
     }
 

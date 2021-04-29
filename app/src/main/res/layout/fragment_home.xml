@@ -9,6 +9,7 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.home.HomeFragment">
 
+    <!--tools:openDrawer="start"-->
 
     <com.google.android.material.navigation.NavigationView
         app:menu="@menu/home_menu"

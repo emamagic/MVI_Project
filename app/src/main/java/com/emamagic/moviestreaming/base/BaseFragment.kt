@@ -73,7 +73,7 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
 
     abstract fun renderViewEffect(viewEffect: EFFECT)
 
-    fun onMyBackPressed(owner: LifecycleOwner, call: () -> Unit) {
+    fun onFragmentBackPressed(owner: LifecycleOwner, call: () -> Unit) {
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 call()

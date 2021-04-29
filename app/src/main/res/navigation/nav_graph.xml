@@ -9,7 +9,18 @@
         android:id="@+id/homeFragment"
         android:name="com.emamagic.moviestreaming.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_genreFragment"
+            app:destination="@id/genreFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/genreFragment"
+        android:name="com.emamagic.moviestreaming.ui.genre.GenreFragment"
+        android:label="fragment_genre"
+        tools:layout="@layout/fragment_genre" />
 
 
 </navigation>

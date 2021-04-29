@@ -2,15 +2,12 @@ package com.emamagic.moviestreaming.ui.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemPopularMovieBinding
-import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
-import com.emamagic.moviestreaming.util.Const
 import com.squareup.picasso.Picasso
 
 class MovieHorAdapter(private val interaction: Interaction? = null) :
@@ -60,7 +57,7 @@ class MovieHorAdapter(private val interaction: Interaction? = null) :
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.imageLink).into(binding.imgTopMovieImdb)
+            Picasso.get().load(item.imageLink).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
 
         }
     }

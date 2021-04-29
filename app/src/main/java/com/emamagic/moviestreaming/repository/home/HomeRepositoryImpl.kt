@@ -53,6 +53,14 @@ class HomeRepositoryImpl @Inject constructor(
             databaseQuery = { movieDao.getMovie(category) },
             networkCall = { homeApi.getMovies(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
+            shouldFetch = { cachedMovies ->
+                val sortedMovies = cachedMovies.sortedBy { movie ->
+                    movie.updatedAt
+                }
+                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+                needsRefresh
+            }
         )
     }
 
@@ -62,8 +70,17 @@ class HomeRepositoryImpl @Inject constructor(
             databaseQuery = { genreDao.getGenre() },
             networkCall = { homeApi.getGenre() },
             saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) },
+            shouldFetch = { cachedMovies ->
+                val sortedMovies = cachedMovies.sortedBy { movie ->
+                    movie.updatedAt
+                }
+                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+                needsRefresh
+            }
         )
     }
+
 
 
 }
