@@ -10,5 +10,5 @@ sealed class ResultWrapper<T>(
 ) {
     class Success<T>(data: T, code: Int? = null) : ResultWrapper<T>(data = data, code = code)
     class Failed<T>(error: ErrorEntity, data: T? = null) : ResultWrapper<T>(data = data ,error = error)
-    class CashLoading<T>(data: T? = null) : ResultWrapper<T>(data = data)
+    class FetchLoading<T>(data: T? = null) : ResultWrapper<T>(data = data)
 }

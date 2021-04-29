@@ -47,35 +47,21 @@ class HomeRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getMovies(category: String): Flow<Resource<List<MovieEntity>>> {
-        return networkBoundResourceSimple(
+    override fun getMovies(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
+        return networkBoundResource(
+            errorHandler = this,
             databaseQuery = { movieDao.getMovie(category) },
             networkCall = { homeApi.getMovies(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
-            shouldFetch = { cachedMovies ->
-                val sortedMovies = cachedMovies.sortedBy { movie ->
-                    movie.updatedAt
-                }
-                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
-                needsRefresh
-            }
         )
     }
 
-    override fun getGenre(): Flow<Resource<List<GenreEntity>>> {
-        return networkBoundResourceSimple(
+    override fun getGenre(): Flow<ResultWrapper<List<GenreEntity>>> {
+        return networkBoundResource(
+            errorHandler = this,
             databaseQuery = { genreDao.getGenre() },
             networkCall = { homeApi.getGenre() },
             saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) },
-            shouldFetch = { cachedGenre ->
-                val sortedGenre = cachedGenre.sortedBy { genre ->
-                    genre.updatedAt
-                }
-                val oldestTimestamp = sortedGenre.firstOrNull()?.updatedAt
-                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
-                needsRefresh
-            }
         )
     }
 

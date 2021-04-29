@@ -24,7 +24,7 @@ inline fun <ResultType, RequestType> networkBoundResource(
 
     if (shouldFetch(data)) {
         val loading = launch {
-            databaseQuery().collect { send(ResultWrapper.CashLoading(it)) }
+            databaseQuery().collect { send(ResultWrapper.FetchLoading(it)) }
         }
 
         try {
