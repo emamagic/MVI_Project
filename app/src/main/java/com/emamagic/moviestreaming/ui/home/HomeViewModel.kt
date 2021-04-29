@@ -3,16 +3,15 @@ package com.emamagic.moviestreaming.ui.home
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
 import com.emamagic.moviestreaming.repository.home.*
-import com.emamagic.moviestreaming.safe.ResultWrapper
 import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
-import com.emamagic.moviestreaming.util.Resource
+import com.emamagic.moviestreaming.util.helper.safe.Resource
 import com.emamagic.moviestreaming.util.exhaustive
+import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,29 +27,28 @@ class HomeViewModel @Inject constructor(
             HomeEvent.GetSliders -> getSliders()
             is HomeEvent.GetMovies -> getMovies(event.category)
             HomeEvent.GetGenre -> getGenre()
-        }.exhaustive
+        }
     }
 
     private fun getSliders() = viewModelScope.launch {
-
         repository.getSliders().collect {
             when (it) {
-                is Resource.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
-                is Resource.Error -> setEffect {
-                    HomeEffect.ShowToast(
-                        it.error?.message ?: "There is a Problem getSliders"
-                    )
+                is ResultWrapper.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
+                is ResultWrapper.Failed -> {
+                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}") }
+                    setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                 }
-                is Resource.Loading -> setState { copy(isLoading = false) }
-            }.exhaustive
+                is ResultWrapper.CashLoading -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
+            }
         }
     }
 
     private fun getMovies(category: String) = viewModelScope.launch {
         repository.getMovies(category).collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(movies = it.data ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
-                is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getMovies") }
+                is Resource.Success -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
+                is Resource.Failed -> setEffect { HomeEffect.ShowToast(it.error?.message ?: "There is a Problem getMovies") }
+                is Resource.Loading -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
             }.exhaustive
         }
     }
@@ -60,8 +58,9 @@ class HomeViewModel @Inject constructor(
         setState { copy(isLoading = false) }
         repository.getGenre().collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(genres = it.data ,currentState = CurrentHomeState.GENRE_RECEIVE) }
-                is ResultWrapper.Failed -> setEffect { HomeEffect.ShowToast(it.error.message ?: "There is a Problem getGenre") }
+                is Resource.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
+                is Resource.Failed -> setEffect { HomeEffect.ShowToast(it.error?.message ?: "There is a Problem getGenre") }
+                is Resource.Loading -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
             }.exhaustive
         }
     }

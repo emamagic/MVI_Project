@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.util
+package com.emamagic.moviestreaming.util.helper.conectivity
 
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE

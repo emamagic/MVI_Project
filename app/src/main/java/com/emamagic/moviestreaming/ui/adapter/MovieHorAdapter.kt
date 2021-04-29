@@ -60,7 +60,7 @@ class MovieHorAdapter(private val interaction: Interaction? = null) :
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.link_img).into(binding.imgTopMovieImdb)
+            Picasso.get().load(item.imageLink).into(binding.imgTopMovieImdb)
 
         }
     }

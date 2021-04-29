@@ -59,12 +59,12 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.link_img).into(binding.imgTopMovieImdb)
+            Picasso.get().load(item.imageLink).into(binding.imgTopMovieImdb)
             if (item.rank.isNotEmpty()) {
                 binding.rankMovie.visibility = View.VISIBLE
                 binding.rankMovie.text = "Rank:${item.rank}"
             }else binding.rankMovie.visibility = View.GONE
-            if (item.category_name == Const.SERIES_MOVIE)
+            if (item.categoryName == Const.SERIES_MOVIE)
                 binding.imgMark.setImageResource(R.drawable.ic_baseline_folder_special_24)
             else binding.imgMark.setImageResource(R.drawable.ic_baseline_access_time_24)
 

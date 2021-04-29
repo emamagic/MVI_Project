@@ -102,7 +102,7 @@ class HomeFragment :
 
     private fun setUpMovie(list: List<MovieEntity>) {
         if (list.isNotEmpty()) {
-            when (list[0].category_name) {
+            when (list.first().categoryName) {
                 Const.TOP_MOVIE_IMDB -> {
                     if (movieIMDBAdapter == null) {
                         Timber.e("call top movie")

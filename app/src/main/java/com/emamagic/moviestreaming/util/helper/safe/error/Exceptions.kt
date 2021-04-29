@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.util
+package com.emamagic.moviestreaming.util.helper.safe
 
 import java.io.IOException
 

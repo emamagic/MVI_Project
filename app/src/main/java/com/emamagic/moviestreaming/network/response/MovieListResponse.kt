@@ -1,17 +1,11 @@
 package com.emamagic.moviestreaming.network.response
 
+import com.emamagic.moviestreaming.network.dto.MovieDto
+import com.google.gson.annotations.SerializedName
+
 data class MovieListResponse (
-    val movie_streaming: List<MovieResponse>
+    @SerializedName("movie_streaming")
+    val movies: List<MovieDto>
 )
 
-data class MovieResponse(
-    val id: Long,
-    val name: String,
-    val link_img: String,
-    val time: String,
-    val category_name: String,
-    val rank: String,
-    val rate_imdb: String,
-    val published: String,
-    val director: String
-)
+

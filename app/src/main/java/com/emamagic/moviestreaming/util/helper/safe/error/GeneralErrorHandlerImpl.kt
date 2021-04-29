@@ -1,9 +1,7 @@
-package com.emamagic.moviestreaming.safe
+package com.emamagic.moviestreaming.util.helper.safe.error
 
 import android.database.sqlite.SQLiteException
-import com.emamagic.moviestreaming.safe.ErrorEntity
-import com.emamagic.moviestreaming.safe.ErrorHandler
-import com.emamagic.moviestreaming.util.NoInternetException
+import com.emamagic.moviestreaming.util.helper.safe.NoInternetException
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketException

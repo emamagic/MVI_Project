@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.emamagic.moviestreaming.util.NoInternetException
+import com.emamagic.moviestreaming.util.helper.safe.NoInternetException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response

@@ -1,7 +1,9 @@
-package com.emamagic.moviestreaming.safe
+package com.emamagic.moviestreaming.util.helper.safe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.emamagic.moviestreaming.util.helper.safe.error.ErrorEntity
+import com.emamagic.moviestreaming.util.helper.safe.error.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
@@ -10,6 +12,7 @@ import timber.log.Timber
 fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> {
     try {
         if (isSuccessful) {
+            Timber.e("bb success")
             body()?.let {
                 return ResultWrapper.Success(
                     data = it,
@@ -17,6 +20,7 @@ fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> {
                 )
             }
         }
+        Timber.e("bb fae")
         return ResultWrapper.Failed(
             ErrorEntity.Api(
                 message = message(), code = code(), errorBody = errorBody()?.string()
@@ -24,6 +28,7 @@ fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> {
             )
         )
     } catch (t: Throwable) {
+        Timber.e("bb ca")
         return ResultWrapper.Failed(errorHandler.getError(t))
     }
 }

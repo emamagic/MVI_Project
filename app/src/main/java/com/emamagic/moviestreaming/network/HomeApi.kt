@@ -16,9 +16,9 @@ interface HomeApi {
     @GET("getInformationHome.php")
     suspend fun getMovies(
         @Query("category_name") category: String
-    ): Response<MovieListResponse>
+    ): MovieListResponse
 
     @GET("getGenre.php")
-    suspend fun getGenre(): Response<GenreListResponse>
+    suspend fun getGenre(): GenreListResponse
 
 }

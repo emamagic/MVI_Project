@@ -1,17 +1,23 @@
 package com.emamagic.moviestreaming.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(tableName = "table_movie" ,primaryKeys = ["id"])
 data class MovieEntity(
     val id: Long,
     val name: String,
-    val link_img: String,
+    @ColumnInfo(name = "link_img")
+    val imageLink: String,
     val time: String,
-    val category_name: String,
+    @ColumnInfo(name = "category_name")
+    val categoryName: String,
     val rank: String,
-    val rate_imdb: String,
+    @ColumnInfo(name = "rate_imdb")
+    val imdbRate: String,
     val published: String,
     val director: String,
-    val imgAddress: String? = null
+    @ColumnInfo(name = "address_img")
+    val imageAddress: String? = null,
+    val updatedAt: Long = System.currentTimeMillis()
 )

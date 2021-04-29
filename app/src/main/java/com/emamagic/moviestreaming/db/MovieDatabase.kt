@@ -14,7 +14,7 @@ import com.emamagic.moviestreaming.db.entity.SliderEntity
         SliderEntity::class,
         MovieEntity::class,
         GenreEntity::class
-    ], version = 2, exportSchema = false
+    ], version = 4, exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
 

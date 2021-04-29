@@ -1,40 +1,17 @@
 package com.emamagic.moviestreaming.network.dto
 
-import com.emamagic.moviestreaming.base.BaseMapper
-import com.emamagic.moviestreaming.db.entity.SliderEntity
-import com.emamagic.moviestreaming.network.response.SliderListResponse
-import com.emamagic.moviestreaming.network.response.SliderResponse
-import javax.inject.Inject
+import com.google.gson.annotations.SerializedName
 
-class SliderDto @Inject constructor():
-    BaseMapper<SliderResponse,SliderEntity>{
 
-    override fun mapFromEntity(entity: SliderResponse): SliderEntity {
-        return SliderEntity(
-            id = entity.id,
-            name = entity.name,
-            time = entity.time,
-            published = entity.published,
-            link_img = entity.link_img,
-            imgAddress = null
-        )
-    }
-
-    override fun mapToEntity(domainModel: SliderEntity): SliderResponse {
-        return SliderResponse(
-            id = domainModel.id,
-            name = domainModel.name,
-            link_img = domainModel.link_img,
-            time = domainModel.time,
-            published = domainModel.published
-        )
-    }
-
-    override fun mapFromEntityList(entities: List<SliderResponse>): List<SliderEntity> {
-        return entities.map { mapFromEntity(it) }
-    }
-
-    override fun mapToEntityList(domains: List<SliderEntity>): List<SliderResponse> {
-        return domains.map { mapToEntity(it) }
-    }
-}
+data class SliderDto(
+    @SerializedName("id")
+    val id: Long,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("link_img")
+    val imageLink: String,
+    @SerializedName("time")
+    val time: String,
+    @SerializedName("published")
+    val published: String
+)

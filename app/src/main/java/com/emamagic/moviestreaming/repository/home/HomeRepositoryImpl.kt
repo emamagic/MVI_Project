@@ -4,54 +4,78 @@ import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.dao.GenreDao
 import com.emamagic.moviestreaming.db.dao.MovieDao
 import com.emamagic.moviestreaming.db.dao.SliderDao
-import com.emamagic.moviestreaming.db.entity.GenreEntity
-import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.SliderEntity
 import com.emamagic.moviestreaming.network.HomeApi
-import com.emamagic.moviestreaming.network.dto.GenreDto
-import com.emamagic.moviestreaming.network.dto.MovieDto
-import com.emamagic.moviestreaming.network.dto.SliderDto
-import com.emamagic.moviestreaming.safe.GeneralErrorHandlerImpl
-import com.emamagic.moviestreaming.safe.ResultWrapper
-import com.emamagic.moviestreaming.safe.toResult
-import com.emamagic.moviestreaming.util.Resource
-import com.emamagic.moviestreaming.util.networkBoundResource
-import com.emamagic.moviestreaming.util.performOperation
+import com.emamagic.moviestreaming.mapper.GenreMapper
+import com.emamagic.moviestreaming.mapper.MovieMapper
+import com.emamagic.moviestreaming.mapper.SliderMapper
+import com.emamagic.moviestreaming.db.entity.GenreEntity
+import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.util.helper.safe.*
+import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class HomeRepositoryImpl @Inject constructor(
     private val homeApi: HomeApi,
     private val sliderDao: SliderDao,
-    private val sliderDto: SliderDto,
+    private val sliderMapper: SliderMapper,
     private val movieDao: MovieDao,
-    private val movieDto: MovieDto,
+    private val movieMapper: MovieMapper,
     private val genreDao: GenreDao,
-    private val genreDto: GenreDto
+    private val genreMapper: GenreMapper
 ) : GeneralErrorHandlerImpl(), HomeRepository {
 
 
-    override fun getSliders(): Flow<Resource<List<SliderEntity>>> {
+    override fun getSliders(): Flow<ResultWrapper<List<SliderEntity>>> {
         return networkBoundResource(
-            query = { sliderDao.getAllSlider() },
-            fetch = { homeApi.getSliders() },
-            saveFetchResult = { sliderDao.upsert(sliderDto.mapFromEntityList(it.sliders)) }
+            errorHandler = this,
+            databaseQuery = { sliderDao.getAllSlider() },
+            networkCall = {  homeApi.getSliders()  },
+            saveCallResult = { sliderDao.upsert(sliderMapper.mapFromEntityList(it.sliders)) },
+            shouldFetch = { cachedMovies ->
+                val sortedMovies = cachedMovies.sortedBy { movie ->
+                    movie.updatedAt
+                }
+                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
+                needsRefresh
+            }
         )
     }
 
-    override fun getMovies(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
-        return performOperation(
-            databaseQuery = { movieDao.getMovie(category).toResult(this) },
-            networkCall = { homeApi.getMovies(category).toResult(this) },
-            saveCallResult = { movieDao.upsert(movieDto.mapFromEntityList(it.movie_streaming)) }
+    override fun getMovies(category: String): Flow<Resource<List<MovieEntity>>> {
+        return networkBoundResourceSimple(
+            databaseQuery = { movieDao.getMovie(category) },
+            networkCall = { homeApi.getMovies(category) },
+            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
+            shouldFetch = { cachedMovies ->
+                val sortedMovies = cachedMovies.sortedBy { movie ->
+                    movie.updatedAt
+                }
+                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
+                needsRefresh
+            }
         )
     }
 
-    override fun getGenre(): Flow<ResultWrapper<List<GenreEntity>>> {
-        return performOperation(
-            databaseQuery = { genreDao.getGenre().toResult(this) },
-            networkCall = { homeApi.getGenre().toResult(this) },
-            saveCallResult = { genreDao.upsert(genreDto.mapFromEntityList(it.genres)) }
+    override fun getGenre(): Flow<Resource<List<GenreEntity>>> {
+        return networkBoundResourceSimple(
+            databaseQuery = { genreDao.getGenre() },
+            networkCall = { homeApi.getGenre() },
+            saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) },
+            shouldFetch = { cachedGenre ->
+                val sortedGenre = cachedGenre.sortedBy { genre ->
+                    genre.updatedAt
+                }
+                val oldestTimestamp = sortedGenre.firstOrNull()?.updatedAt
+                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
+                needsRefresh
+            }
         )
     }
 

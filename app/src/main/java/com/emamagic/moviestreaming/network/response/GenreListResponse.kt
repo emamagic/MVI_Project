@@ -1,11 +1,11 @@
 package com.emamagic.moviestreaming.network.response
 
+import com.emamagic.moviestreaming.network.dto.GenreDto
+import com.google.gson.annotations.SerializedName
+
+
 data class GenreListResponse(
-    val genres: List<GenreResponse>
+    @SerializedName("genres")
+    val genres: List<GenreDto>
 )
 
-data class GenreResponse(
-    val id: Long,
-    val name: String,
-    val link_img: String
-)

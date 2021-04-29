@@ -1,14 +1,10 @@
 package com.emamagic.moviestreaming.network.response
 
+import com.emamagic.moviestreaming.network.dto.SliderDto
+import com.google.gson.annotations.SerializedName
+
 
 data class SliderListResponse(
-    val sliders: List<SliderResponse>
-)
-
-data class SliderResponse(
-    val id: Long,
-    val name: String,
-    val link_img: String,
-    val time: String,
-    val published: String
+    @SerializedName("sliders")
+    val sliders: List<SliderDto>
 )

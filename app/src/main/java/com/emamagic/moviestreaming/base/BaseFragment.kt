@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.emamagic.moviestreaming.R
-import com.emamagic.moviestreaming.util.ConnectionLiveData
+import com.emamagic.moviestreaming.util.helper.conectivity.ConnectionLiveData
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffect ,EVENT: BaseEvent ,VM: BaseViewModel<STATE ,EFFECT ,EVENT>>: Fragment() {

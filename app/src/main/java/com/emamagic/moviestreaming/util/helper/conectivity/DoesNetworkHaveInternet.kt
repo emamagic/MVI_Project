@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.util
+package com.emamagic.moviestreaming.util.helper.conectivity
 
 import android.util.Log
 import java.io.IOException

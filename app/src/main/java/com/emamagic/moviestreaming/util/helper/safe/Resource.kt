@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.util
+package com.emamagic.moviestreaming.util.helper.safe
 
 sealed class Resource<T>(
     val data: T? = null,
@@ -6,5 +6,5 @@ sealed class Resource<T>(
 ) {
     class Success<T>(data: T) : Resource<T>(data)
     class Loading<T>(data: T? = null) : Resource<T>(data)
-    class Error<T>(throwable: Throwable, data: T? = null) : Resource<T>(data, throwable)
+    class Failed<T>(throwable: Throwable, data: T? = null) : Resource<T>(data, throwable)
 }
