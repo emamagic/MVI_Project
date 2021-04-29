@@ -10,9 +10,11 @@ import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.util.helper.safe.Resource
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
+import com.emamagic.moviestreaming.util.helper.safe.error.ErrorEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +37,12 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is ResultWrapper.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                 is ResultWrapper.Failed -> {
+                    /** You can error handling with ErrorEntity ->
+                    when(it.error){
+                        is ErrorEntity.Network -> Timber.e("network")
+                        is ErrorEntity.Api -> Timber.e("api ${it.error.code}")
+                        ....
+                    }*/
                     setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}") }
                     setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                 }

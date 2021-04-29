@@ -58,7 +58,7 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
         }
     }
 
-    protected inline fun subscribeOnNetwork(crossinline call: (Boolean) -> Unit){
+    protected inline fun subscribeOnNetworkStatusChange(crossinline call: (Boolean) -> Unit){
         connectionLiveData = ConnectionLiveData(requireContext())
         connectionLiveData.observe(viewLifecycleOwner){ isNetworkAvailable ->
             call(isNetworkAvailable)

@@ -51,6 +51,8 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        subscribeOnNetworkStatusChange { isNetworkAvailable -> if (!isNetworkAvailable) toasty("you have no Internet") }
+
         viewModel.setEvent(HomeEvent.GetSliders)
         viewModel.setEvent(HomeEvent.GetMovies(Const.TOP_MOVIE_IMDB))
         viewModel.setEvent(HomeEvent.GetMovies(Const.NEW_MOVIE))
