@@ -87,7 +87,6 @@ class HomeFragment :
     }
 
     override fun renderViewState(viewState: HomeState) {
-     //   if (viewState.isLoading) showLoading() else hideLoading()
         when (viewState.currentState) {
             CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
             CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
