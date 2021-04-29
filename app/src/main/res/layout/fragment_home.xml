@@ -20,6 +20,7 @@
         android:id="@+id/navigationView"
         android:layout_gravity="start"/>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,6 +52,11 @@
 
 
             </RelativeLayout>
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -330,9 +336,9 @@
 
             </ScrollView>
 
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </RelativeLayout>
-
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

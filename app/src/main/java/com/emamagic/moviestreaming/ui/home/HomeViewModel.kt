@@ -10,6 +10,7 @@ import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
+import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
@@ -34,8 +35,10 @@ class HomeViewModel @Inject constructor(
             HomeEvent.GetGenre -> getGenre()
             HomeEvent.ShouldCloseApp -> shouldCloseApp()
             HomeEvent.MoreGenreClicked -> moreGenreClicked()
+            HomeEvent.SwipeRefreshed -> swipeRefreshed()
         }.exhaustive
     }
+
 
     private fun getSliders() = viewModelScope.launch {
         repository.getSliders().collect {
@@ -82,6 +85,9 @@ class HomeViewModel @Inject constructor(
                is ResultWrapper.FetchLoading -> setEffect { HomeEffect.Loading(true) }
             }.exhaustive
             setEffect { HomeEffect.Loading(false) }
+            // if refresh mode is enabled , we should disabled
+            repository.disableRefreshModel()
+            setEffect { HomeEffect.DisableRefreshing }
         }
     }
 
@@ -100,5 +106,18 @@ class HomeViewModel @Inject constructor(
     private fun moreGenreClicked() = viewModelScope.launch {
         setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment) }
     }
+
+
+    private fun swipeRefreshed() = viewModelScope.launch {
+        repository.enableRefreshMode()
+        getSliders()
+        getMovies(Const.TOP_MOVIE_IMDB)
+        getMovies(Const.NEW_MOVIE)
+        getMovies(Const.SERIES_MOVIE)
+        getMovies(Const.POPULAR_MOVIE)
+        getMovies(Const.ANIMATION)
+        getGenre()
+    }
+
 
 }

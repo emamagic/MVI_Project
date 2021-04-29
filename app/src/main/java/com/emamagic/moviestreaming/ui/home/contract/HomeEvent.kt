@@ -8,4 +8,5 @@ sealed class HomeEvent: BaseEvent {
     object GetGenre: HomeEvent()
     object ShouldCloseApp: HomeEvent()
     object MoreGenreClicked: HomeEvent()
+    object SwipeRefreshed: HomeEvent()
 }

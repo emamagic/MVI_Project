@@ -80,6 +80,7 @@ class HomeFragment :
 
         binding?.btnMenu?.setOnClickListener(this)
         binding?.txtMoreGenre?.setOnClickListener(this)
+        binding?.swipeRefreshLayout?.setOnRefreshListener { viewModel.setEvent(HomeEvent.SwipeRefreshed) }
 
         onFragmentBackPressed(viewLifecycleOwner) {
             if (binding?.drawerLayout?.isDrawerOpen(GravityCompat.START)!!)
@@ -114,6 +115,7 @@ class HomeFragment :
                 }.exhaustive
             }
             is HomeEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
+            HomeEffect.DisableRefreshing -> binding?.swipeRefreshLayout?.isRefreshing = false
         }.exhaustive
     }
 

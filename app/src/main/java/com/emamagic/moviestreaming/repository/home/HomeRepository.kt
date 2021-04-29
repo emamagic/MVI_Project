@@ -14,4 +14,8 @@ interface HomeRepository {
 
     fun getGenre(): Flow<ResultWrapper<List<GenreEntity>>>
 
+    fun enableRefreshMode()
+
+    fun disableRefreshModel()
+
 }

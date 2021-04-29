@@ -11,10 +11,12 @@ import com.emamagic.moviestreaming.mapper.MovieMapper
 import com.emamagic.moviestreaming.mapper.SliderMapper
 import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.helper.safe.*
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,6 +31,7 @@ class HomeRepositoryImpl @Inject constructor(
     private val genreMapper: GenreMapper
 ) : GeneralErrorHandlerImpl(), HomeRepository {
 
+    private var isRefreshing: Boolean = false
 
     override fun getSliders(): Flow<ResultWrapper<List<SliderEntity>>> {
         return networkBoundResource(
@@ -37,12 +40,16 @@ class HomeRepositoryImpl @Inject constructor(
             networkCall = {  homeApi.getSliders()  },
             saveCallResult = { sliderDao.upsert(sliderMapper.mapFromEntityList(it.sliders)) },
             shouldFetch = { cachedMovies ->
-                val sortedMovies = cachedMovies.sortedBy { movie ->
-                    movie.updatedAt
+                if (isRefreshing) true
+                else {
+                    val sortedMovies = cachedMovies.sortedBy { movie ->
+                        movie.updatedAt
+                    }
+                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
+                    needsRefresh
                 }
-                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(60)
-                needsRefresh
+
             }
         )
     }
@@ -54,12 +61,17 @@ class HomeRepositoryImpl @Inject constructor(
             networkCall = { homeApi.getMovies(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
             shouldFetch = { cachedMovies ->
-                val sortedMovies = cachedMovies.sortedBy { movie ->
-                    movie.updatedAt
+                Timber.e("$isRefreshing")
+                if (isRefreshing) true
+                else {
+                    val sortedMovies = cachedMovies.sortedBy { movie ->
+                        movie.updatedAt
+                    }
+                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+                    needsRefresh
                 }
-                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
-                needsRefresh
+
             }
         )
     }
@@ -71,16 +83,23 @@ class HomeRepositoryImpl @Inject constructor(
             networkCall = { homeApi.getGenre() },
             saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) },
             shouldFetch = { cachedMovies ->
-                val sortedMovies = cachedMovies.sortedBy { movie ->
-                    movie.updatedAt
+                if (isRefreshing) true
+                else {
+                    val sortedMovies = cachedMovies.sortedBy { movie ->
+                        movie.updatedAt
+                    }
+                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+                    needsRefresh
                 }
-                val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
-                needsRefresh
+
             }
         )
     }
 
+    override fun enableRefreshMode() { isRefreshing = true }
+
+    override fun disableRefreshModel() { isRefreshing = false }
 
 
 }
