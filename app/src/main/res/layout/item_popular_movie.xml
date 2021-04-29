@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:padding="4dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary">
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:padding="4dp">
 
 
     <androidx.cardview.widget.CardView
-        app:cardElevation="-1dp"
-        app:cardBackgroundColor="@color/colorPrimary"
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:cardCornerRadius="8dp">
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="-1dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/img_top_movie_imdb"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:id="@+id/img_top_movie_imdb"/>
+                android:scaleType="centerCrop" />
 
         </RelativeLayout>
 
@@ -33,44 +32,44 @@
 
 
     <TextView
-        android:maxLines="1"
-        android:layout_marginTop="4dp"
+        android:id="@+id/name_top_movie_imdb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:fontFamily="monospace"
-        android:id="@+id/name_top_movie_imdb"
         android:layout_below="@id/card"
-        android:text="Name Movie"
+        android:layout_marginTop="4dp"
+        android:fontFamily="monospace"
         android:gravity="left"
-        android:textStyle="bold"
-        android:textColor="@color/textColor"/>
+        android:maxLines="1"
+        android:text="Name Movie"
+        android:textColor="@color/textColor"
+        android:textSize="11sp"
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_below="@id/name_top_movie_imdb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/name_top_movie_imdb"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_access_time_24"/>
+            app:srcCompat="@drawable/ic_baseline_access_time_24" />
 
 
         <TextView
-            android:layout_marginLeft="2dp"
-            android:gravity="center"
+            android:id="@+id/time_movie_imdb"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/time_movie_imdb"
-            android:textColor="@color/textColor"
-            android:text="2h 25m"
+            android:layout_marginLeft="2dp"
             android:fontFamily="monospace"
-            android:textSize="11sp"/>
+            android:gravity="center"
+            android:text="2h 25m"
+            android:textColor="@color/textColor"
+            android:textSize="11sp" />
 
     </LinearLayout>
 

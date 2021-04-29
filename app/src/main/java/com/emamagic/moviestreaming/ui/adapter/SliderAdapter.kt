@@ -19,7 +19,7 @@ class SliderAdapter(private val context: Context, private val sliders: List<Slid
         binding.nameSlider.text = sliders[position].name
         binding.publishedSlider.text = sliders[position].published
         binding.timeSlider.text = sliders[position].time
-        Picasso.get().load(sliders[position].imageLink).placeholder(R.drawable.video_placeholder).into(binding.imgSlider)
+        Picasso.get().load(sliders[position].imageLink).resize(900,500).placeholder(R.drawable.video_placeholder).into(binding.imgSlider)
         container.addView(view)
         return view
     }

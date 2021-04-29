@@ -19,7 +19,6 @@
         app:headerLayout="@layout/header_layout"
         app:menu="@menu/home_menu" />
 
-
     <RelativeLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
@@ -52,25 +51,27 @@
 
         </RelativeLayout>
 
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar">
 
             <ScrollView
                 android:id="@+id/scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/toolbar">
+                android:layout_height="match_parent">
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/slider"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="200dp"
                         android:background="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -306,7 +307,9 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             </ScrollView>
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

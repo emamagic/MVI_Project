@@ -56,7 +56,7 @@ class GenreAdapter(private val interaction: Interaction? = null) :
                 interaction?.onGenreClicked(adapterPosition, item)
             }
             binding.nameGenre.text = item.name
-            Picasso.get().load(item.imageLing).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre)
+            Picasso.get().load(item.imageLing).resize(400,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre)
         }
     }
 
