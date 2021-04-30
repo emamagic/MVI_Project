@@ -33,8 +33,8 @@ import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -49,6 +49,13 @@ class HomeFragment :
     private var moviePopularAdapter: MovieHorAdapter? = null
     private var animationAdapter: MovieHorAdapter? = null
     private var genreAdapter: GenreAdapter? = null
+    private lateinit var topList: ArrayList<MovieEntity>
+    private lateinit var newList: ArrayList<MovieEntity>
+    private lateinit var seriesList: ArrayList<MovieEntity>
+    private lateinit var popularList: ArrayList<MovieEntity>
+    private lateinit var animList: ArrayList<MovieEntity>
+    private lateinit var genreList: ArrayList<GenreEntity>
+    private lateinit var sliderList: ArrayList<SliderEntity>
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -63,6 +70,16 @@ class HomeFragment :
         moviePopularAdapter = MovieHorAdapter()
         animationAdapter = MovieHorAdapter()
         genreAdapter = GenreAdapter()
+
+        topList = ArrayList()
+        newList = ArrayList()
+        seriesList = ArrayList()
+        popularList = ArrayList()
+        animList = ArrayList()
+        genreList = ArrayList()
+        sliderList = ArrayList()
+
+        setEvents()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,9 +87,15 @@ class HomeFragment :
 
         subscribeOnNetworkStatusChange { isNetworkAvailable -> if (!isNetworkAvailable) toasty("you have no Internet") }
 
-        setUpDrawer()
+        setUpTopMovieRecycler(topList)
+        setUpNewMovieRecycler(newList)
+        setUpGenreRecycler(genreList)
+        setUpSlider(requireContext() ,sliderList)
+        setUpPopularRecycler(popularList)
+        setUpSeriesRecycler(seriesList)
+        setUpAnimationRecycler(animList)
 
-        setEvents()
+        setUpDrawer()
 
         binding?.btnMenu?.setOnClickListener(this)
         binding?.txtMoreGenre?.setOnClickListener(this)
@@ -95,9 +118,17 @@ class HomeFragment :
     override fun renderViewState(viewState: HomeState) {
         when (viewState.currentState) {
             CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
-            CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
+            CurrentHomeState.SLIDER_RECEIVED -> {
+                sliderList.clear()
+                sliderList.addAll(viewState.sliders)
+                setUpSlider(requireContext(), sliderList)
+            }
             CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
-            CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
+            CurrentHomeState.GENRE_RECEIVE -> {
+                genreList.clear()
+                genreList.addAll(viewState.genres)
+                setUpGenreRecycler(genreList)
+            }
             CurrentHomeState.CLOSE_APP -> requireActivity().finish()
         }
 
@@ -135,7 +166,6 @@ class HomeFragment :
         binding?.slider?.adapter = sliderAdapter
         binding?.tabLayout?.setupWithViewPager(binding?.slider, true)
         if (timer == null) {
-            Timber.e("call slider")
             timer = Timer()
             timer?.scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
@@ -165,11 +195,31 @@ class HomeFragment :
     private fun setUpMovie(list: List<MovieEntity>) {
         if (list.isNotEmpty()) {
             when (list.first().categoryName) {
-                Const.TOP_MOVIE_IMDB -> setUpTopMovieRecycler(list)
-                Const.NEW_MOVIE -> setUpNewMovieRecycler(list)
-                Const.SERIES_MOVIE -> setUpSeriesRecycler(list)
-                Const.POPULAR_MOVIE -> setUpPopularRecycler(list)
-                Const.ANIMATION -> setUpAnimationRecycler(list)
+                Const.TOP_MOVIE_IMDB -> {
+                    topList.clear()
+                    topList.addAll(list)
+                    setUpTopMovieRecycler(topList)
+                }
+                Const.NEW_MOVIE -> {
+                    newList.clear()
+                    newList.addAll(list)
+                    setUpNewMovieRecycler(newList)
+                }
+                Const.SERIES_MOVIE -> {
+                    seriesList.clear()
+                    seriesList.addAll(list)
+                    setUpSeriesRecycler(seriesList)
+                }
+                Const.POPULAR_MOVIE -> {
+                    popularList.clear()
+                    popularList.addAll(list)
+                    setUpPopularRecycler(popularList)
+                }
+                Const.ANIMATION -> {
+                    animList.clear()
+                    animList.addAll(list)
+                    setUpAnimationRecycler(animList)
+                }
             }
         }
 
