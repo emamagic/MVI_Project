@@ -2,7 +2,7 @@ package com.emamagic.moviestreaming.ui.genre_list
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
-import com.emamagic.moviestreaming.repository.genre.GenreRepository
+import com.emamagic.moviestreaming.repository.genre_list.GenreListRepository
 import com.emamagic.moviestreaming.ui.genre_list.contract.CurrentGenreState
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEffect
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEvent
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GenreListViewModel @Inject constructor(
-   private val repository: GenreRepository
+   private val listRepository: GenreListRepository
 ): BaseViewModel<GenreListState ,GenreListEffect ,GenreListEvent>() {
 
     override fun createInitialState() = GenreListState.initialize()
@@ -32,7 +32,7 @@ class GenreListViewModel @Inject constructor(
 
 
     private fun getAllGenre() = viewModelScope.launch {
-        repository.getAllGenre().onStart {
+        listRepository.getAllGenre().onStart {
             setEffect { GenreListEffect.Loading(true) }
         }.onCompletion {
 
@@ -43,7 +43,7 @@ class GenreListViewModel @Inject constructor(
                     setState { copy(genreList = it.data!! ,currentState = CurrentGenreState.RECEIVE_GENRES) }
                     setEffect { GenreListEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading -> { }
+                is ResultWrapper.FetchLoading -> setState { copy(genreList = it.data!! ,currentState = CurrentGenreState.RECEIVE_GENRES) }
             }.exhaustive
             setEffect { GenreListEffect.Loading(false) }
         }

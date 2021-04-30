@@ -59,19 +59,19 @@ class HomeRepositoryImpl @Inject constructor(
             databaseQuery = { movieDao.getMovie(category) },
             networkCall = { homeApi.getMovies(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
-            shouldFetch = { cachedMovies ->
-                Timber.e("$isRefreshing")
-                if (isRefreshing) true
-                else {
-                    val sortedMovies = cachedMovies.sortedBy { movie ->
-                        movie.updatedAt
-                    }
-                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
-                    needsRefresh
-                }
-
-            }
+//            shouldFetch = { cachedMovies ->
+//                Timber.e("$isRefreshing")
+//                if (isRefreshing) true
+//                else {
+//                    val sortedMovies = cachedMovies.sortedBy { movie ->
+//                        movie.updatedAt
+//                    }
+//                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+//                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+//                    needsRefresh
+//                }
+//
+//            }
         )
     }
 
@@ -81,18 +81,17 @@ class HomeRepositoryImpl @Inject constructor(
             databaseQuery = { genreDao.getGenre() },
             networkCall = { homeApi.getGenre() },
             saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) },
-            shouldFetch = { cachedMovies ->
-                if (isRefreshing) true
-                else {
-                    val sortedMovies = cachedMovies.sortedBy { movie ->
-                        movie.updatedAt
-                    }
-                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
-                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
-                    needsRefresh
-                }
-
-            }
+//            shouldFetch = { cachedMovies ->
+//                if (isRefreshing) true
+//                else {
+//                    val sortedMovies = cachedMovies.sortedBy { movie ->
+//                        movie.updatedAt
+//                    }
+//                    val oldestTimestamp = sortedMovies.firstOrNull()?.updatedAt
+//                    val needsRefresh = oldestTimestamp == null || oldestTimestamp < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5)
+//                    needsRefresh
+//                }
+//            }
         )
     }
 

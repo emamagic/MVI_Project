@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.repository.genre
+package com.emamagic.moviestreaming.repository.genre_list
 
 import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.dao.GenreDao
@@ -11,11 +11,11 @@ import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GenreRepositoryImpl @Inject constructor(
+class GenreListRepositoryImpl @Inject constructor(
     private val genreApi: GenreApi,
     private val genreDao: GenreDao,
     private val genreMapper: GenreMapper
-): GeneralErrorHandlerImpl() ,GenreRepository {
+): GeneralErrorHandlerImpl() ,GenreListRepository {
 
     override fun getAllGenre(): Flow<ResultWrapper<List<GenreEntity>>> {
         return networkBoundResource(

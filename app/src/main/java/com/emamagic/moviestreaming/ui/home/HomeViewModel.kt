@@ -63,14 +63,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getMovies(category: String) = viewModelScope.launch {
-        repository.getMovies(category).onStart { setEffect { HomeEffect.Loading(true) } }.collect {
+        repository.getMovies(category).onStart { setEffect { HomeEffect.Loading(true) } }
+            .onCompletion { Timber.e("completed 1") }.collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> {
                     setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                     setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading ->  setEffect { HomeEffect.Loading(true) }
+                is ResultWrapper.FetchLoading ->  setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
             }.exhaustive
         }
     }
@@ -79,7 +80,7 @@ class HomeViewModel @Inject constructor(
     private fun getGenre() = viewModelScope.launch {
         repository.getGenre().onCompletion {
             /** It is not called , that is not true!!!! */
-            Timber.e("complelet")
+            Timber.e("completed 2")
         }.collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
@@ -87,7 +88,7 @@ class HomeViewModel @Inject constructor(
                     setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                     setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-               is ResultWrapper.FetchLoading -> setEffect { HomeEffect.Loading(true) }
+               is ResultWrapper.FetchLoading -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
             }.exhaustive
             setEffect { HomeEffect.Loading(false) }
             // if refresh mode is enabled , we should disabled

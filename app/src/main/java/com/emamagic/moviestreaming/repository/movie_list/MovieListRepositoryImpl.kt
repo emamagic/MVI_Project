@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.repository.movie
+package com.emamagic.moviestreaming.repository.movie_list
 
 import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.dao.MovieDao
@@ -11,11 +11,11 @@ import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class MovieRepositoryImpl @Inject constructor(
+class MovieListRepositoryImpl @Inject constructor(
     private val movieApi: MovieApi,
     private val movieDao: MovieDao,
     private val movieMapper: MovieMapper
-) : GeneralErrorHandlerImpl(), MovieRepository {
+) : GeneralErrorHandlerImpl(), MovieListRepository {
 
 
     override fun getAllMovie(category: String): Flow<ResultWrapper<List<MovieEntity>>> {

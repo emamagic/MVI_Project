@@ -5,6 +5,7 @@ import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.network.api.HomeApi
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.intercepter.Connectivity
+import com.emamagic.moviestreaming.network.intercepter.ServerError
 import com.emamagic.moviestreaming.util.Const
 import dagger.Lazy
 import dagger.Module
@@ -32,13 +33,14 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor ,connectivity: Connectivity): OkHttpClient {
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor ,connectivity: Connectivity ,serverError: ServerError): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(connectivity)
-            .readTimeout(8000 ,TimeUnit.SECONDS)
-            .writeTimeout(8000 ,TimeUnit.SECONDS)
-            .connectTimeout(1 , TimeUnit.MINUTES)
+            .addInterceptor(serverError)
+            .readTimeout(8 ,TimeUnit.SECONDS)
+            .writeTimeout(8 ,TimeUnit.SECONDS)
+            .connectTimeout(5 ,TimeUnit.SECONDS)
             .build()
     }
 

@@ -4,15 +4,17 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.emamagic.moviestreaming.util.helper.safe.NoInternetException
+import com.emamagic.moviestreaming.util.helper.safe.error.NoInternetException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 import javax.inject.Inject
 
 class Connectivity @Inject constructor(@ApplicationContext private val context: Context): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        Timber.e("connectivity")
         if (!isInternetAvailable(context)) throw NoInternetException("Please Check Your Connectivity")
         return chain.proceed(chain.request())
 

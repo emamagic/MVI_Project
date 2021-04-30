@@ -1,7 +1,6 @@
 package com.emamagic.moviestreaming.util.helper.safe.error
 
 import android.database.sqlite.SQLiteException
-import com.emamagic.moviestreaming.util.helper.safe.NoInternetException
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketException
@@ -14,6 +13,7 @@ abstract class GeneralErrorHandlerImpl : ErrorHandler {
             is IOException,
             is UnknownHostException,
             is NoInternetException,
+            is ServerException,
             is SocketException -> ErrorEntity.Network(message = "${throwable.message}//${throwable.cause}")
             is SQLiteException -> ErrorEntity.Database(message = "${throwable.message}//${throwable.cause}")
             is HttpException -> ErrorEntity.Api(
