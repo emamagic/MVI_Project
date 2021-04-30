@@ -17,7 +17,10 @@ import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,8 +63,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getMovies(category: String) = viewModelScope.launch {
-        setEffect { HomeEffect.Loading(true) }
-        repository.getMovies(category).collect {
+        repository.getMovies(category).onStart { setEffect { HomeEffect.Loading(true) } }.collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> {
@@ -75,7 +77,10 @@ class HomeViewModel @Inject constructor(
 
 
     private fun getGenre() = viewModelScope.launch {
-        repository.getGenre().collect {
+        repository.getGenre().onCompletion {
+            /** It is not called , that is not true!!!! */
+            Timber.e("complelet")
+        }.collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                 is ResultWrapper.Failed -> {
