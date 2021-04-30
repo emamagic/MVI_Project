@@ -44,7 +44,6 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
 
     fun submitList(list: List<MovieEntity>) {
         differ.submitList(list)
-        notifyDataSetChanged()
     }
 
     class MovieViewHolder

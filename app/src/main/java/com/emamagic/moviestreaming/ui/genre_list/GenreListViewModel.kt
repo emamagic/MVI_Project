@@ -24,8 +24,8 @@ class GenreListViewModel @Inject constructor(
 
     override fun createInitialState() = GenreListState.initialize()
 
-    override fun handleEvent(listEvent: GenreListEvent) {
-        when(listEvent){
+    override fun handleEvent(event: GenreListEvent) {
+        when(event){
             GenreListEvent.GetAllGenreList -> getAllGenre()
         }.exhaustive
     }

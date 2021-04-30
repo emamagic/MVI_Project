@@ -39,11 +39,11 @@ class MovieListViewModel @Inject constructor(
         }.collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieState.RECEIVE_MOVIES) }
-                is ResultWrapper.Failed -> setState {
+                is ResultWrapper.Failed ->  {
                     setEffect { MovieListEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                    copy(movieList = it.data!! ,currentMovieState = CurrentMovieState.RECEIVE_MOVIES)
+                    setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieState.RECEIVE_MOVIES) }
                 }
-                is ResultWrapper.FetchLoading -> { setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieState.RECEIVE_MOVIES) } }
+                is ResultWrapper.FetchLoading ->  setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieState.RECEIVE_MOVIES) }
             }.exhaustive
             setEffect { MovieListEffect.Loading(isLoading = false) }
         }

@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface MovieApi {
 
-    @GET("getAllInformationHome.php")
+    @GET("getAllInforamtionHome.php")
     suspend fun getAllMovie(
         @Query("category_name") category: String
     ): MovieListResponse

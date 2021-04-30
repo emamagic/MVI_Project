@@ -8,6 +8,7 @@ import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class GenreListRepositoryImpl @Inject constructor(
     private val genreMapper: GenreMapper
 ): GeneralErrorHandlerImpl() ,GenreListRepository {
 
+    @ExperimentalCoroutinesApi
     override fun getAllGenre(): Flow<ResultWrapper<List<GenreEntity>>> {
         return networkBoundResource(
             errorHandler = this,

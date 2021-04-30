@@ -178,6 +178,7 @@ class HomeFragment :
     private fun setUpGenreRecycler(list: List<GenreEntity>) {
         binding?.recyclerViewGenre?.adapter = genreAdapter
         binding?.recyclerViewGenre?.setHasFixedSize(true)
+        binding?.recyclerViewGenre?.itemAnimator = null
         genreAdapter?.submitList(list)
 
     }
@@ -185,6 +186,7 @@ class HomeFragment :
     private fun setUpNewMovieRecycler(list: List<MovieEntity>) {
         binding?.recyclerViewNewMovie?.adapter = movieNewAdapter
         binding?.recyclerViewNewMovie?.setHasFixedSize(true)
+        binding?.recyclerViewNewMovie?.itemAnimator = null
         movieNewAdapter?.submitList(list)
 
     }
@@ -192,6 +194,7 @@ class HomeFragment :
     private fun setUpTopMovieRecycler(list: List<MovieEntity>) {
         binding?.recyclerViewTopMovieImdb?.adapter = movieIMDBAdapter
         binding?.recyclerViewTopMovieImdb?.setHasFixedSize(true)
+        binding?.recyclerViewTopMovieImdb?.itemAnimator = null
         movieIMDBAdapter?.submitList(list)
 
     }
@@ -199,6 +202,7 @@ class HomeFragment :
     private fun setUpSeriesRecycler(list: List<MovieEntity>) {
         binding?.recyclerViewSeries?.adapter = movieSeriesAdapter
         binding?.recyclerViewSeries?.setHasFixedSize(true)
+        binding?.recyclerViewSeries?.itemAnimator = null
         movieSeriesAdapter?.submitList(list)
 
     }
@@ -206,6 +210,7 @@ class HomeFragment :
     private fun setUpAnimationRecycler(list: List<MovieEntity>) {
         binding?.recyclerViewAnimation?.adapter = animationAdapter
         binding?.recyclerViewAnimation?.setHasFixedSize(true)
+        binding?.recyclerViewAnimation?.itemAnimator = null
         animationAdapter?.submitList(list)
 
     }
@@ -213,6 +218,7 @@ class HomeFragment :
     private fun setUpPopularRecycler(list: List<MovieEntity>) {
         binding?.recyclerViewPopularMovie?.adapter = moviePopularAdapter
         binding?.recyclerViewPopularMovie?.setHasFixedSize(true)
+        binding?.recyclerViewPopularMovie?.itemAnimator = null
         moviePopularAdapter?.submitList(list)
 
     }

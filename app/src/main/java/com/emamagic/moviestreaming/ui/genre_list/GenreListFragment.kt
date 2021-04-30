@@ -40,24 +40,26 @@ class GenreListFragment: BaseFragment<FragmentGenreBinding ,GenreListState ,Genr
         binding?.imgBack?.setOnClickListener { findNavController().popBackStack() }
     }
 
-    override fun renderViewState(viewListState: GenreListState) {
-        when(viewListState.currentState) {
+    override fun renderViewState(viewState: GenreListState) {
+        when(viewState.currentState) {
             CurrentGenreState.NON_STATE -> { /* Do Nothing */ }
-            CurrentGenreState.RECEIVE_GENRES -> setUpGenreRecycler(viewListState.genreList)
+            CurrentGenreState.RECEIVE_GENRES -> setUpGenreRecycler(viewState.genreList)
         }
     }
 
-    override fun renderViewEffect(viewListEffect: GenreListEffect) {
-        when(viewListEffect) {
-            is GenreListEffect.Loading -> if (viewListEffect.isLoading) showLoading(true) else hideLoading()
+    override fun renderViewEffect(viewEffect: GenreListEffect) {
+        when(viewEffect) {
+            is GenreListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
             is GenreListEffect.Navigate -> {}
-            is GenreListEffect.ShowToast -> toasty(viewListEffect.message ,viewListEffect.mode)
+            is GenreListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
         }.exhaustive
     }
 
 
     private fun setUpGenreRecycler(genreList: List<GenreEntity>) {
         binding?.recyclerViewGenreComplete?.adapter = genreListAdapter
+        binding?.recyclerViewGenreComplete?.setHasFixedSize(true)
+        binding?.recyclerViewGenreComplete?.itemAnimator = null
         genreListAdapter.submitList(genreList)
     }
 

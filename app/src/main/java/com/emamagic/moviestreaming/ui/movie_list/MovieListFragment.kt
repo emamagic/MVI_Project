@@ -43,24 +43,26 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
 
     }
 
-    override fun renderViewState(viewListState: MovieListState) {
-        when(viewListState.currentMovieState){
+    override fun renderViewState(viewState: MovieListState) {
+        when(viewState.currentMovieState){
             CurrentMovieState.NON_STATE -> { /* Do Nothing */ }
-            CurrentMovieState.RECEIVE_MOVIES -> setUpMovieRecycler(viewListState.movieList)
+            CurrentMovieState.RECEIVE_MOVIES -> setUpMovieRecycler(viewState.movieList)
         }
     }
 
-    override fun renderViewEffect(viewListEffect: MovieListEffect) {
-        when(viewListEffect){
-            is MovieListEffect.Loading -> if (viewListEffect.isLoading) showLoading(true) else hideLoading()
+    override fun renderViewEffect(viewEffect: MovieListEffect) {
+        when(viewEffect){
+            is MovieListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
             is MovieListEffect.Navigate -> {}
-            is MovieListEffect.ShowToast -> toasty(viewListEffect.message ,viewListEffect.mode)
+            is MovieListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
         }.exhaustive
     }
 
 
     private fun setUpMovieRecycler(movieList: List<MovieEntity>) {
         binding?.recyclerViewTopMovieComplete?.adapter = movieListAdapter
+        binding?.recyclerViewTopMovieComplete?.setHasFixedSize(true)
+        binding?.recyclerViewTopMovieComplete?.itemAnimator = null
         movieListAdapter.submitList(movieList)
     }
 

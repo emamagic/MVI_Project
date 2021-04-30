@@ -37,7 +37,7 @@
         android:id="@+id/recyclerView_top_movie_complete"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_below="@id/toolbar" />
 
 </RelativeLayout>
