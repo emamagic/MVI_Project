@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.network
+package com.emamagic.moviestreaming.network.api
 
 import com.emamagic.moviestreaming.network.response.GenreListResponse
 import com.emamagic.moviestreaming.network.response.MovieListResponse

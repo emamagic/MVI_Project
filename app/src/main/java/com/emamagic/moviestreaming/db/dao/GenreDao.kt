@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class GenreDao: BaseDao<GenreEntity> {
 
-    @Query("SELECT * FROM table_genre ")
+    @Query("SELECT * FROM table_genre LIMIT 6")
     abstract fun getGenre(): Flow<List<GenreEntity>>
 
+    @Query("SELECT * FROM table_genre")
+    abstract fun getAllGenre(): Flow<List<GenreEntity>>
 }

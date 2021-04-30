@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.ui.adapter
+package com.emamagic.moviestreaming.ui.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -31,7 +31,7 @@ class GenreAdapter(private val interaction: Interaction? = null) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MovieViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }

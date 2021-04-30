@@ -19,5 +19,7 @@ data class MovieEntity(
     val director: String,
     @ColumnInfo(name = "address_img")
     val imageAddress: String? = null,
+    @ColumnInfo(name = "episode")
+    val episode: String,
     val updatedAt: Long = System.currentTimeMillis()
 )

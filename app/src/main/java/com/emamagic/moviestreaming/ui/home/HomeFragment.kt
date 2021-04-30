@@ -18,14 +18,15 @@ import com.emamagic.moviestreaming.databinding.FragmentHomeBinding
 import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.SliderEntity
-import com.emamagic.moviestreaming.ui.adapter.GenreAdapter
-import com.emamagic.moviestreaming.ui.adapter.MovieHorAdapter
-import com.emamagic.moviestreaming.ui.adapter.MovieVerAdapter
-import com.emamagic.moviestreaming.ui.adapter.SliderAdapter
+import com.emamagic.moviestreaming.ui.home.adapter.GenreAdapter
+import com.emamagic.moviestreaming.ui.home.adapter.MovieHorAdapter
+import com.emamagic.moviestreaming.ui.home.adapter.MovieVerAdapter
+import com.emamagic.moviestreaming.ui.home.adapter.SliderAdapter
 import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
+import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
@@ -34,7 +35,6 @@ import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -76,6 +76,12 @@ class HomeFragment :
 
         binding?.btnMenu?.setOnClickListener(this)
         binding?.txtMoreGenre?.setOnClickListener(this)
+        binding?.txtMoreAnimation?.setOnClickListener(this)
+        binding?.txtMoreNewMovie?.setOnClickListener(this)
+        binding?.txtMorePopularMovie?.setOnClickListener(this)
+        binding?.txtMoreTopMovieImdb?.setOnClickListener(this)
+        binding?.txtMoreSeries?.setOnClickListener(this)
+
         binding?.swipeRefreshLayout?.setOnRefreshListener { viewModel.setEvent(HomeEvent.SwipeRefreshed) }
 
         onFragmentBackPressed(viewLifecycleOwner) {
@@ -100,7 +106,17 @@ class HomeFragment :
 
     override fun renderViewEffect(viewEffect: HomeEffect) {
         when (viewEffect) {
-            is HomeEffect.Navigate -> findNavController().navigate(viewEffect.destination)
+            is HomeEffect.Navigate -> {
+                when(viewEffect.categoryType) {
+                    CategoryType.GENRE -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGenreFragment())
+                    CategoryType.TOP ,
+                    CategoryType.NEW ,
+                    CategoryType.SERIES ,
+                    CategoryType.POPULAR ,
+                    CategoryType.ANIMATION -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieFragment(viewEffect.categoryType))
+                    else -> { /* Do Nothing */ }
+                }
+            }
             is HomeEffect.ShowToast -> {
                 when(viewEffect.mode){
                     ToastyMode.MODE_TOAST_SUCCESS -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_SUCCESS)
@@ -232,7 +248,16 @@ class HomeFragment :
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_menu -> binding?.drawerLayout?.openDrawer(GravityCompat.START)
-            R.id.txt_more_genre -> { viewModel.setEvent(HomeEvent.MoreGenreClicked) }
+            R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreGenreClicked(CategoryType.GENRE))
+            R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+                CategoryType.ANIMATION))
+            R.id.txt_more_new_movie -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+                CategoryType.NEW))
+            R.id.txt_more_popular_movie -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+                CategoryType.POPULAR))
+            R.id.txt_more_series -> viewModel.setEvent(HomeEvent.MoreGenreClicked(CategoryType.SERIES))
+            R.id.txt_more_top_movie_imdb -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+                CategoryType.TOP))
         }
     }
 

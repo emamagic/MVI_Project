@@ -5,13 +5,12 @@ import com.emamagic.moviestreaming.db.dao.GenreDao
 import com.emamagic.moviestreaming.db.dao.MovieDao
 import com.emamagic.moviestreaming.db.dao.SliderDao
 import com.emamagic.moviestreaming.db.entity.SliderEntity
-import com.emamagic.moviestreaming.network.HomeApi
+import com.emamagic.moviestreaming.network.api.HomeApi
 import com.emamagic.moviestreaming.mapper.GenreMapper
 import com.emamagic.moviestreaming.mapper.MovieMapper
 import com.emamagic.moviestreaming.mapper.SliderMapper
 import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
-import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.helper.safe.*
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi

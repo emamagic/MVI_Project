@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.ui.adapter
+package com.emamagic.moviestreaming.ui.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

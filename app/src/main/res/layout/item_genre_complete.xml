@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="130dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@color/colorPrimary"
-    android:layout_margin="4dp"
-    >
+    android:layout_margin="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,7 +34,7 @@
             android:layout_centerInParent="true"
             android:textSize="11sp"
             android:id="@+id/name_genre"
-            android:text="Comedy"/>
+            tools:text="Comedy"/>
 
     </RelativeLayout>
 

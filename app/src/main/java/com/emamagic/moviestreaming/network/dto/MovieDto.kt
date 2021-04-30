@@ -20,5 +20,7 @@ data class MovieDto(
     @SerializedName("published")
     val published: String,
     @SerializedName("director")
-    val director: String
+    val director: String,
+    @SerializedName("episode")
+    val episode: String
 )

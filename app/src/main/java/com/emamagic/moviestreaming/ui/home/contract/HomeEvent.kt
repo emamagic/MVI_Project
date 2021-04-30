@@ -7,6 +7,6 @@ sealed class HomeEvent: BaseEvent {
     data class GetMovies(val category: String): HomeEvent()
     object GetGenre: HomeEvent()
     object ShouldCloseApp: HomeEvent()
-    object MoreGenreClicked: HomeEvent()
+    data class MoreGenreClicked(@CategoryType val categoryType: String): HomeEvent()
     object SwipeRefreshed: HomeEvent()
 }

@@ -10,11 +10,11 @@ import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
+import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
-import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.GetMovies -> getMovies(event.category)
             HomeEvent.GetGenre -> getGenre()
             HomeEvent.ShouldCloseApp -> shouldCloseApp()
-            HomeEvent.MoreGenreClicked -> moreGenreClicked()
+            is HomeEvent.MoreGenreClicked -> moreItemClicked(event.categoryType)
             HomeEvent.SwipeRefreshed -> swipeRefreshed()
         }.exhaustive
     }
@@ -54,8 +54,8 @@ class HomeViewModel @Inject constructor(
                         is ErrorEntity.Api -> Timber.e("api ${it.error.code}")
                         ....
                     }*/
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
+                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
             }.exhaustive
@@ -67,8 +67,8 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is ResultWrapper.Success -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> {
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
+                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading ->  setEffect { HomeEffect.Loading(true) }
             }.exhaustive
@@ -84,8 +84,8 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                 is ResultWrapper.Failed -> {
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
+                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                is ResultWrapper.FetchLoading -> setEffect { HomeEffect.Loading(true) }
             }.exhaustive
@@ -108,8 +108,16 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun moreGenreClicked() = viewModelScope.launch {
-        setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment) }
+    private fun moreItemClicked(@CategoryType categoryType: String) = viewModelScope.launch {
+        when(categoryType) {
+            CategoryType.TOP ,
+            CategoryType.NEW ,
+            CategoryType.SERIES ,
+            CategoryType.POPULAR ,
+            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_movieFragment ,categoryType) }
+            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment ,categoryType) }
+        }
+
     }
 
 

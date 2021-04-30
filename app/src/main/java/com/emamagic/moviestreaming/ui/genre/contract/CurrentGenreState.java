@@ -6,8 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({
-        CurrentGenreState.NON_STATE
+        CurrentGenreState.NON_STATE,
+        CurrentGenreState.RECEIVE_GENRES
 })
 public @interface CurrentGenreState {
     int NON_STATE = 0;
+    int RECEIVE_GENRES = 1;
 }

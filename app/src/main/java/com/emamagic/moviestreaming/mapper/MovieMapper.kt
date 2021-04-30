@@ -19,6 +19,7 @@ class MovieMapper @Inject constructor():
             rank = entity.rank,
             imdbRate = entity.rate_imdb,
             categoryName = entity.categoryName,
+            episode = entity.episode,
             imageAddress = ""
         )
     }
@@ -33,6 +34,7 @@ class MovieMapper @Inject constructor():
             director = domainModel.director,
             categoryName = domainModel.categoryName,
             rank = domainModel.rank,
+            episode = domainModel.episode,
             rate_imdb = domainModel.imdbRate
         )
     }

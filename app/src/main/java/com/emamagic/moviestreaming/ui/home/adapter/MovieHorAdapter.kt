@@ -1,18 +1,16 @@
-package com.emamagic.moviestreaming.ui.adapter
+package com.emamagic.moviestreaming.ui.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
-import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbBinding
+import com.emamagic.moviestreaming.databinding.ItemPopularMovieBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
-import com.emamagic.moviestreaming.util.Const
 import com.squareup.picasso.Picasso
 
-class MovieVerAdapter(private val interaction: Interaction? = null) :
+class MovieHorAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
@@ -26,7 +24,7 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemTopMovieImdbBinding.inflate(LayoutInflater.from(parent.context) ,parent ,false)
+        val binding = ItemPopularMovieBinding.inflate(LayoutInflater.from(parent.context) ,parent ,false)
         return MovieViewHolder(binding ,interaction)
     }
 
@@ -49,29 +47,22 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
 
     class MovieViewHolder
     constructor(
-        private val binding: ItemTopMovieImdbBinding,
+        private val binding: ItemPopularMovieBinding,
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MovieEntity) = with(itemView) {
             setOnClickListener {
-                interaction?.onMovieVerClicked(adapterPosition, item)
+                interaction?.onMovieHorClicked(adapterPosition, item)
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.imageLink).resize(500,600).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
-            if (item.rank.isNotEmpty()) {
-                binding.rankMovie.visibility = View.VISIBLE
-                binding.rankMovie.text = "Rank:${item.rank}"
-            }else binding.rankMovie.visibility = View.GONE
-            if (item.categoryName == Const.SERIES_MOVIE)
-                binding.imgMark.setImageResource(R.drawable.ic_baseline_folder_special_24)
-            else binding.imgMark.setImageResource(R.drawable.ic_baseline_access_time_24)
+            Picasso.get().load(item.imageLink).resize(600,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
 
         }
     }
 
     interface Interaction {
-        fun onMovieVerClicked(position: Int, item: MovieEntity)
+        fun onMovieHorClicked(position: Int, item: MovieEntity)
     }
 }

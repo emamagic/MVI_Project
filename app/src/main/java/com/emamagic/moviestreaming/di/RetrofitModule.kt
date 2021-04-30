@@ -1,7 +1,9 @@
 package com.emamagic.moviestreaming.di
 
 import com.emamagic.moviestreaming.BuildConfig
-import com.emamagic.moviestreaming.network.HomeApi
+import com.emamagic.moviestreaming.network.api.GenreApi
+import com.emamagic.moviestreaming.network.api.HomeApi
+import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.intercepter.Connectivity
 import com.emamagic.moviestreaming.util.Const
 import dagger.Lazy
@@ -13,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -54,8 +57,12 @@ object RetrofitModule {
     }
 
     @Provides
-    fun provideNewsApi(retrofit: Retrofit): HomeApi {
-        return retrofit.create(HomeApi::class.java)
-    }
+    fun provideHomeApi(retrofit: Retrofit): HomeApi = retrofit.create(HomeApi::class.java)
+
+    @Provides
+    fun provideGenreApi(retrofit: Retrofit): GenreApi = retrofit.create(GenreApi::class.java)
+
+    @Provides
+    fun provideMovieApi(retrofit: Retrofit): MovieApi = retrofit.create(MovieApi::class.java)
 
 }

@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".TopMovieIMDbActivity">
+    tools:context=".ui.movie.MovieFragment">
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:id="@+id/toolbar">
+        android:layout_height="?actionBarSize">
 
         <TextView
+            android:id="@+id/txt_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top Movie IMDb"
-            android:textColor="@color/textColor"
             android:layout_centerInParent="true"
+            android:fontFamily="monospace"
+            android:textColor="@color/textColor"
             android:textStyle="bold"
-            android:fontFamily="monospace"/>
+            tools:text="Top Movie IMDb" />
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-            android:layout_marginLeft="8dp"/>
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_top_movie_complete"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView_top_movie_complete"
-        android:layout_below="@id/toolbar"/>
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        android:layout_below="@id/toolbar" />
 
 </RelativeLayout>

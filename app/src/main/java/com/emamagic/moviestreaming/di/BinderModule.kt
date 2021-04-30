@@ -4,6 +4,8 @@ import com.emamagic.moviestreaming.repository.genre.GenreRepository
 import com.emamagic.moviestreaming.repository.genre.GenreRepositoryImpl
 import com.emamagic.moviestreaming.repository.home.HomeRepository
 import com.emamagic.moviestreaming.repository.home.HomeRepositoryImpl
+import com.emamagic.moviestreaming.repository.movie.MovieRepository
+import com.emamagic.moviestreaming.repository.movie.MovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,5 +20,9 @@ abstract class BinderModule {
 
     @Binds
     abstract fun bindGenreRepository(genreRepositoryImpl: GenreRepositoryImpl): GenreRepository
+
+    @Binds
+    abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
+
 
 }

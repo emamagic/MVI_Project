@@ -7,4 +7,5 @@ import com.emamagic.moviestreaming.util.ToastyMode
 sealed class GenreEffect: BaseEffect {
     data class ShowToast(val message: String ,@ToastyMode val mode: Int? = null): GenreEffect()
     data class Navigate(@IdRes val destination: Int): GenreEffect()
+    data class Loading(val isLoading: Boolean): GenreEffect()
 }
