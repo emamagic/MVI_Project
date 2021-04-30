@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.ui.movie.adapter
+package com.emamagic.moviestreaming.ui.movie_list.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.squareup.picasso.Picasso
 
-class MovieCompleteAdapter(private val interaction: Interaction? = null) :
+class MovieListCompleteAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {

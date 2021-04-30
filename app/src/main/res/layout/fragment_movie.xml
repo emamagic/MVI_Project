@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ui.movie.MovieFragment">
+    tools:context=".ui.movie_list.MovieListFragment">
 
     <RelativeLayout
         android:id="@+id/toolbar"

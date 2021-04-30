@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.ui.movie
+package com.emamagic.moviestreaming.ui.movie_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,21 +9,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.base.BaseFragment
 import com.emamagic.moviestreaming.databinding.FragmentMovieBinding
-import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbCompleteBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
-import com.emamagic.moviestreaming.ui.movie.adapter.MovieCompleteAdapter
-import com.emamagic.moviestreaming.ui.movie.contract.*
+import com.emamagic.moviestreaming.ui.movie_list.adapter.MovieListCompleteAdapter
+import com.emamagic.moviestreaming.ui.movie_list.contract.*
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieFragment: BaseFragment<FragmentMovieBinding ,MovieState ,MovieEffect ,MovieEvent ,MovieViewModel>() {
+class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,MovieListEffect ,MovieListEvent ,MovieListViewModel>() {
 
 
-    override val viewModel: MovieViewModel by viewModels()
-    private val args: MovieFragmentArgs by navArgs()
-    private lateinit var movieAdapter: MovieCompleteAdapter
+    override val viewModel: MovieListViewModel by viewModels()
+    private val args: MovieListFragmentArgs by navArgs()
+    private lateinit var movieListAdapter: MovieListCompleteAdapter
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -32,7 +31,7 @@ class MovieFragment: BaseFragment<FragmentMovieBinding ,MovieState ,MovieEffect 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movieAdapter = MovieCompleteAdapter()
+        movieListAdapter = MovieListCompleteAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,30 +39,31 @@ class MovieFragment: BaseFragment<FragmentMovieBinding ,MovieState ,MovieEffect 
 
         binding?.txtToolbar?.text = args.category
         binding?.imgBack?.setOnClickListener { findNavController().popBackStack() }
-        viewModel.setEvent(MovieEvent.GetAllMovie(args.category))
+        viewModel.setEvent(MovieListEvent.GetAllMovieList(args.category))
 
     }
 
-    override fun renderViewState(viewState: MovieState) {
-        when(viewState.currentMovieState){
+    override fun renderViewState(viewListState: MovieListState) {
+        when(viewListState.currentMovieState){
             CurrentMovieState.NON_STATE -> { /* Do Nothing */ }
-            CurrentMovieState.RECEIVE_MOVIES -> setUpMovieRecycler(viewState.movieList)
+            CurrentMovieState.RECEIVE_MOVIES -> setUpMovieRecycler(viewListState.movieList)
         }
     }
 
-    override fun renderViewEffect(viewEffect: MovieEffect) {
-        when(viewEffect){
-            is MovieEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is MovieEffect.Navigate -> {}
-            is MovieEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
+    override fun renderViewEffect(viewListEffect: MovieListEffect) {
+        when(viewListEffect){
+            is MovieListEffect.Loading -> if (viewListEffect.isLoading) showLoading(true) else hideLoading()
+            is MovieListEffect.Navigate -> {}
+            is MovieListEffect.ShowToast -> toasty(viewListEffect.message ,viewListEffect.mode)
         }.exhaustive
     }
 
 
     private fun setUpMovieRecycler(movieList: List<MovieEntity>) {
-        binding?.recyclerViewTopMovieComplete?.adapter = movieAdapter
-        movieAdapter.submitList(movieList)
+        binding?.recyclerViewTopMovieComplete?.adapter = movieListAdapter
+        movieListAdapter.submitList(movieList)
     }
+
 
 
 }

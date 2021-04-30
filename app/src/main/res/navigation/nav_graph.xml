@@ -21,12 +21,12 @@
 
     <fragment
         android:id="@+id/genreFragment"
-        android:name="com.emamagic.moviestreaming.ui.genre.GenreFragment"
+        android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
         android:label="fragment_genre"
         tools:layout="@layout/fragment_genre" />
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.emamagic.moviestreaming.ui.movie.MovieFragment"
+        android:name="com.emamagic.moviestreaming.ui.movie_list.MovieListFragment"
         android:label="fragment_movie"
         tools:layout="@layout/fragment_movie" >
         <argument

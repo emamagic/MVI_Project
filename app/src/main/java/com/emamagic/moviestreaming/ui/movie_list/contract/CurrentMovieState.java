@@ -1,4 +1,4 @@
-package com.emamagic.moviestreaming.ui.movie.contract;
+package com.emamagic.moviestreaming.ui.movie_list.contract;
 
 import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;

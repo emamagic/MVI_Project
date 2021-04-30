@@ -1,13 +1,12 @@
-package com.emamagic.moviestreaming.ui.genre
+package com.emamagic.moviestreaming.ui.genre_list
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
 import com.emamagic.moviestreaming.repository.genre.GenreRepository
-import com.emamagic.moviestreaming.ui.genre.contract.CurrentGenreState
-import com.emamagic.moviestreaming.ui.genre.contract.GenreEffect
-import com.emamagic.moviestreaming.ui.genre.contract.GenreEvent
-import com.emamagic.moviestreaming.ui.genre.contract.GenreState
-import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
+import com.emamagic.moviestreaming.ui.genre_list.contract.CurrentGenreState
+import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEffect
+import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEvent
+import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListState
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
@@ -19,22 +18,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GenreViewModel @Inject constructor(
+class GenreListViewModel @Inject constructor(
    private val repository: GenreRepository
-): BaseViewModel<GenreState ,GenreEffect ,GenreEvent>() {
+): BaseViewModel<GenreListState ,GenreListEffect ,GenreListEvent>() {
 
-    override fun createInitialState() = GenreState.initialize()
+    override fun createInitialState() = GenreListState.initialize()
 
-    override fun handleEvent(event: GenreEvent) {
-        when(event){
-            GenreEvent.GetAllGenre -> getAllGenre()
+    override fun handleEvent(listEvent: GenreListEvent) {
+        when(listEvent){
+            GenreListEvent.GetAllGenreList -> getAllGenre()
         }.exhaustive
     }
 
 
     private fun getAllGenre() = viewModelScope.launch {
         repository.getAllGenre().onStart {
-            setEffect { GenreEffect.Loading(true) }
+            setEffect { GenreListEffect.Loading(true) }
         }.onCompletion {
 
         }.collect {
@@ -42,11 +41,11 @@ class GenreViewModel @Inject constructor(
                 is ResultWrapper.Success -> setState { copy(genreList = it.data!! ,currentState = CurrentGenreState.RECEIVE_GENRES) }
                 is ResultWrapper.Failed -> {
                     setState { copy(genreList = it.data!! ,currentState = CurrentGenreState.RECEIVE_GENRES) }
-                    setEffect { GenreEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { GenreListEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading -> { }
             }.exhaustive
-            setEffect { GenreEffect.Loading(false) }
+            setEffect { GenreListEffect.Loading(false) }
         }
     }
 

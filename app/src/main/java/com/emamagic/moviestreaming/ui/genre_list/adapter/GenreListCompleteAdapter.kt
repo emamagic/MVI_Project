@@ -1,18 +1,15 @@
-package com.emamagic.moviestreaming.ui.genre.adapter
+package com.emamagic.moviestreaming.ui.genre_list.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemGenreCompleteBinding
-import com.emamagic.moviestreaming.databinding.ItemPopularMovieBinding
 import com.emamagic.moviestreaming.db.entity.GenreEntity
-import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.squareup.picasso.Picasso
 
-class GenreCompleteAdapter(private val interaction: Interaction? = null) :
+class GenreListCompleteAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GenreEntity>() {
