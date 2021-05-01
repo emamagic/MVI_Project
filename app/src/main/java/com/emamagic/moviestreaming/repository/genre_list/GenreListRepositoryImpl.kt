@@ -6,6 +6,7 @@ import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.mapper.GenreMapper
 import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
+import com.emamagic.moviestreaming.util.helper.safe.SafeApi
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +17,7 @@ class GenreListRepositoryImpl @Inject constructor(
     private val genreApi: GenreApi,
     private val genreDao: GenreDao,
     private val genreMapper: GenreMapper
-): GeneralErrorHandlerImpl() ,GenreListRepository {
+): SafeApi() ,GenreListRepository {
 
     @ExperimentalCoroutinesApi
     override fun getAllGenre(): Flow<ResultWrapper<List<GenreEntity>>> {

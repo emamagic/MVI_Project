@@ -8,11 +8,8 @@ import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.mapper.CastMapper
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.response.MovieResponse
-import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
+import com.emamagic.moviestreaming.util.helper.safe.*
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
-import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
-import com.emamagic.moviestreaming.util.helper.safe.succeeded
-import com.emamagic.moviestreaming.util.helper.safe.toResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -22,7 +19,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val db: MovieDatabase,
     private val movieApi: MovieApi,
     private val castMapper: CastMapper
-) : GeneralErrorHandlerImpl(), MovieRepository {
+) : SafeApi(), MovieRepository {
 
     private val movieDao = db.movieDao()
     private val castDao = db.castDao()
@@ -51,12 +48,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse> {
-        return try {
-            movieApi.getDetailMovie(id).toResult(this)
-        } catch (t: Throwable) {
-            /** when server con nat hand shacking (SocketException)*/
-            ResultWrapper.Failed(getError(t))
-        }
+        return safe { movieApi.getDetailMovie(id) }
     }
 
     // should called from viewModel

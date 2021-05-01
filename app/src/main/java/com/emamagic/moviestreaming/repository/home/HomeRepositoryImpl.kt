@@ -28,7 +28,7 @@ class HomeRepositoryImpl @Inject constructor(
     private val movieMapper: MovieMapper,
     private val genreDao: GenreDao,
     private val genreMapper: GenreMapper
-) : GeneralErrorHandlerImpl(), HomeRepository {
+) : SafeApi(), HomeRepository {
 
     private var isRefreshing: Boolean = false
 

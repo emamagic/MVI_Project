@@ -1,14 +1,16 @@
 package com.emamagic.moviestreaming.util.helper.safe
 
 import com.emamagic.moviestreaming.util.helper.safe.error.ErrorEntity
+import okhttp3.Headers
 
 
 sealed class ResultWrapper<T>(
     val data: T? = null,
     val error: ErrorEntity? = null,
+    val header: Headers? = null,
     val code: Int? = null,
 ) {
-    class Success<T>(data: T, code: Int? = null) : ResultWrapper<T>(data = data, code = code)
+    class Success<T>(data: T, header: Headers? = null ,code: Int? = null) : ResultWrapper<T>(data = data, header = header ,code = code)
     class Failed<T>(error: ErrorEntity, data: T? = null) : ResultWrapper<T>(data = data ,error = error)
     class FetchLoading<T>(data: T? = null) : ResultWrapper<T>(data = data)
 
