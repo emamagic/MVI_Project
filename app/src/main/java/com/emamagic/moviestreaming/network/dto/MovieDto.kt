@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieDto(
     @SerializedName("id")
-    val id: Long,
+    val id: Long? = null,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("link_img")
     val imageLink: String,
     @SerializedName("time")
-    val time: String,
+    val time: String? = null,
     @SerializedName("category_name")
-    val categoryName: String,
+    val categoryName: String? = null,
     @SerializedName("rank")
-    val rank: String,
+    val rank: String? = null,
     @SerializedName("rate_imdb")
-    val rate_imdb: String,
+    val rate_imdb: String? = null,
     @SerializedName("published")
-    val published: String,
+    val published: String? = null,
     @SerializedName("director")
-    val director: String,
+    val director: String? = null,
     @SerializedName("episode")
-    val episode: String
+    val episode: String? = null
 )

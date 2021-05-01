@@ -14,4 +14,7 @@ abstract class MovieDao: BaseDao<MovieEntity> {
 
     @Query("SELECT * FROM table_movie WHERE category_name = :category")
     abstract fun getAllMovie(category: String): Flow<List<MovieEntity>>
+
+    @Query("SELECT * FROM table_movie WHERE id = :id")
+    abstract suspend fun getMovieById(id: Long): MovieEntity
 }

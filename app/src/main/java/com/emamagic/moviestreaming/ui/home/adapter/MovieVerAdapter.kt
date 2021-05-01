@@ -59,7 +59,7 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
             Picasso.get().load(item.imageLink).resize(500,600).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
-            if (item.rank.isNotEmpty()) {
+            if (item.rank?.isNotEmpty()!!) {
                 binding.rankMovie.visibility = View.VISIBLE
                 binding.rankMovie.text = "Rank:${item.rank}"
             }else binding.rankMovie.visibility = View.GONE

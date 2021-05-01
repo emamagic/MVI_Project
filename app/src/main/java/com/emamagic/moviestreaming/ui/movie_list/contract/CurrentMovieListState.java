@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({
-        CurrentMovieState.NON_STATE,
-        CurrentMovieState.RECEIVE_MOVIES
+        CurrentMovieListState.NON_STATE,
+        CurrentMovieListState.RECEIVE_MOVIES
 })
 
-public @interface CurrentMovieState {
+public @interface CurrentMovieListState {
     int NON_STATE = 0;
     int RECEIVE_MOVIES = 1;
 }

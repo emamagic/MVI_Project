@@ -28,7 +28,7 @@ class MovieMapper @Inject constructor():
         return MovieDto(
             id = domainModel.id,
             name = domainModel.name,
-            imageLink = domainModel.imageLink,
+            imageLink = domainModel.imageLink ?: "",
             time = domainModel.time,
             published = domainModel.published,
             director = domainModel.director,

@@ -17,7 +17,7 @@ import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,MovieListEffect ,MovieListEvent ,MovieListViewModel>() {
+class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,MovieListEffect ,MovieListEvent ,MovieListViewModel>() ,MovieListCompleteAdapter.MovieInteraction{
 
 
     override val viewModel: MovieListViewModel by viewModels()
@@ -31,7 +31,8 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movieListAdapter = MovieListCompleteAdapter()
+        movieListAdapter = MovieListCompleteAdapter(this)
+        viewModel.setEvent(MovieListEvent.GetAllMovieList(args.category))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,21 +40,21 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
 
         binding?.txtToolbar?.text = args.category
         binding?.imgBack?.setOnClickListener { findNavController().popBackStack() }
-        viewModel.setEvent(MovieListEvent.GetAllMovieList(args.category))
+        setUpMovieRecycler(viewModel.currentState.movieList)
 
     }
 
     override fun renderViewState(viewState: MovieListState) {
         when(viewState.currentMovieState){
-            CurrentMovieState.NON_STATE -> { /* Do Nothing */ }
-            CurrentMovieState.RECEIVE_MOVIES -> setUpMovieRecycler(viewState.movieList)
+            CurrentMovieListState.NON_STATE -> { /* Do Nothing */ }
+            CurrentMovieListState.RECEIVE_MOVIES -> setUpMovieRecycler(viewState.movieList)
         }
     }
 
     override fun renderViewEffect(viewEffect: MovieListEffect) {
         when(viewEffect){
             is MovieListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is MovieListEffect.Navigate -> {}
+            is MovieListEffect.Navigate -> findNavController().navigate(viewEffect.navDirect)
             is MovieListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
         }.exhaustive
     }
@@ -66,6 +67,9 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
         movieListAdapter.submitList(movieList)
     }
 
+    override fun onMovieClicked(item: MovieEntity) {
+        viewModel.setEvent(MovieListEvent.MovieClicked(item))
+    }
 
 
 }

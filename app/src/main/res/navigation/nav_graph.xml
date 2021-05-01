@@ -15,6 +15,9 @@
             app:destination="@id/genreFragment" />
         <action
             android:id="@+id/action_homeFragment_to_movieFragment"
+            app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_movieFragment2"
             app:destination="@id/movieFragment" />
     </fragment>
 
@@ -24,14 +27,30 @@
         android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
         android:label="fragment_genre"
         tools:layout="@layout/fragment_genre" />
+
+
     <fragment
-        android:id="@+id/movieFragment"
+        android:id="@+id/movieListFragment"
         android:name="com.emamagic.moviestreaming.ui.movie_list.MovieListFragment"
         android:label="fragment_movie"
         tools:layout="@layout/fragment_movie" >
         <argument
             android:name="category"
             app:argType="string" />
+        <action
+            android:id="@+id/action_movieListFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.emamagic.moviestreaming.ui.movie.MovieFragment"
+        android:label="fragment_show_detail_movie"
+        tools:layout="@layout/fragment_show_detail_movie" >
+        <argument
+            android:name="movie"
+            app:argType="com.emamagic.moviestreaming.db.entity.MovieEntity" />
     </fragment>
 
 
