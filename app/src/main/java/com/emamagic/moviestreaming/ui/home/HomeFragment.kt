@@ -27,15 +27,18 @@ import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
-import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
+import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.toasty
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeState, HomeEffect, HomeEvent, HomeViewModel>() ,NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener{
@@ -49,13 +52,6 @@ class HomeFragment :
     private var moviePopularAdapter: MovieHorAdapter? = null
     private var animationAdapter: MovieHorAdapter? = null
     private var genreAdapter: GenreAdapter? = null
-    private lateinit var topList: ArrayList<MovieEntity>
-    private lateinit var newList: ArrayList<MovieEntity>
-    private lateinit var seriesList: ArrayList<MovieEntity>
-    private lateinit var popularList: ArrayList<MovieEntity>
-    private lateinit var animList: ArrayList<MovieEntity>
-    private lateinit var genreList: ArrayList<GenreEntity>
-    private lateinit var sliderList: ArrayList<SliderEntity>
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -70,15 +66,6 @@ class HomeFragment :
         moviePopularAdapter = MovieHorAdapter()
         animationAdapter = MovieHorAdapter()
         genreAdapter = GenreAdapter()
-
-        topList = ArrayList()
-        newList = ArrayList()
-        seriesList = ArrayList()
-        popularList = ArrayList()
-        animList = ArrayList()
-        genreList = ArrayList()
-        sliderList = ArrayList()
-
         setEvents()
     }
 
@@ -87,13 +74,10 @@ class HomeFragment :
 
         subscribeOnNetworkStatusChange { isNetworkAvailable -> if (!isNetworkAvailable) toasty("you have no Internet") }
 
-        setUpTopMovieRecycler(topList)
-        setUpNewMovieRecycler(newList)
-        setUpGenreRecycler(genreList)
-        setUpSlider(requireContext() ,sliderList)
-        setUpPopularRecycler(popularList)
-        setUpSeriesRecycler(seriesList)
-        setUpAnimationRecycler(animList)
+        setUpGenreRecycler(viewModel.currentState.genres)
+        setUpSlider(requireContext() ,viewModel.currentState.sliders)
+        setUpMovie(viewModel.currentState.movies)
+
 
         setUpDrawer()
 
@@ -118,17 +102,9 @@ class HomeFragment :
     override fun renderViewState(viewState: HomeState) {
         when (viewState.currentState) {
             CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
-            CurrentHomeState.SLIDER_RECEIVED -> {
-                sliderList.clear()
-                sliderList.addAll(viewState.sliders)
-                setUpSlider(requireContext(), sliderList)
-            }
+            CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
             CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
-            CurrentHomeState.GENRE_RECEIVE -> {
-                genreList.clear()
-                genreList.addAll(viewState.genres)
-                setUpGenreRecycler(genreList)
-            }
+            CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
             CurrentHomeState.CLOSE_APP -> requireActivity().finish()
         }
 
@@ -184,45 +160,16 @@ class HomeFragment :
 
     private fun setEvents(){
         viewModel.setEvent(HomeEvent.GetSliders)
-        viewModel.setEvent(HomeEvent.GetMovies(Const.TOP_MOVIE_IMDB))
-        viewModel.setEvent(HomeEvent.GetMovies(Const.NEW_MOVIE))
-        viewModel.setEvent(HomeEvent.GetMovies(Const.SERIES_MOVIE))
-        viewModel.setEvent(HomeEvent.GetMovies(Const.POPULAR_MOVIE))
-        viewModel.setEvent(HomeEvent.GetMovies(Const.ANIMATION))
         viewModel.setEvent(HomeEvent.GetGenre)
+        viewModel.setEvent(HomeEvent.GetMovies)
     }
 
-    private fun setUpMovie(list: List<MovieEntity>) {
-        if (list.isNotEmpty()) {
-            when (list.first().categoryName) {
-                Const.TOP_MOVIE_IMDB -> {
-                    topList.clear()
-                    topList.addAll(list)
-                    setUpTopMovieRecycler(topList)
-                }
-                Const.NEW_MOVIE -> {
-                    newList.clear()
-                    newList.addAll(list)
-                    setUpNewMovieRecycler(newList)
-                }
-                Const.SERIES_MOVIE -> {
-                    seriesList.clear()
-                    seriesList.addAll(list)
-                    setUpSeriesRecycler(seriesList)
-                }
-                Const.POPULAR_MOVIE -> {
-                    popularList.clear()
-                    popularList.addAll(list)
-                    setUpPopularRecycler(popularList)
-                }
-                Const.ANIMATION -> {
-                    animList.clear()
-                    animList.addAll(list)
-                    setUpAnimationRecycler(animList)
-                }
-            }
-        }
-
+    private fun setUpMovie(item: HomeApiHolder){
+        item.top?.data?.let { setUpTopMovieRecycler(it) }
+        item.new?.data?.let { setUpNewMovieRecycler(it) }
+        item.series?.data?.let { setUpSeriesRecycler(it) }
+        item.popular?.data?.let {setUpPopularRecycler(it)  }
+        item.animation?.data?.let { setUpAnimationRecycler(it) }
     }
 
     private fun setUpGenreRecycler(list: List<GenreEntity>) {

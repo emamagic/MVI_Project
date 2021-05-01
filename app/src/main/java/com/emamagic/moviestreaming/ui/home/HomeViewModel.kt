@@ -5,6 +5,8 @@ import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.network.api.HomeApi
 import com.emamagic.moviestreaming.repository.home.*
 import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
@@ -16,13 +18,13 @@ import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository
@@ -34,7 +36,7 @@ class HomeViewModel @Inject constructor(
     override fun handleEvent(event: HomeEvent) {
         when (event) {
             HomeEvent.GetSliders -> getSliders()
-            is HomeEvent.GetMovies -> getMovies(event.category)
+            HomeEvent.GetMovies -> getMovies()
             HomeEvent.GetGenre -> getGenre()
             HomeEvent.ShouldCloseApp -> shouldCloseApp()
             is HomeEvent.MoreGenreClicked -> moreItemClicked(event.categoryType)
@@ -62,20 +64,47 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getMovies(category: String) = viewModelScope.launch {
-        repository.getMovies(category).onStart { setEffect { HomeEffect.Loading(true) } }
-            .onCompletion { Timber.e("completed 1") }.collect {
-            when (it) {
+    private fun getMovies() = viewModelScope.launch {
+
+        combine(
+            repository.getMovies(CategoryType.TOP),
+            repository.getMovies(CategoryType.NEW),
+            repository.getMovies(CategoryType.SERIES),
+            repository.getMovies(CategoryType.POPULAR),
+            repository.getMovies(CategoryType.ANIMATION),
+        ) { top, new, series, popular, animation ->
+            HomeApiHolder(top,new ,series, popular, animation)
+        }.onStart {
+            setEffect { HomeEffect.Loading(isLoading = true) }
+        }.onCompletion {
+            Timber.e("end")
+        }.collect {
+            setState { copy(movies = it ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
+            setEffect { HomeEffect.Loading(isLoading = false) }
+        }
+
+/*        merge(
+            repository.getMovies(CategoryType.TOP),
+            repository.getMovies(CategoryType.NEW),
+            repository.getMovies(CategoryType.SERIES),
+            repository.getMovies(CategoryType.POPULAR),
+            repository.getMovies(CategoryType.ANIMATION),
+        ).onStart {
+            setEffect { HomeEffect.Loading(isLoading = true) }
+        }.onCompletion {
+            Timber.e("end")
+        }.collect {
+            when(it){
                 is ResultWrapper.Success -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
                 is ResultWrapper.Failed -> {
+                    setEffect { HomeEffect.ShowToast(message = "${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading ->  setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(movies = it.data!! ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
             }.exhaustive
-        }
-    }
+        }*/
 
+    }
 
     private fun getGenre() = viewModelScope.launch {
         repository.getGenre().onCompletion {
@@ -110,26 +139,21 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun moreItemClicked(@CategoryType categoryType: String) = viewModelScope.launch {
-        when(categoryType) {
-            CategoryType.TOP ,
-            CategoryType.NEW ,
-            CategoryType.SERIES ,
-            CategoryType.POPULAR ,
-            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_movieFragment ,categoryType) }
-            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment ,categoryType) }
+        when (categoryType) {
+            CategoryType.TOP,
+            CategoryType.NEW,
+            CategoryType.SERIES,
+            CategoryType.POPULAR,
+            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_movieFragment, categoryType) }
+            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment, categoryType) }
         }
 
     }
 
-
     private fun swipeRefreshed() = viewModelScope.launch {
         repository.enableRefreshMode()
         getSliders()
-        getMovies(Const.TOP_MOVIE_IMDB)
-        getMovies(Const.NEW_MOVIE)
-        getMovies(Const.SERIES_MOVIE)
-        getMovies(Const.POPULAR_MOVIE)
-        getMovies(Const.ANIMATION)
+        getMovies()
         getGenre()
     }
 

@@ -14,8 +14,8 @@ import javax.inject.Inject
 class Connectivity @Inject constructor(@ApplicationContext private val context: Context): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        Timber.e("connectivity")
         if (!isInternetAvailable(context)) throw NoInternetException("Please Check Your Connectivity")
+        Timber.e("connectivity")
         return chain.proceed(chain.request())
 
     }
