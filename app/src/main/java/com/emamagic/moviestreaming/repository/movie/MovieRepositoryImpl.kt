@@ -5,7 +5,9 @@ import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.MovieDatabase
 import com.emamagic.moviestreaming.db.entity.CastEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.db.entity.SeasonEntity
 import com.emamagic.moviestreaming.mapper.CastMapper
+import com.emamagic.moviestreaming.mapper.SeasonMapper
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.response.MovieResponse
 import com.emamagic.moviestreaming.util.helper.safe.*
@@ -18,11 +20,13 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(
     private val db: MovieDatabase,
     private val movieApi: MovieApi,
-    private val castMapper: CastMapper
+    private val castMapper: CastMapper,
+    private val seasonMapper: SeasonMapper
 ) : SafeApi(), MovieRepository {
 
     private val movieDao = db.movieDao()
     private val castDao = db.castDao()
+    private val seasonDao = db.seasonDao()
 
     override suspend fun getMovieById(id: Long): MovieEntity {
         val detail = getMovieDetail(id)
@@ -48,6 +52,15 @@ class MovieRepositoryImpl @Inject constructor(
             databaseQuery = { castDao.getCastsById(id) },
             networkCall = { movieApi.getCasts(id) },
             saveCallResult = { castDao.upsert(castMapper.mapFromEntityList(movieApi.getCasts(id).casts)) }
+        )
+    }
+
+    override fun getSeasonById(id: Long): Flow<ResultWrapper<List<SeasonEntity>>> {
+        return networkBoundResource(
+            errorHandler = this,
+            databaseQuery = { seasonDao.getSeasonById(id) },
+            networkCall = { movieApi.getSeasons(id) },
+            saveCallResult = { seasonDao.upsert(seasonMapper.mapToEntityList(movieApi.getSeasons(id).seasons)) }
         )
     }
 

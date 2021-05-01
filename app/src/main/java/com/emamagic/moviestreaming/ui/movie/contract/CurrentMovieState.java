@@ -9,10 +9,12 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({
         CurrentMovieState.NON_STATE,
         CurrentMovieState.MOVIE_RECEIVED,
-        CurrentMovieState.CASTS_RECEIVED
+        CurrentMovieState.CASTS_RECEIVED,
+        CurrentMovieState.SEASONS_RECEIVED
 })
 public @interface CurrentMovieState {
     int NON_STATE = 0;
     int MOVIE_RECEIVED = 1;
     int CASTS_RECEIVED = 2;
+    int SEASONS_RECEIVED = 3;
 }

@@ -34,4 +34,7 @@ object RoomModule {
 
     @Provides
     fun provideCastDao(database: MovieDatabase) = database.castDao()
+
+    @Provides
+    fun provideSeasonDao(database: MovieDatabase) = database.seasonDao()
 }

@@ -54,7 +54,16 @@ class MovieViewModel @Inject constructor(
 
 
     private fun getSeasons(id: Long) = viewModelScope.launch{
-
+        repository.getSeasonById(id).collect {
+            when(it) {
+                is ResultWrapper.Success -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
+                is ResultWrapper.Failed -> {
+                    setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
+                    setEffect { MovieEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                }
+                is ResultWrapper.FetchLoading -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
+            }.exhaustive
+        }
     }
 
 
