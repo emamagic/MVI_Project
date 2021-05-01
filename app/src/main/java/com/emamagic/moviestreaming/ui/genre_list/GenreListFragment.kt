@@ -37,7 +37,7 @@ class GenreListFragment: BaseFragment<FragmentGenreBinding ,GenreListState ,Genr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setEvent(GenreListEvent.GetAllGenreList)
-        binding?.imgBack?.setOnClickListener { findNavController().popBackStack() }
+        binding.imgBack.setOnClickListener { findNavController().popBackStack() }
     }
 
     override fun renderViewState(viewState: GenreListState) {
@@ -57,9 +57,9 @@ class GenreListFragment: BaseFragment<FragmentGenreBinding ,GenreListState ,Genr
 
 
     private fun setUpGenreRecycler(genreList: List<GenreEntity>) {
-        binding?.recyclerViewGenreComplete?.adapter = genreListAdapter
-        binding?.recyclerViewGenreComplete?.setHasFixedSize(true)
-        binding?.recyclerViewGenreComplete?.itemAnimator = null
+        binding.recyclerViewGenreComplete.adapter = genreListAdapter
+        binding.recyclerViewGenreComplete.setHasFixedSize(true)
+        binding.recyclerViewGenreComplete.itemAnimator = null
         genreListAdapter.submitList(genreList)
     }
 

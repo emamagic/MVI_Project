@@ -82,19 +82,19 @@ class HomeFragment :
 
         setUpDrawer()
 
-        binding?.btnMenu?.setOnClickListener(this)
-        binding?.txtMoreGenre?.setOnClickListener(this)
-        binding?.txtMoreAnimation?.setOnClickListener(this)
-        binding?.txtMoreNewMovie?.setOnClickListener(this)
-        binding?.txtMorePopularMovie?.setOnClickListener(this)
-        binding?.txtMoreTopMovieImdb?.setOnClickListener(this)
-        binding?.txtMoreSeries?.setOnClickListener(this)
+        binding.btnMenu.setOnClickListener(this)
+        binding.txtMoreGenre.setOnClickListener(this)
+        binding.txtMoreAnimation.setOnClickListener(this)
+        binding.txtMoreNewMovie.setOnClickListener(this)
+        binding.txtMorePopularMovie.setOnClickListener(this)
+        binding.txtMoreTopMovieImdb.setOnClickListener(this)
+        binding.txtMoreSeries.setOnClickListener(this)
 
-        binding?.swipeRefreshLayout?.setOnRefreshListener { viewModel.setEvent(HomeEvent.SwipeRefreshed) }
+        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.setEvent(HomeEvent.SwipeRefreshed) }
 
         onFragmentBackPressed(viewLifecycleOwner) {
-            if (binding?.drawerLayout?.isDrawerOpen(GravityCompat.START)!!)
-                binding?.drawerLayout?.closeDrawer(GravityCompat.START)
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START))
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
             else viewModel.setEvent(HomeEvent.ShouldCloseApp)
         }
 
@@ -117,14 +117,14 @@ class HomeFragment :
             is HomeEffect.Navigate -> findNavController().navigate(viewEffect.navDirect)
             is HomeEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is HomeEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            HomeEffect.DisableRefreshing -> binding?.swipeRefreshLayout?.isRefreshing = false
+            HomeEffect.DisableRefreshing -> binding.swipeRefreshLayout.isRefreshing = false
         }.exhaustive
     }
 
     private fun setUpSlider(context: Context, list: List<SliderEntity>) {
         sliderAdapter = SliderAdapter(context)
-        binding?.sliderView?.setSliderAdapter(sliderAdapter)
-        binding?.sliderView?.setIndicatorAnimation(IndicatorAnimationType.WORM)
+        binding.sliderView.setSliderAdapter(sliderAdapter)
+        binding.sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM)
         sliderAdapter.renewItems(list)
 
     }
@@ -144,60 +144,60 @@ class HomeFragment :
     }
 
     private fun setUpGenreRecycler(list: List<GenreEntity>) {
-        binding?.recyclerViewGenre?.adapter = genreAdapter
-        binding?.recyclerViewGenre?.setHasFixedSize(true)
-        binding?.recyclerViewGenre?.itemAnimator = null
+        binding.recyclerViewGenre.adapter = genreAdapter
+        binding.recyclerViewGenre.setHasFixedSize(true)
+        binding.recyclerViewGenre.itemAnimator = null
         genreAdapter?.submitList(list)
 
     }
 
     private fun setUpNewMovieRecycler(list: List<MovieEntity>) {
-        binding?.recyclerViewNewMovie?.adapter = movieNewAdapter
-        binding?.recyclerViewNewMovie?.setHasFixedSize(true)
-        binding?.recyclerViewNewMovie?.itemAnimator = null
+        binding.recyclerViewNewMovie.adapter = movieNewAdapter
+        binding.recyclerViewNewMovie.setHasFixedSize(true)
+        binding.recyclerViewNewMovie.itemAnimator = null
         movieNewAdapter?.submitList(list)
 
     }
 
     private fun setUpTopMovieRecycler(list: List<MovieEntity>) {
-        binding?.recyclerViewTopMovieImdb?.adapter = movieIMDBAdapter
-        binding?.recyclerViewTopMovieImdb?.setHasFixedSize(true)
-        binding?.recyclerViewTopMovieImdb?.itemAnimator = null
+        binding.recyclerViewTopMovieImdb.adapter = movieIMDBAdapter
+        binding.recyclerViewTopMovieImdb.setHasFixedSize(true)
+        binding.recyclerViewTopMovieImdb.itemAnimator = null
         movieIMDBAdapter?.submitList(list)
 
     }
 
     private fun setUpSeriesRecycler(list: List<MovieEntity>) {
-        binding?.recyclerViewSeries?.adapter = movieSeriesAdapter
-        binding?.recyclerViewSeries?.setHasFixedSize(true)
-        binding?.recyclerViewSeries?.itemAnimator = null
+        binding.recyclerViewSeries.adapter = movieSeriesAdapter
+        binding.recyclerViewSeries.setHasFixedSize(true)
+        binding.recyclerViewSeries.itemAnimator = null
         movieSeriesAdapter?.submitList(list)
 
     }
 
     private fun setUpAnimationRecycler(list: List<MovieEntity>) {
-        binding?.recyclerViewAnimation?.adapter = animationAdapter
-        binding?.recyclerViewAnimation?.setHasFixedSize(true)
-        binding?.recyclerViewAnimation?.itemAnimator = null
+        binding.recyclerViewAnimation.adapter = animationAdapter
+        binding.recyclerViewAnimation.setHasFixedSize(true)
+        binding.recyclerViewAnimation.itemAnimator = null
         animationAdapter?.submitList(list)
 
     }
 
     private fun setUpPopularRecycler(list: List<MovieEntity>) {
-        binding?.recyclerViewPopularMovie?.adapter = moviePopularAdapter
-        binding?.recyclerViewPopularMovie?.setHasFixedSize(true)
-        binding?.recyclerViewPopularMovie?.itemAnimator = null
+        binding.recyclerViewPopularMovie.adapter = moviePopularAdapter
+        binding.recyclerViewPopularMovie.setHasFixedSize(true)
+        binding.recyclerViewPopularMovie.itemAnimator = null
         moviePopularAdapter?.submitList(list)
 
     }
 
     private fun setUpDrawer() {
-        binding?.navigationView?.bringToFront()
-        binding?.navigationView?.setNavigationItemSelectedListener(this)
-        binding?.navigationView?.setCheckedItem(R.id.nav_home)
-        binding?.drawerLayout?.setScrimColor(resources.getColor(R.color.colorPrimary))
-        binding?.drawerLayout?.addDrawerListener(object: DrawerLayout.DrawerListener{
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { slidFragment(binding?.parent!! ,drawerView ,slideOffset) }
+        binding.navigationView.bringToFront()
+        binding.navigationView.setNavigationItemSelectedListener(this)
+        binding.navigationView.setCheckedItem(R.id.nav_home)
+        binding.drawerLayout.setScrimColor(resources.getColor(R.color.colorPrimary))
+        binding.drawerLayout.addDrawerListener(object: DrawerLayout.DrawerListener{
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { slidFragment(binding.parent ,drawerView ,slideOffset) }
             override fun onDrawerOpened(drawerView: View) {}
             override fun onDrawerClosed(drawerView: View) {}
             override fun onDrawerStateChanged(newState: Int) {}
@@ -221,7 +221,7 @@ class HomeFragment :
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.btn_menu -> binding?.drawerLayout?.openDrawer(GravityCompat.START)
+            R.id.btn_menu -> binding.drawerLayout.openDrawer(GravityCompat.START)
             R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
             R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.ANIMATION))

@@ -47,7 +47,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         if (args.movie.categoryName == CategoryType.SERIES)
             viewModel.setEvent(MovieEvent.GetSeasons(args.movie.id!!))
 
-        binding?.btnPlay?.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
+        binding.btnPlay.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
 
     }
 
@@ -68,7 +68,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
     }
 
     private fun setUpViews(movie: MovieEntity) {
-        binding?.apply {
+        binding.apply {
             nameMovie.text = movie.name
             nameDirector.text = "Director : ${movie.director}"
             if (movie.categoryName == CategoryType.SERIES) {
@@ -84,15 +84,15 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
             description.text = movie.description
             time.text = movie.time
             rateImdb.text = "IMDb:${movie.imdbRate}"
-            Picasso.get().load(movie.imageVideoLink).resize(200 ,400).into(imgMovie)
+            Picasso.get().load(movie.imageVideoLink).resize(500 ,150).into(imgMovie)
         }
     }
 
 
     private fun setUpCastRecycler(list: List<CastEntity>) {
-        binding?.recyclerViewCast?.adapter = castAdapter
-        binding?.recyclerViewCast?.setHasFixedSize(true)
-        binding?.recyclerViewCast?.itemAnimator = null
+        binding.recyclerViewCast.adapter = castAdapter
+        binding.recyclerViewCast.setHasFixedSize(true)
+        binding.recyclerViewCast.itemAnimator = null
         castAdapter.submitList(list)
     }
 

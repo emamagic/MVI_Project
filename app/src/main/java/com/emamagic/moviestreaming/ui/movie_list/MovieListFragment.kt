@@ -38,8 +38,8 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.txtToolbar?.text = args.category
-        binding?.imgBack?.setOnClickListener { findNavController().popBackStack() }
+        binding.txtToolbar.text = args.category
+        binding.imgBack.setOnClickListener { findNavController().popBackStack() }
         setUpMovieRecycler(viewModel.currentState.movieList)
 
     }
@@ -61,9 +61,9 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
 
 
     private fun setUpMovieRecycler(movieList: List<MovieEntity>) {
-        binding?.recyclerViewTopMovieComplete?.adapter = movieListAdapter
-        binding?.recyclerViewTopMovieComplete?.setHasFixedSize(true)
-        binding?.recyclerViewTopMovieComplete?.itemAnimator = null
+        binding.recyclerViewTopMovieComplete.adapter = movieListAdapter
+        binding.recyclerViewTopMovieComplete.setHasFixedSize(true)
+        binding.recyclerViewTopMovieComplete.itemAnimator = null
         movieListAdapter.submitList(movieList)
     }
 

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffect ,EVENT: BaseEvent ,VM: BaseViewModel<STATE ,EFFECT ,EVENT>>: Fragment() {
 
     private  var _binding: VB? = null
-    protected val binding get() = _binding
+    protected val binding get() = _binding!!
     private lateinit var loading: FrameLayout
     private var callback: OnBackPressedCallback? = null
     lateinit var connectionLiveData: ConnectionLiveData
