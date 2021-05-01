@@ -27,21 +27,22 @@ import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
-import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
-import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.toasty
 import com.google.android.material.navigation.NavigationView
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 import java.util.*
-import kotlin.collections.ArrayList
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class HomeFragment :
-    BaseFragment<FragmentHomeBinding, HomeState, HomeEffect, HomeEvent, HomeViewModel>() ,NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener{
+    BaseFragment<FragmentHomeBinding, HomeState, HomeEffect, HomeEvent, HomeViewModel>() ,NavigationView.OnNavigationItemSelectedListener ,
+    View.OnClickListener,
+    MovieVerAdapter.Interaction,
+    MovieHorAdapter.Interaction,
+    GenreAdapter.Interaction{
 
     override val viewModel: HomeViewModel by viewModels()
     private lateinit var sliderAdapter: SliderAdapter
@@ -60,12 +61,12 @@ class HomeFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movieIMDBAdapter = MovieVerAdapter()
-        movieNewAdapter = MovieVerAdapter()
-        movieSeriesAdapter = MovieVerAdapter()
-        moviePopularAdapter = MovieHorAdapter()
-        animationAdapter = MovieHorAdapter()
-        genreAdapter = GenreAdapter()
+        movieIMDBAdapter = MovieVerAdapter(this)
+        movieNewAdapter = MovieVerAdapter(this)
+        movieSeriesAdapter = MovieVerAdapter(this)
+        moviePopularAdapter = MovieHorAdapter(this)
+        animationAdapter = MovieHorAdapter(this)
+        genreAdapter = GenreAdapter(this)
         setEvents()
     }
 
@@ -113,17 +114,7 @@ class HomeFragment :
 
     override fun renderViewEffect(viewEffect: HomeEffect) {
         when (viewEffect) {
-            is HomeEffect.Navigate -> {
-                when(viewEffect.categoryType) {
-                    CategoryType.GENRE -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToGenreFragment())
-                    CategoryType.TOP ,
-                    CategoryType.NEW ,
-                    CategoryType.SERIES ,
-                    CategoryType.POPULAR ,
-                    CategoryType.ANIMATION -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieFragment(viewEffect.categoryType))
-                    else -> { /* Do Nothing */ }
-                }
-            }
+            is HomeEffect.Navigate -> findNavController().navigate(viewEffect.navDirect)
             is HomeEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is HomeEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
             HomeEffect.DisableRefreshing -> binding?.swipeRefreshLayout?.isRefreshing = false
@@ -131,23 +122,10 @@ class HomeFragment :
     }
 
     private fun setUpSlider(context: Context, list: List<SliderEntity>) {
-        sliderAdapter = SliderAdapter(context, list)
-        binding?.slider?.adapter = sliderAdapter
-        binding?.tabLayout?.setupWithViewPager(binding?.slider, true)
-        if (timer == null) {
-            timer = Timer()
-            timer?.scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    Handler(Looper.getMainLooper()).post {
-                        binding?.let {
-                            if (it.slider.currentItem < list.size - 1)
-                                it.slider.currentItem = it.slider.currentItem + 1
-                            else it.slider.currentItem = 0
-                        }
-                    }
-                }
-            }, 3000, 3000)
-        }
+        sliderAdapter = SliderAdapter(context)
+        binding?.sliderView?.setSliderAdapter(sliderAdapter)
+        binding?.sliderView?.setIndicatorAnimation(IndicatorAnimationType.WORM)
+        sliderAdapter.renewItems(list)
 
     }
 
@@ -244,15 +222,15 @@ class HomeFragment :
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_menu -> binding?.drawerLayout?.openDrawer(GravityCompat.START)
-            R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreGenreClicked(CategoryType.GENRE))
-            R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+            R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
+            R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.ANIMATION))
-            R.id.txt_more_new_movie -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+            R.id.txt_more_new_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.NEW))
-            R.id.txt_more_popular_movie -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+            R.id.txt_more_popular_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.POPULAR))
-            R.id.txt_more_series -> viewModel.setEvent(HomeEvent.MoreGenreClicked(CategoryType.SERIES))
-            R.id.txt_more_top_movie_imdb -> viewModel.setEvent(HomeEvent.MoreGenreClicked(
+            R.id.txt_more_series -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.SERIES))
+            R.id.txt_more_top_movie_imdb -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.TOP))
         }
     }
@@ -263,6 +241,18 @@ class HomeFragment :
             it.cancel()
             it.purge()
         }
+    }
+
+    override fun onMovieVerClicked(item: MovieEntity) {
+        viewModel.setEvent(HomeEvent.MovieClicked(item))
+    }
+
+    override fun onMovieHorClicked(item: MovieEntity) {
+        viewModel.setEvent(HomeEvent.MovieClicked(item))
+    }
+
+    override fun onGenreClicked(item: GenreEntity) {
+        viewModel.setEvent(HomeEvent.GenreClicked(item))
     }
 
 }

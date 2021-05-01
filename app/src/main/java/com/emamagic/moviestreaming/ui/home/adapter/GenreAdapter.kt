@@ -52,7 +52,7 @@ class GenreAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: GenreEntity) = with(itemView) {
             setOnClickListener {
-                interaction?.onGenreClicked(adapterPosition, item)
+                interaction?.onGenreClicked(item)
             }
             binding.nameGenre.text = item.name
             Picasso.get().load(item.imageLing).resize(400,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre)
@@ -60,6 +60,6 @@ class GenreAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onGenreClicked(position: Int, item: GenreEntity)
+        fun onGenreClicked(item: GenreEntity)
     }
 }

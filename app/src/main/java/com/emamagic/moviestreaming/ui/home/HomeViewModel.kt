@@ -3,17 +3,15 @@ package com.emamagic.moviestreaming.ui.home
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.viewModelScope
-import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
-import com.emamagic.moviestreaming.network.api.HomeApi
 import com.emamagic.moviestreaming.repository.home.*
 import com.emamagic.moviestreaming.ui.home.contract.CurrentHomeState
 import com.emamagic.moviestreaming.ui.home.contract.HomeEffect
 import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
-import com.emamagic.moviestreaming.util.Const
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
@@ -39,8 +37,10 @@ class HomeViewModel @Inject constructor(
             HomeEvent.GetMovies -> getMovies()
             HomeEvent.GetGenre -> getGenre()
             HomeEvent.ShouldCloseApp -> shouldCloseApp()
-            is HomeEvent.MoreGenreClicked -> moreItemClicked(event.categoryType)
+            is HomeEvent.MoreMovieClicked -> moreMovieClicked(event.categoryType)
             HomeEvent.SwipeRefreshed -> swipeRefreshed()
+            is HomeEvent.GenreClicked -> genreClicked(event.genre)
+            is HomeEvent.MovieClicked -> movieClicked(event.movie)
         }.exhaustive
     }
 
@@ -138,14 +138,25 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun moreItemClicked(@CategoryType categoryType: String) = viewModelScope.launch {
+
+    private fun movieClicked(movie: MovieEntity) = viewModelScope.launch {
+        setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieFragment(movie)) }
+    }
+
+    private fun genreClicked(genre: GenreEntity) = viewModelScope.launch {
+        setEffect { HomeEffect.ShowToast("in proccessing ...." ,ToastyMode.MODE_TOAST_SUCCESS) }
+    }
+
+
+
+    private fun moreMovieClicked(@CategoryType categoryType: String) = viewModelScope.launch {
         when (categoryType) {
             CategoryType.TOP,
             CategoryType.NEW,
             CategoryType.SERIES,
             CategoryType.POPULAR,
-            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_movieFragment, categoryType) }
-            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(R.id.action_homeFragment_to_genreFragment, categoryType) }
+            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieListFragment(categoryType)) }
+            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreListFragment()) }
         }
 
     }

@@ -11,19 +11,22 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_genreFragment"
-            app:destination="@id/genreFragment" />
+            android:id="@+id/action_homeFragment_to_genreListFragment"
+            app:destination="@id/genreListFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+
         <action
             android:id="@+id/action_homeFragment_to_movieFragment"
-            app:destination="@id/movieListFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_movieFragment2"
             app:destination="@id/movieFragment" />
+
     </fragment>
 
 
     <fragment
-        android:id="@+id/genreFragment"
+        android:id="@+id/genreListFragment"
         android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
         android:label="fragment_genre"
         tools:layout="@layout/fragment_genre" />

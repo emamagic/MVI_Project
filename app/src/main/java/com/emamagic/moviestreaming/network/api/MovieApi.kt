@@ -1,5 +1,6 @@
 package com.emamagic.moviestreaming.network.api
 
+import com.emamagic.moviestreaming.network.response.CastResponse
 import com.emamagic.moviestreaming.network.response.MovieListResponse
 import com.emamagic.moviestreaming.network.response.MovieResponse
 import retrofit2.Response
@@ -14,8 +15,13 @@ interface MovieApi {
     ): MovieListResponse
 
     @GET("show_detail.php")
-    suspend fun getMovie(
-        @Query("id_item") id: Long
+    suspend fun getDetailMovie(
+        @Query("id_item") itemId: Long
     ): Response<MovieResponse>
+
+    @GET("getCast.php")
+    suspend fun getCasts(
+        @Query("id_item") itemId: Long
+    ): CastResponse
 
 }

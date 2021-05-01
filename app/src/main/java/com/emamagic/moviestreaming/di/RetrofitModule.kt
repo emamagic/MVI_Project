@@ -4,8 +4,8 @@ import com.emamagic.moviestreaming.BuildConfig
 import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.network.api.HomeApi
 import com.emamagic.moviestreaming.network.api.MovieApi
-import com.emamagic.moviestreaming.network.intercepter.Connectivity
-import com.emamagic.moviestreaming.network.intercepter.ServerError
+import com.emamagic.moviestreaming.network.intercepter.ClientConnection
+import com.emamagic.moviestreaming.network.intercepter.ServerConnection
 import com.emamagic.moviestreaming.util.Const
 import dagger.Lazy
 import dagger.Module
@@ -16,7 +16,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -33,11 +32,11 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor ,connectivity: Connectivity ,serverError: ServerError): OkHttpClient {
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor, clientConnection: ClientConnection, serverConnection: ServerConnection): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(connectivity)
-            .addInterceptor(serverError)
+            .addInterceptor(clientConnection)
+            .addInterceptor(serverConnection)
             .readTimeout(8 ,TimeUnit.SECONDS)
             .writeTimeout(8 ,TimeUnit.SECONDS)
             .connectTimeout(5 ,TimeUnit.SECONDS)

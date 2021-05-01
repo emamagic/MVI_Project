@@ -9,8 +9,12 @@ import com.emamagic.moviestreaming.ui.movie.contract.MovieEvent
 import com.emamagic.moviestreaming.ui.movie.contract.MovieState
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
+import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,15 +26,25 @@ class MovieViewModel @Inject constructor(
 
     override fun handleEvent(event: MovieEvent) {
         when (event) {
-            is MovieEvent.GetMovie -> getMovie(event.id)
+            is MovieEvent.GetDetailMovie -> getDetailMovie(event.id)
         }.exhaustive
     }
 
 
-    private fun getMovie(id: Long) = viewModelScope.launch {
+    private fun getDetailMovie(id: Long) = viewModelScope.launch {
         setEffect { MovieEffect.Loading(true) }
         val movie = repository.getMovieById(id)
         setState { copy(movie = movie, currentState = CurrentMovieState.MOVIE_RECEIVED) }
-        setEffect { MovieEffect.Loading(false) }
+        repository.getCastsById(id).collect {
+            when(it) {
+                is ResultWrapper.Success -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
+                is ResultWrapper.Failed -> {
+                    setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
+                    setEffect { MovieEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                }
+                is ResultWrapper.FetchLoading -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
+            }.exhaustive
+            setEffect { MovieEffect.Loading(false) }
+        }
     }
 }

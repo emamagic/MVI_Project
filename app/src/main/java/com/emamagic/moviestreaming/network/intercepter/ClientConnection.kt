@@ -11,7 +11,7 @@ import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class Connectivity @Inject constructor(@ApplicationContext private val context: Context): Interceptor {
+class ClientConnection @Inject constructor(@ApplicationContext private val context: Context): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isInternetAvailable(context)) throw NoInternetException("Please Check Your Connectivity")

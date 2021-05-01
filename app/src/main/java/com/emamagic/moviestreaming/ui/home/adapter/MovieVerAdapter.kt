@@ -54,7 +54,7 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: MovieEntity) = with(itemView) {
             setOnClickListener {
-                interaction?.onMovieVerClicked(adapterPosition, item)
+                interaction?.onMovieVerClicked(item)
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
@@ -71,6 +71,6 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onMovieVerClicked(position: Int, item: MovieEntity)
+        fun onMovieVerClicked(item: MovieEntity)
     }
 }

@@ -1,23 +1,33 @@
 package com.emamagic.moviestreaming.repository.movie
 
 import androidx.room.withTransaction
+import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.MovieDatabase
+import com.emamagic.moviestreaming.db.entity.CastEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.mapper.CastMapper
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.response.MovieResponse
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
+import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import com.emamagic.moviestreaming.util.helper.safe.succeeded
 import com.emamagic.moviestreaming.util.helper.safe.toResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class MovieRepositoryImpl @Inject constructor(
     private val db: MovieDatabase,
-    private val movieApi: MovieApi
+    private val movieApi: MovieApi,
+    private val castMapper: CastMapper
 ) : GeneralErrorHandlerImpl(), MovieRepository {
 
     private val movieDao = db.movieDao()
+    private val castDao = db.castDao()
 
+    // should called from viewModel
     override suspend fun getMovieById(id: Long): MovieEntity {
         val detail = getMovieDetail(id)
         return if (detail.succeeded) {
@@ -42,11 +52,21 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse> {
         return try {
-            movieApi.getMovie(id).toResult(this)
+            movieApi.getDetailMovie(id).toResult(this)
         } catch (t: Throwable) {
             /** when server con nat hand shacking (SocketException)*/
             ResultWrapper.Failed(getError(t))
         }
+    }
+
+    // should called from viewModel
+    override fun getCastsById(id: Long): Flow<ResultWrapper<List<CastEntity>>> {
+        return networkBoundResource(
+            errorHandler = this,
+            databaseQuery = { castDao.getCastsById(id) },
+            networkCall = { movieApi.getCasts(id) },
+            saveCallResult = { castDao.upsert(castMapper.mapFromEntityList(movieApi.getCasts(id).casts)) }
+        )
     }
 
 

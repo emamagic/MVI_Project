@@ -9,7 +9,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @Suppress("UNREACHABLE_CODE")
-class ServerError @Inject constructor(): Interceptor {
+class ServerConnection @Inject constructor(): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response { return onOnIntercept(chain) }
 

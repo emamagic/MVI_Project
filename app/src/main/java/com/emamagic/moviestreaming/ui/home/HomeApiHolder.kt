@@ -10,3 +10,4 @@ data class HomeApiHolder(
     val popular: ResultWrapper<List<MovieEntity>>? = null,
     val animation: ResultWrapper<List<MovieEntity>>? = null,
 )
+

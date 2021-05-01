@@ -4,36 +4,58 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.PagerAdapter
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemSliderBinding
+import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.SliderEntity
+import com.emamagic.moviestreaming.util.Const
+import com.smarteist.autoimageslider.SliderViewAdapter
 import com.squareup.picasso.Picasso
 
-class SliderAdapter(private val context: Context, private val sliders: List<SliderEntity>): PagerAdapter() {
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+class SliderAdapter(private val context: Context) : SliderViewAdapter<SliderAdapter.SliderAdapterVH>() {
+
+    private var mSliderItems = ArrayList<SliderEntity>()
+
+    fun renewItems(sliderItems: List<SliderEntity>) {
+        mSliderItems.addAll(sliderItems)
+        notifyDataSetChanged()
+    }
+
+    fun deleteItem(position: Int) {
+        mSliderItems.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(sliderItem: SliderEntity) {
+        mSliderItems.add(sliderItem)
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterVH {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = inflater.inflate(R.layout.item_slider, container, false)
-        val binding = ItemSliderBinding.bind(view)
-        binding.nameSlider.text = sliders[position].name
-        binding.publishedSlider.text = sliders[position].published
-        binding.timeSlider.text = sliders[position].time
-        Picasso.get().load(sliders[position].imageLink).resize(900,500).placeholder(R.drawable.video_placeholder).into(binding.imgSlider)
-        container.addView(view)
-        return view
+        val binding = ItemSliderBinding.inflate(inflater ,parent ,false)
+        return SliderAdapterVH(binding)
     }
 
-    override fun getCount(): Int {
-        return sliders.size
-
+    override fun onBindViewHolder(viewHolder: SliderAdapterVH?, position: Int) {
+        viewHolder?.bind(mSliderItems[position])
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view === `object`
+    override fun getCount() = mSliderItems.size
+
+
+    class SliderAdapterVH(val binding: ItemSliderBinding) :
+        SliderViewAdapter.ViewHolder(binding.root) {
+        fun bind(item: SliderEntity) {
+
+            binding.apply {
+                nameSlider.text = item.name
+                publishedSlider.text = item.published
+                timeSlider.text = item.time
+                Picasso.get().load(item.imageLink).resize(900,500).placeholder(R.drawable.video_placeholder).into(imgSlider)
+            }
+        }
     }
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as View)
-    }
 }

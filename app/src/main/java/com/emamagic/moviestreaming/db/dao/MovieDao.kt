@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class MovieDao: BaseDao<MovieEntity> {
 
     @Query("SELECT * FROM table_movie WHERE category_name = :category  LIMIT 6")
-    abstract fun getMovie(category: String): Flow<List<MovieEntity>>
+    abstract fun getMovies(category: String): Flow<List<MovieEntity>>
 
     @Query("SELECT * FROM table_movie WHERE category_name = :category")
     abstract fun getAllMovie(category: String): Flow<List<MovieEntity>>

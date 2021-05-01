@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,239 +8,225 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.movie.MovieFragment">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/layout_play"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="250dp">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/img_movie"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
-                <RelativeLayout
-                    android:id="@+id/layout_play"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:id="@+id/img_movie"/>
+            <ImageView
+                android:id="@+id/img_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_baseline_get_app_24" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_play_arrow_24"
-                        android:layout_centerInParent="true"
-                        app:fabSize="mini"
-                        android:id="@+id/btn_play"/>
+            <ImageView
+                android:id="@+id/img_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="6dp"
+                android:layout_toLeftOf="@id/img_download"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_baseline_comment_24" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_get_app_24"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="8dp"
-                        android:id="@+id/img_download"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/img_comment"
-                        app:srcCompat="@drawable/ic_baseline_comment_24"
-                        android:layout_toLeftOf="@id/img_download"
-                        android:layout_marginTop="8dp"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-                        android:layout_margin="8dp"
-                        android:id="@+id/img_back"/>
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
+        </RelativeLayout>
 
-                </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_play"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/bg_detail"
+            android:padding="8dp">
 
-                <RelativeLayout
-                    android:padding="8dp"
-                    android:background="@drawable/bg_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_play"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="32dp"
-                    android:id="@+id/layout_detail">
+            <TextView
+                android:id="@+id/name_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Name" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:textColor="@color/textColor"
-                        android:id="@+id/name_movie"/>
+            <TextView
+                android:id="@+id/name_director"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_movie"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/textColor"
+                android:textSize="13sp"
+                tools:text="Director :" />
 
-                    <TextView
-                        android:textColor="@color/textColor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/name_movie"
-                        android:layout_marginTop="16dp"
-                        android:textSize="13sp"
-                        android:id="@+id/name_director"
-                        android:text="Director :"/>
+            <TextView
+                android:id="@+id/published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_director"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textColor"
+                android:textSize="13sp"
+                tools:text="Published :" />
 
-                    <TextView
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/textColor"
-                        android:textSize="13sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/name_director"
-                        android:text="Published :"
-                        android:id="@+id/published"/>
-
-                    <TextView
-                        android:id="@+id/genre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Action"
-                        android:textColor="@color/textColor"
-                        android:paddingRight="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="8dp"
-                        android:textSize="12sp"
-                        android:background="@drawable/bg_genre"
-                        android:layout_marginTop="16dp"
-                        android:layout_below="@id/published"
-                        />
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/published"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_genre"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:text="Action"
+                android:textColor="@color/textColor"
+                android:textSize="12sp" />
 
 
-
-                    <TextView
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="18dp"
-                        android:padding="3dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="IMDb:8.5/10"
-                        android:id="@+id/rate_imdb"
-                        android:background="@drawable/bg_rate_imdb"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:layout_below="@id/published"
-                        android:textColor="@color/colorPrimary"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Description :"
-                        android:textStyle="bold"
-                        android:textColor="@color/textColor"
-                        android:layout_marginTop="16dp"
-                        android:textSize="13sp"
-                        android:id="@+id/txt"
-                        android:layout_below="@id/genre"/>
-
-                    <TextView
-                        android:textSize="12sp"
-                        android:textColor="@color/textColor"
-                        android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txt"
-                        android:layout_marginTop="8dp"
-                        android:lineSpacingExtra="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cast :"
-                        android:textStyle="bold"
-                        android:textColor="@color/textColor"
-                        android:layout_marginTop="16dp"
-                        android:textSize="13sp"
-                        android:id="@+id/txt_cast"
-                        android:layout_below="@id/description"/>
+            <TextView
+                android:id="@+id/rate_imdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/published"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_rate_imdb"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="IMDb:8.5/10" />
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recyclerView_cast"
-                        android:layout_below="@id/txt_cast"
-                        android:layout_marginTop="8dp"/>
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/textColor"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="Description :" />
 
-                    <LinearLayout
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/textColor"
+                android:textSize="12sp" />
 
-
-                        <ImageView
-                            android:layout_marginRight="4dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_baseline_access_time_24"/>
-
-                        <TextView
-                            android:layout_marginLeft="2dp"
-                            android:gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:id="@+id/time"
-                            android:textColor="@color/textColor"
-                            android:text="2h 25m"
-                            android:textStyle="bold"
-                            android:textSize="12sp"/>
-
-
-
+            <TextView
+                android:id="@+id/txt_cast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:layout_marginTop="16dp"
+                android:text="Cast :"
+                android:textColor="@color/textColor"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
 
-                    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_cast"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
 
 
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_margin="8dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/textColor"
-                    android:textStyle="bold"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txt_similar"
-                    android:layout_below="@id/layout_detail"
-                    android:text="Similar Movie :"/>
+                    android:layout_marginRight="4dp"
+                    app:srcCompat="@drawable/ic_baseline_access_time_24" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="2h 25m" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_similar"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:id="@+id/recyclerView_similar"/>
+            </LinearLayout>
 
 
+        </RelativeLayout>
 
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/txt_similar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_detail"
+            android:layout_margin="8dp"
+            android:text="Similar Movie :"
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        </LinearLayout>
 
-    </ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_similar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_similar"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp" />
 
 
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>
