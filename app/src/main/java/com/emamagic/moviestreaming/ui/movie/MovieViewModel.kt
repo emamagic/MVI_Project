@@ -11,6 +11,7 @@ import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onCompletion
@@ -28,6 +29,8 @@ class MovieViewModel @Inject constructor(
     override fun handleEvent(event: MovieEvent) {
         when (event) {
             is MovieEvent.GetDetailMovie -> getDetailMovie(event.id)
+            is MovieEvent.GetSeasons -> getSeasons(event.id)
+            is MovieEvent.PlayVideoClicked -> playVideoClicked(event.videoLink)
         }.exhaustive
     }
 
@@ -48,4 +51,15 @@ class MovieViewModel @Inject constructor(
             setEffect { MovieEffect.Loading(false) }
         }
     }
+
+
+    private fun getSeasons(id: Long) = viewModelScope.launch{
+
+    }
+
+
+    private fun playVideoClicked(videoLink: String) = viewModelScope.launch {
+        setEffect { MovieEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToFragmentVideoPlayer(videoLink)) }
+    }
+
 }

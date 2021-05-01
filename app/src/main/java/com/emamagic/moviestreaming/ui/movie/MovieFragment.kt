@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseFragment
 import com.emamagic.moviestreaming.databinding.FragmentShowDetailMovieBinding
 import com.emamagic.moviestreaming.db.entity.CastEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.ui.movie.adaper.CastAdapter
 import com.emamagic.moviestreaming.ui.movie.contract.CurrentMovieState
 import com.emamagic.moviestreaming.ui.movie.contract.MovieEffect
@@ -41,6 +44,11 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setEvent(MovieEvent.GetDetailMovie(args.movie.id!!))
+        if (args.movie.categoryName == CategoryType.SERIES)
+            viewModel.setEvent(MovieEvent.GetSeasons(args.movie.id!!))
+
+        binding?.btnPlay?.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
+
     }
 
     override fun renderViewState(viewState: MovieState) {
@@ -55,18 +63,28 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         when(viewEffect) {
             is MovieEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is MovieEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
+            is MovieEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
         }.exhaustive
     }
 
     private fun setUpViews(movie: MovieEntity) {
         binding?.apply {
             nameMovie.text = movie.name
-            nameDirector.text = "Director :${movie.director}"
-            published.text = "Published :${movie.published}"
-            description.text = "Description :${movie.description}"
+            nameDirector.text = "Director : ${movie.director}"
+            if (movie.categoryName == CategoryType.SERIES) {
+                published.text = "Episodes : ${movie.episode}"
+                imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
+                seriesList.visibility = View.VISIBLE
+            }else {
+                imgHour.setImageResource(R.drawable.ic_baseline_access_time_24)
+                published.text = "Published : ${movie.published}"
+                seriesList.visibility = View.GONE
+            }
+
+            description.text = movie.description
             time.text = movie.time
             rateImdb.text = "IMDb:${movie.imdbRate}"
-            Picasso.get().load(movie.imageVideoLink).resize(500 ,500).into(imgMovie)
+            Picasso.get().load(movie.imageVideoLink).resize(200 ,400).into(imgMovie)
         }
     }
 
@@ -76,6 +94,10 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         binding?.recyclerViewCast?.setHasFixedSize(true)
         binding?.recyclerViewCast?.itemAnimator = null
         castAdapter.submitList(list)
+    }
+
+    private fun setUpSeriesRecycler() {
+
     }
 
 

@@ -24,7 +24,6 @@ class MovieRepositoryImpl @Inject constructor(
     private val movieDao = db.movieDao()
     private val castDao = db.castDao()
 
-    // should called from viewModel
     override suspend fun getMovieById(id: Long): MovieEntity {
         val detail = getMovieDetail(id)
         return if (detail.succeeded) {
@@ -43,15 +42,6 @@ class MovieRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun updateDescription(id: Long, description: String? ,imageVideoLink: String? ,videoLink: String?) {
-        movieDao.updateMovieDetail(id = id, description = description ,imageVideoLink = imageVideoLink, videoLink = videoLink)
-    }
-
-    override suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse> {
-        return safe { movieApi.getDetailMovie(id) }
-    }
-
-    // should called from viewModel
     override fun getCastsById(id: Long): Flow<ResultWrapper<List<CastEntity>>> {
         return networkBoundResource(
             errorHandler = this,
@@ -61,5 +51,13 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
 
+
+    private suspend fun updateDescription(id: Long, description: String? ,imageVideoLink: String? ,videoLink: String?) {
+        movieDao.updateMovieDetail(id = id, description = description ,imageVideoLink = imageVideoLink, videoLink = videoLink)
+    }
+
+    private suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse> {
+        return safe { movieApi.getDetailMovie(id) }
+    }
 
 }

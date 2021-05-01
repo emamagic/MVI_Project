@@ -10,10 +10,6 @@ interface MovieRepository {
 
     suspend fun getMovieById(id: Long): MovieEntity
 
-    suspend fun updateDescription(id: Long ,description: String? ,imageVideoLink: String? ,videoLink: String?)
-
-    suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse>
-
     fun getCastsById(id: Long): Flow<ResultWrapper<List<CastEntity>>>
 
 }

@@ -107,7 +107,10 @@ dependencies {
     def SwipeRefresh_version = '1.1.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$SwipeRefresh_version"
 
-    def autoimageslider_version = "1.4.0"
+    def autoimageslider_version = '1.4.0'
     implementation "com.github.smarteist:autoimageslider:$autoimageslider_version"
+
+    def exoplayer_version = '2.13.3'
+    implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
 
 }

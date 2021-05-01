@@ -54,6 +54,18 @@
         <argument
             android:name="movie"
             app:argType="com.emamagic.moviestreaming.db.entity.MovieEntity" />
+        <action
+            android:id="@+id/action_movieFragment_to_fragmentVideoPlayer"
+            app:destination="@id/fragmentVideoPlayer" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentVideoPlayer"
+        android:name="com.emamagic.moviestreaming.ui.video_player.FragmentVideoPlayer"
+        android:label="fragment_player"
+        tools:layout="@layout/fragment_player" >
+        <argument
+            android:name="videoLink"
+            app:argType="string" />
     </fragment>
 
 
