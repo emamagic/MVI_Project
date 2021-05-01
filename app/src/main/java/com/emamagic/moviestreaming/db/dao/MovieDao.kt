@@ -17,4 +17,7 @@ abstract class MovieDao: BaseDao<MovieEntity> {
 
     @Query("SELECT * FROM table_movie WHERE id = :id")
     abstract suspend fun getMovieById(id: Long): MovieEntity
+
+    @Query("UPDATE table_movie SET description = :description ,link_img_movie = :imageVideoLink ,link_video = :videoLink  WHERE id = :id")
+    abstract suspend fun updateMovieDetail(id: Long, description: String? ,imageVideoLink: String? ,videoLink: String?)
 }

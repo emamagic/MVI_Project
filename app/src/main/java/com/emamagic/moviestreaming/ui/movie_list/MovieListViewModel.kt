@@ -12,7 +12,6 @@ import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -27,10 +26,10 @@ class MovieListViewModel @Inject constructor(
 
     override fun createInitialState() = MovieListState.initialize()
 
-    override fun handleEvent(listEvent: MovieListEvent) {
-        when(listEvent) {
-            is MovieListEvent.GetAllMovieList -> getAllMovie(listEvent.category)
-            is MovieListEvent.MovieClicked -> movieClicked(listEvent.movie)
+    override fun handleEvent(event: MovieListEvent) {
+        when(event) {
+            is MovieListEvent.GetAllMovieList -> getAllMovie(event.category)
+            is MovieListEvent.MovieClicked -> movieClicked(event.movie)
         }.exhaustive
     }
 

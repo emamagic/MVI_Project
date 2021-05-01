@@ -20,7 +20,6 @@ fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> {
                 )
             }
         }
-        Timber.e("bb fae")
         return ResultWrapper.Failed(
             ErrorEntity.Api(
                 message = message(), code = code(), errorBody = errorBody()?.string()
@@ -28,7 +27,6 @@ fun <T> Response<T>.toResult(errorHandler: ErrorHandler): ResultWrapper<T> {
             )
         )
     } catch (t: Throwable) {
-        Timber.e("bb ca")
         return ResultWrapper.Failed(errorHandler.getError(t))
     }
 }

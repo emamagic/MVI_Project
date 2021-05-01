@@ -3,7 +3,8 @@ package com.emamagic.moviestreaming.db.entity
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "table_movie" ,primaryKeys = ["id"])
@@ -12,6 +13,10 @@ data class MovieEntity(
     val name: String? = null,
     @ColumnInfo(name = "link_img")
     val imageLink: String? = null,
+    @ColumnInfo(name = "link_img_movie")
+    val imageVideoLink: String? = null,
+    @ColumnInfo(name = "link_video")
+    val videoLink: String? = null,
     val time: String? = null,
     @ColumnInfo(name = "category_name")
     val categoryName: String? = null,
@@ -24,5 +29,6 @@ data class MovieEntity(
     val imageAddress: String? = null,
     @ColumnInfo(name = "episode")
     val episode: String? = null,
+    val description: String? = null,
     val updatedAt: Long = System.currentTimeMillis()
 ): Parcelable

@@ -16,7 +16,7 @@ data class MovieDto(
     @SerializedName("rank")
     val rank: String? = null,
     @SerializedName("rate_imdb")
-    val rate_imdb: String? = null,
+    val imdbRate: String? = null,
     @SerializedName("published")
     val published: String? = null,
     @SerializedName("director")

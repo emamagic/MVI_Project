@@ -124,14 +124,7 @@ class HomeFragment :
                     else -> { /* Do Nothing */ }
                 }
             }
-            is HomeEffect.ShowToast -> {
-                when(viewEffect.mode){
-                    ToastyMode.MODE_TOAST_SUCCESS -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_SUCCESS)
-                    ToastyMode.MODE_TOAST_WARNING -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_WARNING)
-                    ToastyMode.MODE_TOAST_ERROR -> toasty(viewEffect.message, ToastyMode.MODE_TOAST_ERROR)
-                    else -> toasty(viewEffect.message)
-                }.exhaustive
-            }
+            is HomeEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is HomeEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
             HomeEffect.DisableRefreshing -> binding?.swipeRefreshLayout?.isRefreshing = false
         }.exhaustive
