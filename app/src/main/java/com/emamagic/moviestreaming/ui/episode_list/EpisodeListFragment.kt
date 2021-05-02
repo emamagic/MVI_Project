@@ -21,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListState ,EpisodeListEffect ,EpisodeListEvent ,EpisodeListViewModel>() {
+class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListState ,EpisodeListEffect ,EpisodeListEvent ,EpisodeListViewModel>(),
+    EpisodeListAdapter.Interaction{
 
     override val viewModel: EpisodeListViewModel by viewModels()
     private val args: EpisodeListFragmentArgs by navArgs()
@@ -34,7 +35,7 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        episodeAdapter = EpisodeListAdapter()
+        episodeAdapter = EpisodeListAdapter(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +55,7 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListS
 
     override fun renderViewEffect(viewEffect: EpisodeListEffect) {
         when(viewEffect) {
-            is EpisodeListEffect.Navigate -> {}
+            is EpisodeListEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
             is EpisodeListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is EpisodeListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
         }.exhaustive
@@ -65,6 +66,10 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListS
         binding.recyclerViewEpisodes.setHasFixedSize(true)
         binding.recyclerViewEpisodes.itemAnimator = null
         episodeAdapter.submitList(list)
+    }
+
+    override fun onEpisodeClicked(item: EpisodeEntity) {
+        viewModel.setEvent(EpisodeListEvent.PlayEpisodeClicked(item.videoLink!!))
     }
 
 }

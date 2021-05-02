@@ -78,6 +78,9 @@
         <argument
             android:name="seasonId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_episodeListFragment_to_fragmentVideoPlayer"
+            app:destination="@id/fragmentVideoPlayer" />
     </fragment>
 
 

@@ -11,6 +11,7 @@ import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +27,7 @@ class EpisodeListViewModel @Inject constructor(
     override fun handleEvent(event: EpisodeListEvent) {
         when(event) {
             is EpisodeListEvent.GetEpisodes -> getEpisodes(event.seasonId)
+            is EpisodeListEvent.PlayEpisodeClicked -> playEpisodeClicked(event.videoLink)
         }.exhaustive
     }
 
@@ -42,5 +44,9 @@ class EpisodeListViewModel @Inject constructor(
             }
             setEffect { EpisodeListEffect.Loading(isLoading = false) }
         }
+    }
+
+    private fun playEpisodeClicked(videoLink: String) = viewModelScope.launch {
+        setEffect { EpisodeListEffect.Navigate(EpisodeListFragmentDirections.actionEpisodeListFragmentToFragmentVideoPlayer(videoLink)) }
     }
 }
