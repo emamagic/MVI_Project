@@ -124,8 +124,8 @@ class HomeFragment :
     private fun setUpSlider(context: Context, list: List<SliderEntity>) {
         sliderAdapter = SliderAdapter(context)
         binding.sliderView.setSliderAdapter(sliderAdapter)
-        binding.sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM)
         sliderAdapter.renewItems(list)
+        binding.sliderView.startAutoCycle()
 
     }
 
