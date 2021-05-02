@@ -10,7 +10,7 @@ interface HomeRepository {
 
     fun getSliders(): Flow<ResultWrapper<List<SliderEntity>>>
 
-    fun getMovies(category: String): Flow<ResultWrapper<List<MovieEntity>>>
+    fun getMoviesByCategory(category: String): Flow<ResultWrapper<List<MovieEntity>>>
 
     fun getGenre(): Flow<ResultWrapper<List<GenreEntity>>>
 

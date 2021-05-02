@@ -34,7 +34,6 @@ inline fun <ResultType, RequestType> networkBoundResource(
             loading.cancel()
             databaseQuery().collect { send(ResultWrapper.Success(it)) }
         } catch (t: Throwable) {
-            Timber.e("neterror")
             onFetchFailed(errorHandler.getError(t))
             loading.cancel()
             databaseQuery().collect { send(ResultWrapper.Failed(errorHandler.getError(t), it)) }

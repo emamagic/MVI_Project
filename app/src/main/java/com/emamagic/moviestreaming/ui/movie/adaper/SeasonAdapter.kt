@@ -4,14 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.emamagic.moviestreaming.databinding.ItemCastBinding
-import com.emamagic.moviestreaming.databinding.ItemGenreCompleteBinding
 import com.emamagic.moviestreaming.databinding.ItemSeasonBinding
-import com.emamagic.moviestreaming.db.entity.CastEntity
-import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.SeasonEntity
-import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListCompleteAdapter
-import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListDiffCallback
 import com.squareup.picasso.Picasso
 
 class SeasonAdapter constructor(val interaction: Interaction):

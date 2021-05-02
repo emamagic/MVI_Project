@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
             HomeEvent.ShouldCloseApp -> shouldCloseApp()
             is HomeEvent.MoreMovieClicked -> moreMovieClicked(event.categoryType)
             HomeEvent.SwipeRefreshed -> swipeRefreshed()
-            is HomeEvent.GenreClicked -> genreClicked(event.genre)
+            is HomeEvent.GenreClicked -> genreClicked(event.genreName)
             is HomeEvent.MovieClicked -> movieClicked(event.movie)
         }.exhaustive
     }
@@ -68,11 +68,11 @@ class HomeViewModel @Inject constructor(
     private fun getMovies() = viewModelScope.launch {
 
         combine(
-            repository.getMovies(CategoryType.TOP),
-            repository.getMovies(CategoryType.NEW),
-            repository.getMovies(CategoryType.SERIES),
-            repository.getMovies(CategoryType.POPULAR),
-            repository.getMovies(CategoryType.ANIMATION),
+            repository.getMoviesByCategory(CategoryType.TOP),
+            repository.getMoviesByCategory(CategoryType.NEW),
+            repository.getMoviesByCategory(CategoryType.SERIES),
+            repository.getMoviesByCategory(CategoryType.POPULAR),
+            repository.getMoviesByCategory(CategoryType.ANIMATION),
         ) { top, new, series, popular, animation ->
             HomeApiHolder(top,new ,series, popular, animation)
         }.collect {
@@ -140,8 +140,8 @@ class HomeViewModel @Inject constructor(
         setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieFragment(movie)) }
     }
 
-    private fun genreClicked(genre: GenreEntity) = viewModelScope.launch {
-        setEffect { HomeEffect.ShowToast("in proccessing ...." ,ToastyMode.MODE_TOAST_SUCCESS) }
+    private fun genreClicked(genreName: String) = viewModelScope.launch {
+        setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreListFragment(genreName)) }
     }
 
 
@@ -153,7 +153,7 @@ class HomeViewModel @Inject constructor(
             CategoryType.SERIES,
             CategoryType.POPULAR,
             CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieListFragment(categoryType)) }
-            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreListFragment()) }
+            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreTypeFragment()) }
         }
 
     }

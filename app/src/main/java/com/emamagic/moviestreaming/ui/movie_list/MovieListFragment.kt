@@ -40,7 +40,6 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
 
         binding.txtToolbar.text = args.category
         binding.imgBack.setOnClickListener { findNavController().popBackStack() }
-        setUpMovieRecycler(viewModel.currentState.movieList)
 
     }
 

@@ -178,7 +178,7 @@
                         android:layout_marginLeft="8dp"
                         android:fontFamily="monospace"
                         android:padding="6dp"
-                        android:text="Genre"
+                        android:text="Top IMDB"
                         android:textColor="@color/textColor"
                         android:textSize="13sp"
                         android:textStyle="bold"

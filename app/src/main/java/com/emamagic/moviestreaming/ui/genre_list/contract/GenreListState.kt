@@ -1,19 +1,17 @@
 package com.emamagic.moviestreaming.ui.genre_list.contract
 
 import com.emamagic.moviestreaming.base.BaseState
-import com.emamagic.moviestreaming.db.entity.GenreEntity
+import com.emamagic.moviestreaming.db.entity.MovieEntity
 
 data class GenreListState(
-    val genreList: List<GenreEntity>,
-    @CurrentGenreState val currentState: Int
-) : BaseState {
-
+    @CurrentGenreListState val currentState: Int,
+    val genres: List<MovieEntity>
+): BaseState {
     companion object {
-        fun initialize(): GenreListState =
+        fun initialize() =
             GenreListState(
-                emptyList(),
-                currentState = CurrentGenreState.NON_STATE
+                currentState = CurrentGenreListState.NON_STATE,
+                emptyList()
             )
     }
 }
-

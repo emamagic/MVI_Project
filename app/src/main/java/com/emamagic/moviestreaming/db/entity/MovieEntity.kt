@@ -30,5 +30,7 @@ data class MovieEntity(
     @ColumnInfo(name = "episode")
     val episode: String? = null,
     val description: String? = null,
+    @ColumnInfo(name = "genre_name")
+    val genreName: String? = null,
     val updatedAt: Long = System.currentTimeMillis()
 ): Parcelable

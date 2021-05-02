@@ -36,6 +36,7 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         episodeAdapter = EpisodeListAdapter(this)
+        viewModel.setEvent(EpisodeListEvent.GetEpisodes(args.seasonId))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +44,6 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding ,EpisodeListS
 
         binding.txtSeasons.text = "Season : ${args.seasonId}"
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
-        viewModel.setEvent(EpisodeListEvent.GetEpisodes(args.seasonId))
     }
 
     override fun renderViewState(viewState: EpisodeListState) {

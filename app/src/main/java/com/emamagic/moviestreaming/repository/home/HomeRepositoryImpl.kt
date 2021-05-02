@@ -12,7 +12,6 @@ import com.emamagic.moviestreaming.mapper.SliderMapper
 import com.emamagic.moviestreaming.db.entity.GenreEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.util.helper.safe.*
-import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -53,11 +52,11 @@ class HomeRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getMovies(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
+    override fun getMoviesByCategory(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
         return networkBoundResource(
             errorHandler = this,
-            databaseQuery = { movieDao.getMovies(category) },
-            networkCall = { homeApi.getMovies(category) },
+            databaseQuery = { movieDao.getMoviesByCategory(category) },
+            networkCall = { homeApi.getMoviesByCategory(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
             shouldFetch = { cachedMovies ->
                 Timber.e("$isRefreshing")

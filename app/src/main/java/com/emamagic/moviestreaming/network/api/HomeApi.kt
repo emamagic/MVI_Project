@@ -14,7 +14,7 @@ interface HomeApi {
     suspend fun getSliders(): SliderListResponse
 
     @GET("getInformationHome.php")
-    suspend fun getMovies(
+    suspend fun getMoviesByCategory(
         @Query("category_name") category: String
     ): MovieListResponse
 

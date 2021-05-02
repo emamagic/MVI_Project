@@ -24,7 +24,6 @@ import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,MovieEffect ,MovieEvent ,MovieViewModel>() ,
@@ -52,6 +51,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /** You can write Similar Movie */
         binding.btnPlay.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
         binding.imgBack.setOnClickListener { findNavController().popBackStack() }
         setUpViews(viewModel.currentState.movie)
@@ -111,6 +111,11 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         binding.recyclerViewSeason.setHasFixedSize(true)
         binding.recyclerViewSeason.itemAnimator = null
         seasonAdapter.submitList(list)
+    }
+
+    private fun setUpSimilarRecycler() {
+        binding.recyclerViewSimilar.setHasFixedSize(true)
+        binding.recyclerViewSimilar.itemAnimator = null
     }
 
     override fun onSeasonClicked(item: SeasonEntity) {

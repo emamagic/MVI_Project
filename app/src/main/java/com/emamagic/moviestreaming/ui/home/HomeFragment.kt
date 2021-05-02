@@ -216,6 +216,14 @@ class HomeFragment :
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.nav_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
+            R.id.nav_buy_account -> {}
+            R.id.nav_favorite -> {}
+            R.id.nav_profile -> { }
+            R.id.nav_search -> {}
+        }
+
         return true
     }
 
@@ -252,7 +260,7 @@ class HomeFragment :
     }
 
     override fun onGenreClicked(item: GenreEntity) {
-        viewModel.setEvent(HomeEvent.GenreClicked(item))
+        viewModel.setEvent(HomeEvent.GenreClicked(item.name))
     }
 
 }

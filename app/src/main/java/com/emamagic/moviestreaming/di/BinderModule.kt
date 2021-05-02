@@ -4,6 +4,8 @@ import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepository
 import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepositoryImpl
 import com.emamagic.moviestreaming.repository.genre_list.GenreListRepository
 import com.emamagic.moviestreaming.repository.genre_list.GenreListRepositoryImpl
+import com.emamagic.moviestreaming.repository.genre_type.GenreTypeRepository
+import com.emamagic.moviestreaming.repository.genre_type.GenreTypeRepositoryImpl
 import com.emamagic.moviestreaming.repository.home.HomeRepository
 import com.emamagic.moviestreaming.repository.home.HomeRepositoryImpl
 import com.emamagic.moviestreaming.repository.movie.MovieRepository
@@ -25,7 +27,7 @@ abstract class BinderModule {
     abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 
     @Binds
-    abstract fun bindGenreRepository(genreRepositoryImpl: GenreListRepositoryImpl): GenreListRepository
+    abstract fun bindGenreTypeRepository(genreTypeRepositoryImpl: GenreTypeRepositoryImpl): GenreTypeRepository
 
     @Binds
     abstract fun bindMovieListRepository(movieListRepositoryImpl: MovieListRepositoryImpl): MovieListRepository
@@ -36,6 +38,8 @@ abstract class BinderModule {
     @Binds
     abstract fun bindEpisodeRepository(episodeListRepositoryImpl: EpisodeListRepositoryImpl): EpisodeListRepository
 
+    @Binds
+    abstract fun bindGenreListRepository(genreListRepositoryImpl: GenreListRepositoryImpl): GenreListRepository
 
 }
 

@@ -11,8 +11,8 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_genreListFragment"
-            app:destination="@id/genreListFragment" />
+            android:id="@+id/action_homeFragment_to_genreTypeFragment"
+            app:destination="@id/genreTypeFragment" />
 
         <action
             android:id="@+id/action_homeFragment_to_movieListFragment"
@@ -21,15 +21,25 @@
         <action
             android:id="@+id/action_homeFragment_to_movieFragment"
             app:destination="@id/movieFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_genreListFragment"
+            app:destination="@id/genreListFragment" />
 
     </fragment>
 
 
     <fragment
-        android:id="@+id/genreListFragment"
-        android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
+        android:id="@+id/genreTypeFragment"
+        android:name="com.emamagic.moviestreaming.ui.genre_type.GenreTypeFragment"
         android:label="fragment_genre"
-        tools:layout="@layout/fragment_genre" />
+        tools:layout="@layout/fragment_genre_type" >
+        <action
+            android:id="@+id/action_genreListFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_genreTypeFragment_to_genreListFragment"
+            app:destination="@id/genreListFragment" />
+    </fragment>
 
 
     <fragment
@@ -81,6 +91,18 @@
         <action
             android:id="@+id/action_episodeListFragment_to_fragmentVideoPlayer"
             app:destination="@id/fragmentVideoPlayer" />
+    </fragment>
+    <fragment
+        android:id="@+id/genreListFragment"
+        android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
+        android:label="fragment_genre_list"
+        tools:layout="@layout/fragment_genre_list" >
+        <action
+            android:id="@+id/action_genreListFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+        <argument
+            android:name="genreName"
+            app:argType="string" />
     </fragment>
 
 

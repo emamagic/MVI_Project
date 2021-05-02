@@ -1,31 +1,34 @@
 package com.emamagic.moviestreaming.repository.genre_list
 
 import com.emamagic.moviestreaming.base.upsert
-import com.emamagic.moviestreaming.db.dao.GenreDao
-import com.emamagic.moviestreaming.db.entity.GenreEntity
-import com.emamagic.moviestreaming.mapper.GenreMapper
+import com.emamagic.moviestreaming.db.dao.MovieDao
+import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.mapper.MovieMapper
 import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.helper.safe.SafeApi
-import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class GenreListRepositoryImpl @Inject constructor(
     private val genreApi: GenreApi,
-    private val genreDao: GenreDao,
-    private val genreMapper: GenreMapper
+    private val movieDao: MovieDao,
+    private val movieMapper: MovieMapper
 ): SafeApi() ,GenreListRepository {
 
-    @ExperimentalCoroutinesApi
-    override fun getAllGenre(): Flow<ResultWrapper<List<GenreEntity>>> {
+
+    override fun getGenreByCategory(genreName: String): Flow<ResultWrapper<List<MovieEntity>>> {
         return networkBoundResource(
             errorHandler = this,
-            databaseQuery = { genreDao.getGenre() },
-            networkCall = { genreApi.getAllGenre() },
-            saveCallResult = { genreDao.upsert(genreMapper.mapFromEntityList(it.genres)) }
+            databaseQuery = { movieDao.getMoviesByGenre(genreName) },
+            networkCall = { genreApi.getGenreByCategory(genreName) },
+            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(genreApi.getGenreByCategory(genreName).movies)) },
+            shouldFetch = { false }
         )
     }
+
+
 }

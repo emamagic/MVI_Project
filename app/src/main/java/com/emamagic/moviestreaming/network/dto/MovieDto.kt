@@ -22,5 +22,7 @@ data class MovieDto(
     @SerializedName("director")
     val director: String? = null,
     @SerializedName("episode")
-    val episode: String? = null
+    val episode: String? = null,
+    @SerializedName("genre_name")
+    val genreName: String? = null
 )

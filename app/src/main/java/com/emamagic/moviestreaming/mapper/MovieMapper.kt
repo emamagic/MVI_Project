@@ -20,7 +20,8 @@ class MovieMapper @Inject constructor():
             imdbRate = entity.imdbRate,
             categoryName = entity.categoryName,
             episode = entity.episode,
-            imageAddress = ""
+            imageAddress = "",
+            genreName = entity.genreName
         )
     }
 
@@ -35,7 +36,8 @@ class MovieMapper @Inject constructor():
             categoryName = domainModel.categoryName,
             rank = domainModel.rank,
             episode = domainModel.episode,
-            imdbRate = domainModel.imdbRate
+            imdbRate = domainModel.imdbRate,
+            genreName = domainModel.genreName
         )
     }
 
