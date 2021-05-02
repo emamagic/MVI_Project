@@ -1,5 +1,7 @@
 package com.emamagic.moviestreaming.di
 
+import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepository
+import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepositoryImpl
 import com.emamagic.moviestreaming.repository.genre_list.GenreListRepository
 import com.emamagic.moviestreaming.repository.genre_list.GenreListRepositoryImpl
 import com.emamagic.moviestreaming.repository.home.HomeRepository
@@ -30,4 +32,10 @@ abstract class BinderModule {
 
     @Binds
     abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
+
+    @Binds
+    abstract fun bindEpisodeRepository(episodeListRepositoryImpl: EpisodeListRepositoryImpl): EpisodeListRepository
+
+
 }
+

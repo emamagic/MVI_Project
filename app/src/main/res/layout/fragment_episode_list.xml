@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:background="@color/colorPrimary"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EpisodesActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".ui.episode_list.EpisodeListFragment">
 
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:id="@+id/toolbar">
+        android:layout_height="?actionBarSize">
 
         <TextView
+            android:id="@+id/txt_seasons"
+            tools:text="Season 1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Season 1"
-            android:id="@+id/txt_seasons"
-            android:textColor="@color/textColor"
             android:layout_centerInParent="true"
-            android:textStyle="bold"
-            android:fontFamily="monospace"/>
+            android:fontFamily="monospace"
+            android:textColor="@color/textColor"
+            android:textStyle="bold" />
 
 
         <ImageView
-            android:id="@+id/btn_menu"
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginLeft="8dp"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_episodes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recyclerView_episodes"
-        android:layout_below="@id/toolbar"/>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        android:layout_below="@id/toolbar" />
 
 </RelativeLayout>

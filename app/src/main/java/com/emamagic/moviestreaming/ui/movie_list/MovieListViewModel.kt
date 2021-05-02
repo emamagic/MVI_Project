@@ -34,11 +34,8 @@ class MovieListViewModel @Inject constructor(
     }
 
     private fun getAllMovie(category: String) = viewModelScope.launch {
-        listRepository.getAllMovie(category).onStart {
-            setEffect { MovieListEffect.Loading(isLoading = true) }
-        }.onCompletion {
-            // does not work
-        }.collect {
+        setEffect { MovieListEffect.Loading(isLoading = true) }
+        listRepository.getAllMovie(category).collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieListState.RECEIVE_MOVIES) }
                 is ResultWrapper.Failed ->  {

@@ -32,11 +32,8 @@ class GenreListViewModel @Inject constructor(
 
 
     private fun getAllGenre() = viewModelScope.launch {
-        listRepository.getAllGenre().onStart {
-            setEffect { GenreListEffect.Loading(true) }
-        }.onCompletion {
-
-        }.collect {
+        setEffect { GenreListEffect.Loading(true) }
+        listRepository.getAllGenre().collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(genreList = it.data!! ,currentState = CurrentGenreState.RECEIVE_GENRES) }
                 is ResultWrapper.Failed -> {

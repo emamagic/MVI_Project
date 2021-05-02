@@ -46,6 +46,7 @@ class HomeViewModel @Inject constructor(
 
 
     private fun getSliders() = viewModelScope.launch {
+        setEffect { HomeEffect.Loading(isLoading = true) }
         repository.getSliders().collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
@@ -74,10 +75,6 @@ class HomeViewModel @Inject constructor(
             repository.getMovies(CategoryType.ANIMATION),
         ) { top, new, series, popular, animation ->
             HomeApiHolder(top,new ,series, popular, animation)
-        }.onStart {
-            setEffect { HomeEffect.Loading(isLoading = true) }
-        }.onCompletion {
-            Timber.e("end")
         }.collect {
             setState { copy(movies = it ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
             setEffect { HomeEffect.Loading(isLoading = false) }

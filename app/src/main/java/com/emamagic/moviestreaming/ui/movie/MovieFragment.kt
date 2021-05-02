@@ -27,7 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,MovieEffect ,MovieEvent ,MovieViewModel>() {
+class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,MovieEffect ,MovieEvent ,MovieViewModel>() ,
+    SeasonAdapter.Interaction{
 
     override val viewModel: MovieViewModel by viewModels()
     private val args: MovieFragmentArgs by navArgs()
@@ -42,19 +43,20 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         castAdapter = CastAdapter()
-        seasonAdapter = SeasonAdapter()
+        seasonAdapter = SeasonAdapter(this)
+        viewModel.setEvent(MovieEvent.GetDetailMovie(args.movie.id!!))
+        if (args.movie.categoryName == CategoryType.SERIES)
+            viewModel.setEvent(MovieEvent.GetSeasons(args.movie.id!!))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setEvent(MovieEvent.GetDetailMovie(args.movie.id!!))
-        if (args.movie.categoryName == CategoryType.SERIES)
-            viewModel.setEvent(MovieEvent.GetSeasons(args.movie.id!!))
-
         binding.btnPlay.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
         binding.imgBack.setOnClickListener { findNavController().popBackStack() }
-
+        setUpViews(viewModel.currentState.movie)
+        setUpCastRecycler(viewModel.currentState.casts)
+        setUpSeasonRecycler(viewModel.currentState.seasons)
 
     }
 
@@ -109,6 +111,10 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         binding.recyclerViewSeason.setHasFixedSize(true)
         binding.recyclerViewSeason.itemAnimator = null
         seasonAdapter.submitList(list)
+    }
+
+    override fun onSeasonClicked(item: SeasonEntity) {
+        viewModel.setEvent(MovieEvent.SeasonClicked(item.id!!))
     }
 
 

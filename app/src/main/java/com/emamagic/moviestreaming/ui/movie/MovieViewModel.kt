@@ -31,9 +31,9 @@ class MovieViewModel @Inject constructor(
             is MovieEvent.GetDetailMovie -> getDetailMovie(event.id)
             is MovieEvent.GetSeasons -> getSeasons(event.id)
             is MovieEvent.PlayVideoClicked -> playVideoClicked(event.videoLink)
+            is MovieEvent.SeasonClicked -> seasonClicked(event.seasonId)
         }.exhaustive
     }
-
 
     private fun getDetailMovie(id: Long) = viewModelScope.launch {
         setEffect { MovieEffect.Loading(true) }
@@ -70,5 +70,11 @@ class MovieViewModel @Inject constructor(
     private fun playVideoClicked(videoLink: String) = viewModelScope.launch {
         setEffect { MovieEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToFragmentVideoPlayer(videoLink)) }
     }
+
+
+    private fun seasonClicked(seasonId: Long) = viewModelScope.launch {
+        setEffect { MovieEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToEpisodeListFragment(seasonId)) }
+    }
+
 
 }

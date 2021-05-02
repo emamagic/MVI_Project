@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_movieFragment_to_fragmentVideoPlayer"
             app:destination="@id/fragmentVideoPlayer" />
+        <action
+            android:id="@+id/action_movieFragment_to_episodeListFragment"
+            app:destination="@id/episodeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentVideoPlayer"
@@ -66,6 +69,15 @@
         <argument
             android:name="videoLink"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/episodeListFragment"
+        android:name="com.emamagic.moviestreaming.ui.episode_list.EpisodeListFragment"
+        android:label="fragment_episode_list"
+        tools:layout="@layout/fragment_episode_list" >
+        <argument
+            android:name="seasonId"
+            app:argType="long" />
     </fragment>
 
 

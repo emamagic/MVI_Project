@@ -14,13 +14,13 @@ import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListCompleteAdapte
 import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListDiffCallback
 import com.squareup.picasso.Picasso
 
-class SeasonAdapter:
+class SeasonAdapter constructor(val interaction: Interaction):
     ListAdapter<SeasonEntity, SeasonAdapter.SeasonViewHolder>(SeasonListDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonViewHolder {
         val binding = ItemSeasonBinding.inflate(LayoutInflater.from(parent.context) ,parent ,false)
-        return SeasonViewHolder(binding)
+        return SeasonViewHolder(binding ,interaction)
     }
 
 
@@ -33,15 +33,21 @@ class SeasonAdapter:
 
     class SeasonViewHolder
     constructor(
-        private val binding: ItemSeasonBinding
+        private val binding: ItemSeasonBinding,
+        private val interaction: Interaction
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SeasonEntity) {
             binding.apply {
+                itemView.setOnClickListener { interaction.onSeasonClicked(item) }
                 numberSeason.text = "Season : ${item.season}"
                 countEpisodes.text = "Episodes : ${item.episode}"
                 Picasso.get().load(item.imageLink).resize(400 ,400).into(imgSeason)
             }
         }
+    }
+
+    interface Interaction{
+        fun onSeasonClicked(item: SeasonEntity)
     }
 }

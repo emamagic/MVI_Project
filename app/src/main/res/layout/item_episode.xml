@@ -1,102 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/otherColor"
     android:layout_margin="4dp"
-    >
+    app:cardBackgroundColor="@color/otherColor"
+    app:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/layout_play"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/layout_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_episode"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_play"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_baseline_access_time_24" />
+
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:fontFamily="monospace"
+                    android:gravity="center"
+                    android:text="45 min"
+                    android:textColor="@color/textColor"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:id="@+id/img_episode"
-            android:scaleType="centerCrop"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_play_arrow_24"
-            app:fabSize="mini"
-            android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
-
-     <LinearLayout
-         android:padding="8dp"
-         android:layout_below="@id/layout_play"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="vertical">
-
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textStyle="bold"
-             android:textColor="@color/textColor"
-             android:textSize="13sp"
-             android:id="@+id/name"/>
-
-         <TextView
-             android:layout_marginTop="4dp"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textStyle="bold"
-             android:textColor="@color/textColor"
-             android:textSize="12sp"
-             android:id="@+id/detail"/>
-
-         <LinearLayout
-             android:layout_marginTop="4dp"
-             android:layout_below="@id/name_top_movie_imdb"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal">
-
-
-             <ImageView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 app:srcCompat="@drawable/ic_baseline_access_time_24"/>
-
-
-             <TextView
-                 android:layout_marginLeft="2dp"
-                 android:gravity="center"
-                 android:layout_width="wrap_content"
-                 android:layout_height="match_parent"
-                 android:id="@+id/time"
-                 android:textColor="@color/textColor"
-                 android:text="45 min"
-                 android:fontFamily="monospace"
-                 android:textSize="12sp"/>
-
-         </LinearLayout>
-
-
-
-
-     </LinearLayout>
-
-
-        <ImageView
+            android:layout_below="@id/layout_play"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_get_app_24"
-            android:layout_below="@id/layout_play"
-            android:layout_alignParentRight="true"/>
+            app:srcCompat="@drawable/ic_baseline_get_app_24" />
 
 
     </RelativeLayout>

@@ -11,8 +11,9 @@ import com.emamagic.moviestreaming.db.entity.*
         MovieEntity::class,
         GenreEntity::class,
         CastEntity::class,
-        SeasonEntity::class
-    ], version = 6, exportSchema = false
+        SeasonEntity::class,
+        EpisodeEntity::class
+    ], version = 7, exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
 
@@ -21,4 +22,5 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
     abstract fun castDao(): CastDao
     abstract fun seasonDao(): SeasonDao
+    abstract fun episodeDao(): EpisodeDao
 }
