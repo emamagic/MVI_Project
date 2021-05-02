@@ -8,4 +8,5 @@ interface GenreListRepository {
 
     fun getGenreByCategory(genreName: String): Flow<ResultWrapper<List<MovieEntity>>>
 
+    suspend fun updateFavoriteById(id: Long)
 }

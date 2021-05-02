@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface MovieListRepository {
 
     fun getAllMovie(category: String): Flow<ResultWrapper<List<MovieEntity>>>
+
+    suspend fun updateFavoriteById(id: Long)
 }

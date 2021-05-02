@@ -15,6 +15,7 @@ import com.emamagic.moviestreaming.ui.movie_list.contract.*
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,MovieListEffect ,MovieListEvent ,MovieListViewModel>() ,MovieListCompleteAdapter.MovieInteraction{
@@ -38,6 +39,7 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpMovieRecycler()
         binding.txtToolbar.text = args.category
         binding.imgBack.setOnClickListener { findNavController().popBackStack() }
 
@@ -46,7 +48,7 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
     override fun renderViewState(viewState: MovieListState) {
         when(viewState.currentMovieState){
             CurrentMovieListState.NON_STATE -> { /* Do Nothing */ }
-            CurrentMovieListState.RECEIVE_MOVIES -> setUpMovieRecycler(viewState.movieList)
+            CurrentMovieListState.RECEIVE_MOVIES -> movieListAdapter.submitList(viewState.movieList)
         }
     }
 
@@ -59,15 +61,18 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
     }
 
 
-    private fun setUpMovieRecycler(movieList: List<MovieEntity>) {
+    private fun setUpMovieRecycler() {
         binding.recyclerViewTopMovieComplete.adapter = movieListAdapter
         binding.recyclerViewTopMovieComplete.setHasFixedSize(true)
         binding.recyclerViewTopMovieComplete.itemAnimator = null
-        movieListAdapter.submitList(movieList)
     }
 
     override fun onMovieClicked(item: MovieEntity) {
         viewModel.setEvent(MovieListEvent.MovieClicked(item))
+    }
+
+    override fun favoriteClicked(id: Long) {
+        viewModel.setEvent(MovieListEvent.FavoriteClicked(id))
     }
 
 

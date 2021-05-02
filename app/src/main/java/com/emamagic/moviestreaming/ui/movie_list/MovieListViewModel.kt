@@ -13,14 +13,12 @@ import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val listRepository: MovieListRepository
+    private val repository: MovieListRepository
 ): BaseViewModel<MovieListState ,MovieListEffect ,MovieListEvent>() {
 
 
@@ -30,12 +28,13 @@ class MovieListViewModel @Inject constructor(
         when(event) {
             is MovieListEvent.GetAllMovieList -> getAllMovie(event.category)
             is MovieListEvent.MovieClicked -> movieClicked(event.movie)
+            is MovieListEvent.FavoriteClicked -> favoriteMovieClicked(event.id)
         }.exhaustive
     }
 
     private fun getAllMovie(category: String) = viewModelScope.launch {
         setEffect { MovieListEffect.Loading(isLoading = true) }
-        listRepository.getAllMovie(category).collect {
+        repository.getAllMovie(category).collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieListState.RECEIVE_MOVIES) }
                 is ResultWrapper.Failed ->  {
@@ -50,6 +49,11 @@ class MovieListViewModel @Inject constructor(
 
     private fun movieClicked(movie: MovieEntity) = viewModelScope.launch {
         setEffect { MovieListEffect.Navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieFragment(movie)) }
+    }
+
+
+    private fun favoriteMovieClicked(id: Long) = viewModelScope.launch {
+        repository.updateFavoriteById(id)
     }
 
 }

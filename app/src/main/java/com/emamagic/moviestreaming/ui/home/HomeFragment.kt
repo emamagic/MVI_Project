@@ -221,7 +221,8 @@ class HomeFragment :
             R.id.nav_buy_account -> {}
             R.id.nav_favorite -> {}
             R.id.nav_profile -> { }
-            R.id.nav_search -> {}
+            R.id.nav_home -> binding.drawerLayout.closeDrawer(GravityCompat.START)
+            R.id.nav_search -> viewModel.setEvent(HomeEvent.SearchClicked)
         }
 
         return true

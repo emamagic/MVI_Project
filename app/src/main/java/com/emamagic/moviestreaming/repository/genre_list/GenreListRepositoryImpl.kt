@@ -25,9 +25,12 @@ class GenreListRepositoryImpl @Inject constructor(
             errorHandler = this,
             databaseQuery = { movieDao.getMoviesByGenre(genreName) },
             networkCall = { genreApi.getGenreByCategory(genreName) },
-            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(genreApi.getGenreByCategory(genreName).movies)) },
-            shouldFetch = { false }
+            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(genreApi.getGenreByCategory(genreName).movies)) }
         )
+    }
+
+    override suspend fun updateFavoriteById(id: Long) {
+        movieDao.updateFavoriteById(id)
     }
 
 

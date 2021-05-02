@@ -24,4 +24,10 @@ abstract class MovieDao: BaseDao<MovieEntity> {
     @Query("SELECT * FROM table_movie WHERE genre_name = :genre")
     abstract fun getMoviesByGenre(genre: String): Flow<List<MovieEntity>>
 
+    @Query("UPDATE table_movie SET isFavorite = CASE WHEN isFavorite = 0 THEN 1 ELSE 0 END WHERE id = :id")
+    abstract suspend fun updateFavoriteById(id: Long)
+
+    @Query("SELECT * FROM table_movie WHERE isFavorite = 1")
+    abstract fun getFavoriteMovies(): Flow<List<MovieEntity>>
+
 }

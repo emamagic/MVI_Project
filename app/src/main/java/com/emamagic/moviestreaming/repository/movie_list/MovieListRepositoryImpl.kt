@@ -30,5 +30,9 @@ class MovieListRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun updateFavoriteById(id: Long) {
+        movieDao.updateFavoriteById(id)
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.emamagic.moviestreaming.ui.movie
 
+import android.graphics.Movie
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,8 +52,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /** You can write Similar Movie */
-        binding.btnPlay.setOnClickListener { viewModel.setEvent(MovieEvent.PlayVideoClicked(args.movie.videoLink!!)) }
+        binding.btnPlay.setOnClickListener { args.movie.videoLink?.let { viewModel.setEvent(MovieEvent.PlayVideoClicked(it)) } }
         binding.imgBack.setOnClickListener { findNavController().popBackStack() }
         setUpViews(viewModel.currentState.movie)
         setUpCastRecycler(viewModel.currentState.casts)
@@ -113,6 +113,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         seasonAdapter.submitList(list)
     }
 
+    // TODO: 5/2/2021  You can write Similar Movie
     private fun setUpSimilarRecycler() {
         binding.recyclerViewSimilar.setHasFixedSize(true)
         binding.recyclerViewSimilar.itemAnimator = null

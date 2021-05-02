@@ -13,7 +13,7 @@ import com.emamagic.moviestreaming.db.entity.*
         CastEntity::class,
         SeasonEntity::class,
         EpisodeEntity::class
-    ], version = 8, exportSchema = false
+    ], version = 9, exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
 

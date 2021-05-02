@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ShowSearchActivity">
+    tools:context=".ui.search.SearchFragment">
 
 
     <RelativeLayout
@@ -50,6 +50,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_search"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
         android:layout_margin="8dp" />
 
 </RelativeLayout>

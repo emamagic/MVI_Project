@@ -17,6 +17,7 @@ import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -41,6 +42,7 @@ class HomeViewModel @Inject constructor(
             HomeEvent.SwipeRefreshed -> swipeRefreshed()
             is HomeEvent.GenreClicked -> genreClicked(event.genreName)
             is HomeEvent.MovieClicked -> movieClicked(event.movie)
+            HomeEvent.SearchClicked -> searchClicked()
         }.exhaustive
     }
 
@@ -77,7 +79,6 @@ class HomeViewModel @Inject constructor(
             HomeApiHolder(top,new ,series, popular, animation)
         }.collect {
             setState { copy(movies = it ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
-            setEffect { HomeEffect.Loading(isLoading = false) }
         }
 
 /*        merge(
@@ -144,6 +145,10 @@ class HomeViewModel @Inject constructor(
         setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreListFragment(genreName)) }
     }
 
+
+    private fun searchClicked() = viewModelScope.launch {
+        setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToSearchTypeFragment()) }
+    }
 
 
     private fun moreMovieClicked(@CategoryType categoryType: String) = viewModelScope.launch {

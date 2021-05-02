@@ -34,6 +34,7 @@ class MovieListCompleteAdapter(val interaction: MovieInteraction) :
 
         fun bind(item: MovieEntity) = with(itemView) {
             binding.root.setOnClickListener { interaction.onMovieClicked(item) }
+            binding.imgFav.setOnClickListener { interaction.favoriteClicked(item.id!!) }
             binding.nameMovie.text = item.name
             binding.nameDirector.text = "Director :${item.director}"
             binding.rankMovie.text = "Rank:${item.rank}"
@@ -50,12 +51,15 @@ class MovieListCompleteAdapter(val interaction: MovieInteraction) :
             }
             if (item.categoryName == CategoryType.TOP) binding.rankMovie.visibility = View.VISIBLE
             else binding.rankMovie.visibility = View.GONE
+            if (item.isFavorite) binding.imgFav.setImageResource(R.drawable.ic_baseline_favorite_24)
+            else binding.imgFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
         }
     }
 
     interface MovieInteraction {
         fun onMovieClicked(item: MovieEntity)
+        fun favoriteClicked(id: Long)
     }
 
 }
