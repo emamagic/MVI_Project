@@ -230,7 +230,6 @@ class HomeFragment :
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.btn_menu -> binding.drawerLayout.openDrawer(GravityCompat.START)
             R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
             R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
                 CategoryType.ANIMATION))

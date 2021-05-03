@@ -1,10 +1,7 @@
 package com.emamagic.moviestreaming.di
 
 import com.emamagic.moviestreaming.BuildConfig
-import com.emamagic.moviestreaming.network.api.GenreApi
-import com.emamagic.moviestreaming.network.api.HomeApi
-import com.emamagic.moviestreaming.network.api.MovieApi
-import com.emamagic.moviestreaming.network.api.SearchApi
+import com.emamagic.moviestreaming.network.api.*
 import com.emamagic.moviestreaming.network.intercepter.ClientConnection
 import com.emamagic.moviestreaming.network.intercepter.ServerConnection
 import com.emamagic.moviestreaming.util.Const
@@ -69,5 +66,8 @@ object RetrofitModule {
 
     @Provides
     fun provideSearchApi(retrofit: Retrofit): SearchApi = retrofit.create(SearchApi::class.java)
+
+    @Provides
+    fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
 }

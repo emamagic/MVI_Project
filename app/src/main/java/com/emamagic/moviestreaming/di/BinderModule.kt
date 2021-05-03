@@ -1,5 +1,11 @@
 package com.emamagic.moviestreaming.di
 
+import com.emamagic.moviestreaming.repository.auth.login.LoginRepository
+import com.emamagic.moviestreaming.repository.auth.login.LoginRepositoryImpl
+import com.emamagic.moviestreaming.repository.auth.register.RegisterRepository
+import com.emamagic.moviestreaming.repository.auth.register.RegisterRepositoryImpl
+import com.emamagic.moviestreaming.repository.auth.verify.VerifyRepository
+import com.emamagic.moviestreaming.repository.auth.verify.VerifyRepositoryImpl
 import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepository
 import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepositoryImpl
 import com.emamagic.moviestreaming.repository.favorite.FavoriteRepository
@@ -50,6 +56,15 @@ abstract class BinderModule {
 
     @Binds
     abstract fun bindFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
+
+    @Binds
+    abstract fun bindRegisterRepository(registerRepositoryImpl: RegisterRepositoryImpl): RegisterRepository
+
+    @Binds
+    abstract fun bindLoginRepository(loginRepositoryImpl: LoginRepositoryImpl): LoginRepository
+
+    @Binds
+    abstract fun bindVerifyRepository(verifyRepositoryImpl: VerifyRepositoryImpl): VerifyRepository
 
 }
 

@@ -1,65 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.login.LoginFragment"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".ui.auth.login.LoginFragment">
 
 
     <TextView
+        android:id="@+id/txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:text="Movie Streaming"
-        android:fontFamily="monospace"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:id="@+id/txt_title"/>
+        android:fontFamily="monospace"
+        android:text="Movie Streaming"
+        android:textColor="@color/textColor"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/textColor"
-        android:text="Watch Your Favorite Movie"
         android:layout_below="@id/txt_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="4dp"
+        android:text="Watch Your Favorite Movie"
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
 
 
     <RelativeLayout
         android:id="@+id/layout_register"
-        android:padding="16dp"
-        android:background="@drawable/bg_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="48dp">
+        android:layout_centerInParent="true"
+        android:layout_marginRight="48dp"
+        android:background="@drawable/bg_register"
+        android:padding="16dp">
 
 
         <TextView
+            android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Log In"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/txt"
-            />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/layout"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_below="@id/txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txt"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical">
 
 
@@ -76,36 +74,36 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_email_24"/>
+                        app:srcCompat="@drawable/ic_baseline_email_24" />
 
 
                     <EditText
                         android:id="@+id/edt_email"
-                        android:layout_marginLeft="8dp"
-                        android:inputType="textEmailAddress"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColor"
-                        android:textStyle="bold"
+                        android:layout_marginLeft="8dp"
                         android:background="@null"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textColor"
                         android:textColorHint="@color/textColor"
-                        android:hint="Email"/>
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/textColor"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:background="@color/textColor" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -116,36 +114,36 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_phone_android_24"/>
+                        app:srcCompat="@drawable/ic_baseline_phone_android_24" />
 
 
                     <EditText
                         android:id="@+id/edt_phone"
-                        android:layout_marginLeft="8dp"
-                        android:inputType="phone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColor"
-                        android:textStyle="bold"
+                        android:layout_marginLeft="8dp"
                         android:background="@null"
+                        android:hint="phone"
+                        android:inputType="phone"
+                        android:textColor="@color/textColor"
                         android:textColorHint="@color/textColor"
-                        android:hint="phone"/>
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/textColor"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:background="@color/textColor" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -156,60 +154,59 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_vpn_key_24"/>
+                        app:srcCompat="@drawable/ic_baseline_vpn_key_24" />
 
 
                     <EditText
                         android:id="@+id/edt_password"
-                        android:layout_marginLeft="8dp"
-                        android:inputType="textPassword"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColor"
-                        android:textStyle="bold"
+                        android:layout_marginLeft="8dp"
                         android:background="@null"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/textColor"
                         android:textColorHint="@color/textColor"
-                        android:hint="Password"/>
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/textColor"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:background="@color/textColor" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>
 
 
         <TextView
+            android:id="@+id/txt_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="12sp"
+            android:layout_below="@id/layout"
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
             android:text="No Account?Register"
             android:textColor="@color/textColor"
-            android:layout_below="@id/layout"
-            android:layout_marginTop="32dp"
-            android:id="@+id/txt_register"
-          />
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="Forget Password?"
-            android:textColor="@color/textColor"
             android:layout_below="@id/txt_register"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            />
+            android:padding="8dp"
+            android:text="Forget Password?"
+            android:textColor="@color/textColor"
+            android:textSize="12sp" />
 
 
     </RelativeLayout>
@@ -219,16 +216,16 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:textColor="@color/colorPrimary"
-        android:text="Login  >"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:background="@drawable/bg_btn"
         android:layout_below="@id/layout_register"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="48dp"
         android:layout_marginRight="48dp"
-        android:layout_marginTop="48dp"/>
+        android:background="@drawable/bg_btn"
+        android:text="Login  >"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

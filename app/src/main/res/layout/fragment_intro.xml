@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IntroActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".ui.intro.intro.IntroFragment">
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewPager"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:tabGravity="center"
         app:tabBackground="@drawable/bg_tabs"
-        app:tabIndicatorHeight="0dp"
-        android:id="@+id/tabLayout"
-        android:layout_alignParentBottom="true"/>
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
     <Button
         android:id="@+id/btn_go_app"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Go To App"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:background="@drawable/bg_btn"
-        android:textSize="12sp"
-        android:textColor="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="38dp"
-        android:visibility="invisible"/>
+        android:background="@drawable/bg_btn"
+        android:text="Go To App"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
 </RelativeLayout>
