@@ -11,7 +11,11 @@ class LoginRepositoryImpl @Inject constructor(
 
 
     override suspend fun login(request: LoginRequest): String {
-        return authApi.login(email = request.email ,phone = request.phone ,password = request.password).string()
+        return try {
+            authApi.login(email = request.email ,phone = request.phone ,password = request.password).string()
+        }catch (t: Throwable) {
+            getError(t).message ?: "There is error"
+        }
     }
 
 

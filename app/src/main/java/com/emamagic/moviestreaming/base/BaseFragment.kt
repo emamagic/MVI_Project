@@ -29,12 +29,12 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
         savedInstanceState: Bundle?
     ): View? {
         _binding = getFragmentBinding(inflater ,container)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loading = binding?.root?.rootView?.findViewById(R.id.my_loading)!!
+        loading = binding.root.rootView?.findViewById(R.id.my_loading)!!
 
         lifecycleScope.launchWhenStarted {
             viewModel.uiState.collect { renderViewState(it) }

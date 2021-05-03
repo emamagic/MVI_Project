@@ -73,13 +73,16 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        subscribeOnNetworkStatusChange { isNetworkAvailable -> if (!isNetworkAvailable) toasty("you have no Internet") }
-
         setUpGenreRecycler(viewModel.currentState.genres)
         setUpSlider(requireContext() ,viewModel.currentState.sliders)
+        viewModel.currentState.movies.apply {
+            setUpTopMovieRecycler(top?.data)
+            setUpNewMovieRecycler(new?.data)
+            setUpSeriesRecycler(series?.data)
+            setUpPopularRecycler(popular?.data)
+            setUpAnimationRecycler(animation?.data)
+        }
         setUpMovie(viewModel.currentState.movies)
-
-
         setUpDrawer()
 
         binding.btnMenu.setOnClickListener(this)
@@ -105,7 +108,7 @@ class HomeFragment :
             CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
             CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
             CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
-            CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
+            CurrentHomeState.GENRE_RECEIVE -> genreAdapter?.submitList(viewState.genres)
             CurrentHomeState.CLOSE_APP -> requireActivity().finish()
         }
 
@@ -136,59 +139,60 @@ class HomeFragment :
     }
 
     private fun setUpMovie(item: HomeApiHolder){
-        item.top?.data?.let { setUpTopMovieRecycler(it) }
-        item.new?.data?.let { setUpNewMovieRecycler(it) }
-        item.series?.data?.let { setUpSeriesRecycler(it) }
-        item.popular?.data?.let {setUpPopularRecycler(it)  }
-        item.animation?.data?.let { setUpAnimationRecycler(it) }
+        item.top?.data?.let { movieIMDBAdapter?.submitList(it) }
+        item.new?.data?.let { movieNewAdapter?.submitList(it) }
+        item.series?.data?.let { movieSeriesAdapter?.submitList(it) }
+        item.popular?.data?.let { animationAdapter?.submitList(it)  }
+        item.animation?.data?.let { animationAdapter?.submitList(it) }
     }
 
     private fun setUpGenreRecycler(list: List<GenreEntity>) {
         binding.recyclerViewGenre.adapter = genreAdapter
         binding.recyclerViewGenre.setHasFixedSize(true)
         binding.recyclerViewGenre.itemAnimator = null
+        if (list.isNullOrEmpty())
         genreAdapter?.submitList(list)
-
     }
 
-    private fun setUpNewMovieRecycler(list: List<MovieEntity>) {
+    private fun setUpNewMovieRecycler(list: List<MovieEntity>?) {
         binding.recyclerViewNewMovie.adapter = movieNewAdapter
         binding.recyclerViewNewMovie.setHasFixedSize(true)
         binding.recyclerViewNewMovie.itemAnimator = null
+        if (!list.isNullOrEmpty())
         movieNewAdapter?.submitList(list)
 
     }
 
-    private fun setUpTopMovieRecycler(list: List<MovieEntity>) {
+    private fun setUpTopMovieRecycler(list: List<MovieEntity>?) {
         binding.recyclerViewTopMovieImdb.adapter = movieIMDBAdapter
         binding.recyclerViewTopMovieImdb.setHasFixedSize(true)
         binding.recyclerViewTopMovieImdb.itemAnimator = null
+        if (!list.isNullOrEmpty())
         movieIMDBAdapter?.submitList(list)
-
     }
 
-    private fun setUpSeriesRecycler(list: List<MovieEntity>) {
+    private fun setUpSeriesRecycler(list: List<MovieEntity>?) {
         binding.recyclerViewSeries.adapter = movieSeriesAdapter
         binding.recyclerViewSeries.setHasFixedSize(true)
         binding.recyclerViewSeries.itemAnimator = null
+        if (!list.isNullOrEmpty())
         movieSeriesAdapter?.submitList(list)
-
     }
 
-    private fun setUpAnimationRecycler(list: List<MovieEntity>) {
+    private fun setUpAnimationRecycler(list: List<MovieEntity>?) {
         binding.recyclerViewAnimation.adapter = animationAdapter
         binding.recyclerViewAnimation.setHasFixedSize(true)
         binding.recyclerViewAnimation.itemAnimator = null
+        if (!list.isNullOrEmpty())
         animationAdapter?.submitList(list)
-
     }
 
-    private fun setUpPopularRecycler(list: List<MovieEntity>) {
+    private fun setUpPopularRecycler(list: List<MovieEntity>?) {
         binding.recyclerViewPopularMovie.adapter = moviePopularAdapter
         binding.recyclerViewPopularMovie.setHasFixedSize(true)
         binding.recyclerViewPopularMovie.itemAnimator = null
+        if (!list.isNullOrEmpty())
         moviePopularAdapter?.submitList(list)
-
     }
 
     private fun setUpDrawer() {
@@ -217,6 +221,7 @@ class HomeFragment :
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.btn_menu -> binding.drawerLayout.openDrawer(GravityCompat.START)
             R.id.nav_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
             R.id.nav_buy_account -> {}
             R.id.nav_favorite -> viewModel.setEvent(HomeEvent.FavoriteClicked)

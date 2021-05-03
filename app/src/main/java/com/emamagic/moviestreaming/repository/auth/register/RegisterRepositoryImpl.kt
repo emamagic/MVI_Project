@@ -12,6 +12,10 @@ class RegisterRepositoryImpl @Inject constructor(
 
 
     override suspend fun register(request: RegisterRequest): String {
-        return authApi.register(name = request.name ,email = request.email ,phone = request.phone ,password = request.password).string()
+        return try {
+            authApi.register(name = request.name ,email = request.email ,phone = request.phone ,password = request.password).string()
+        } catch (t: Throwable) {
+            getError(t).message ?: "There is error"
+        }
     }
 }
