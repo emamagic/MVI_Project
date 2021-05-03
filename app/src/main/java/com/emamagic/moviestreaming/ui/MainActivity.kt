@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() ,DialogListener{
 
     private fun createConnectivityAlert(){
         ConnectivityFragment.newInstance(
-            "Please check your connectivity \n Do you wanna continue offline ?",
+            "Please check your connectivity \n Do you wanna continue \n offline ?",
             "yes",
             "exit",
             AlarmType.WARNING,
