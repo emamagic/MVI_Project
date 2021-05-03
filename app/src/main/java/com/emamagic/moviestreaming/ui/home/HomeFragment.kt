@@ -225,7 +225,7 @@ class HomeFragment :
             R.id.nav_search -> viewModel.setEvent(HomeEvent.SearchClicked)
         }
 
-        return true
+        return false
     }
 
     override fun onClick(v: View?) {

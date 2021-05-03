@@ -9,12 +9,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.base.BaseFragment
 import com.emamagic.moviestreaming.databinding.FragmentGenreListBinding
+import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListAdapter
 import com.emamagic.moviestreaming.ui.genre_list.contract.CurrentGenreListState
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEffect
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEvent
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListState
+import com.emamagic.moviestreaming.ui.movie_list.contract.MovieListEvent
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +63,7 @@ class GenreListFragment: BaseFragment<FragmentGenreListBinding ,GenreListState ,
         }.exhaustive
     }
 
-    private fun setUpGenreListRecycler(list: List<MovieEntity>) {
+    private fun setUpGenreListRecycler(list: List<MovieWithFavorite>) {
         Timber.e("${list.size}")
         binding.recyclerViewShowGenre.adapter = genreListAdapter
         binding.recyclerViewShowGenre.setHasFixedSize(true)
@@ -68,8 +71,12 @@ class GenreListFragment: BaseFragment<FragmentGenreListBinding ,GenreListState ,
         genreListAdapter.submitList(list)
     }
 
-    override fun onMovieClicked(item: MovieEntity) {
-        viewModel.setEvent(GenreListEvent.GenreListClicked(item))
+    override fun onMovieClicked(item: MovieWithFavorite) {
+        viewModel.setEvent(GenreListEvent.GenreListClicked(item.movie))
+    }
+
+    override fun favoriteClicked(id: Long) {
+        viewModel.setEvent(GenreListEvent.FavoriteClicked(FavoriteEntity(movieId = id)))
     }
 
 

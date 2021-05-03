@@ -3,10 +3,7 @@ package com.emamagic.moviestreaming.db.entity
 import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.OnConflictStrategy
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -36,6 +33,5 @@ data class MovieEntity(
     val description: String? = null,
     @ColumnInfo(name = "genre_name")
     val genreName: String? = null,
-    val isFavorite: Boolean = false,
     val updatedAt: Long = System.currentTimeMillis()
 ): Parcelable

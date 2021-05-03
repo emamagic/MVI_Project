@@ -42,7 +42,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding ,FavoriteState ,Fav
     }
 
     override fun renderViewState(viewState: FavoriteState) {
-        Timber.e("${viewState.movies}")
+        if (viewState.movies.isNotEmpty())
         setUpFavoriteRecycler(viewState.movies)
     }
 
@@ -62,9 +62,5 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding ,FavoriteState ,Fav
         }.exhaustive
     }
 
-    override fun onFavoriteItemClicked(item: MovieEntity) {
-
-    }
-
-
+    override fun onFavoriteItemClicked(item: MovieEntity) {}
 }

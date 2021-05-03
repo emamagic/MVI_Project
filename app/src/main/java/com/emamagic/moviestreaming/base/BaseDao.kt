@@ -37,3 +37,11 @@ suspend inline fun <reified ENTITY> BaseDao<ENTITY>.upsert(items: List<ENTITY>) 
     }
     if (updateList.isNotEmpty()) update(updateList)
 }
+
+@Transaction
+suspend inline fun <reified ENTITY> BaseDao<ENTITY>.insertOrDelete(item: ENTITY) {
+    val insertResult = insert(item)
+    if (insertResult == -1L) delete(item)
+}
+
+

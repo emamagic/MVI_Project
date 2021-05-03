@@ -1,8 +1,11 @@
 package com.emamagic.moviestreaming.repository.genre_list
 
+import com.emamagic.moviestreaming.base.insertOrDelete
 import com.emamagic.moviestreaming.base.upsert
+import com.emamagic.moviestreaming.db.dao.FavoriteDao
 import com.emamagic.moviestreaming.db.dao.MovieDao
-import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.db.entity.FavoriteEntity
+import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.mapper.MovieMapper
 import com.emamagic.moviestreaming.network.api.GenreApi
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
@@ -16,11 +19,12 @@ import javax.inject.Inject
 class GenreListRepositoryImpl @Inject constructor(
     private val genreApi: GenreApi,
     private val movieDao: MovieDao,
-    private val movieMapper: MovieMapper
+    private val movieMapper: MovieMapper,
+    private val favoriteDao: FavoriteDao
 ): SafeApi() ,GenreListRepository {
 
 
-    override fun getGenreByCategory(genreName: String): Flow<ResultWrapper<List<MovieEntity>>> {
+    override fun getGenreByCategory(genreName: String): Flow<ResultWrapper<List<MovieWithFavorite>>> {
         return networkBoundResource(
             errorHandler = this,
             databaseQuery = { movieDao.getMoviesByGenre(genreName) },
@@ -29,8 +33,8 @@ class GenreListRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun updateFavoriteById(id: Long) {
-        movieDao.updateFavoriteById(id)
+    override suspend fun updateFavoriteById(item: FavoriteEntity) {
+        favoriteDao.insertOrDelete(item)
     }
 
 

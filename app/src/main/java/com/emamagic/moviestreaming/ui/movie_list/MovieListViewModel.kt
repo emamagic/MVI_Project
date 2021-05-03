@@ -2,6 +2,7 @@ package com.emamagic.moviestreaming.ui.movie_list
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.repository.movie_list.MovieListRepository
 import com.emamagic.moviestreaming.ui.movie_list.contract.CurrentMovieListState
@@ -28,7 +29,7 @@ class MovieListViewModel @Inject constructor(
         when(event) {
             is MovieListEvent.GetAllMovieList -> getAllMovie(event.category)
             is MovieListEvent.MovieClicked -> movieClicked(event.movie)
-            is MovieListEvent.FavoriteClicked -> favoriteMovieClicked(event.id)
+            is MovieListEvent.FavoriteClicked -> favoriteMovieClicked(event.item)
         }.exhaustive
     }
 
@@ -52,8 +53,8 @@ class MovieListViewModel @Inject constructor(
     }
 
 
-    private fun favoriteMovieClicked(id: Long) = viewModelScope.launch {
-        repository.updateFavoriteById(id)
+    private fun favoriteMovieClicked(item: FavoriteEntity) = viewModelScope.launch {
+        repository.updateFavoriteById(item)
     }
 
 }

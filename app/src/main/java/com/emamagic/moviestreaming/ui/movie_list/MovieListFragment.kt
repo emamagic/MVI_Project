@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.base.BaseFragment
 import com.emamagic.moviestreaming.databinding.FragmentMovieBinding
+import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.ui.movie_list.adapter.MovieListCompleteAdapter
 import com.emamagic.moviestreaming.ui.movie_list.contract.*
 import com.emamagic.moviestreaming.util.exhaustive
@@ -48,7 +50,10 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
     override fun renderViewState(viewState: MovieListState) {
         when(viewState.currentMovieState){
             CurrentMovieListState.NON_STATE -> { /* Do Nothing */ }
-            CurrentMovieListState.RECEIVE_MOVIES -> movieListAdapter.submitList(viewState.movieList)
+            CurrentMovieListState.RECEIVE_MOVIES -> {
+                Timber.e("${viewState.movieList}")
+                movieListAdapter.submitList(viewState.movieList)
+            }
         }
     }
 
@@ -67,12 +72,12 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
         binding.recyclerViewTopMovieComplete.itemAnimator = null
     }
 
-    override fun onMovieClicked(item: MovieEntity) {
-        viewModel.setEvent(MovieListEvent.MovieClicked(item))
+    override fun onMovieClicked(item: MovieWithFavorite) {
+        viewModel.setEvent(MovieListEvent.MovieClicked(item.movie))
     }
 
     override fun favoriteClicked(id: Long) {
-        viewModel.setEvent(MovieListEvent.FavoriteClicked(id))
+        viewModel.setEvent(MovieListEvent.FavoriteClicked(FavoriteEntity(movieId = id)))
     }
 
 

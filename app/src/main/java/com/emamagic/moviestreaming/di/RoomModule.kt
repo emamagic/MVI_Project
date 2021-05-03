@@ -40,4 +40,7 @@ object RoomModule {
 
     @Provides
     fun provideEpisodeDao(database: MovieDatabase) = database.episodeDao()
+
+    @Provides
+    fun provideFavoriteDao(database: MovieDatabase) = database.favoriteDao()
 }

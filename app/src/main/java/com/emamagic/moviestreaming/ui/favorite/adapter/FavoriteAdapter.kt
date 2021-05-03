@@ -11,12 +11,13 @@ import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.squareup.picasso.Picasso
 
 class FavoriteAdapter constructor(private val interaction: Interaction) :
-    ListAdapter<MovieEntity ,FavoriteAdapter.FavoriteViewHolder>(FavoriteDiffCallback()) {
+    ListAdapter<MovieEntity, FavoriteAdapter.FavoriteViewHolder>(FavoriteDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val binding = ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context) ,parent ,false)
-        return FavoriteViewHolder(binding ,interaction)
+        val binding =
+            ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FavoriteViewHolder(binding, interaction)
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
@@ -30,25 +31,23 @@ class FavoriteAdapter constructor(private val interaction: Interaction) :
     class FavoriteViewHolder(
         private val binding: ItemFavoriteBinding,
         private val interaction: Interaction
-    ): RecyclerView.ViewHolder(binding.root){
-        fun bind(item: MovieEntity){
-            binding.apply {
-                itemView.setOnClickListener { interaction.onFavoriteItemClicked(item) }
-                Picasso.get().load(item.imageLink).resize(400,400).into(binding.imgMovie)
-                nameMovie.text = item.name
-                nameDirector.text = item.director
-                binding.rateImdb.text = "IMDb:${item.imdbRate}"
-                if (item.categoryName == CategoryType.SERIES) {
-                    binding.published.text = "Episodes :${item.episode}"
-                    binding.imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
-                }
-                else {
-                    binding.published.text = "Published :${item.published}"
-                    binding.imgHour.setImageResource(R.drawable.ic_baseline_access_time_24)
-                }
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: MovieEntity) = with(binding) {
+            itemView.setOnClickListener { interaction.onFavoriteItemClicked(item) }
+            Picasso.get().load(item.imageLink).resize(400, 400).into(imgMovie)
+            nameMovie.text = item.name
+            nameDirector.text = item.director
+            rateImdb.text = "IMDb:${item.imdbRate}"
+            if (item.categoryName == CategoryType.SERIES) {
+                published.text = "Episodes :${item.episode}"
+                imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
+            } else {
+                published.text = "Published :${item.published}"
+                imgHour.setImageResource(R.drawable.ic_baseline_access_time_24)
             }
         }
     }
+
 
     interface Interaction {
         fun onFavoriteItemClicked(item: MovieEntity)

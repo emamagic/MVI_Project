@@ -11,7 +11,7 @@ class FavoriteRepositoryImpl @Inject constructor(
 ): SafeApi() ,FavoriteRepository {
 
     override fun getFavoriteMovies(): Flow<List<MovieEntity>> {
-        return movieDao.getFavoriteMovies()
+        return movieDao.getFavoriteMovie()
     }
 
 
