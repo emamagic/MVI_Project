@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -167,6 +167,33 @@
         android:name="com.emamagic.moviestreaming.ui.auth.verify.VerifyFragment"
         android:label="fragment_verify"
         tools:layout="@layout/fragment_verify" />
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.emamagic.moviestreaming.ui.intro.intro.IntroFragment"
+        android:label="fragment_intro"
+        tools:layout="@layout/fragment_intro" >
+        <action
+            android:id="@+id/action_introFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/introFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.emamagic.moviestreaming.ui.intro.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_introFragment"
+            app:destination="@id/introFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/splashFragment"/>
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/splashFragment"/>
+    </fragment>
 
 
 </navigation>

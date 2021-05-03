@@ -22,6 +22,6 @@ class SplashViewModel @Inject constructor(): BaseViewModel<SplashState ,SplashEf
     }
 
     private fun timeFinished() = viewModelScope.launch {
-
+        setEffect { SplashEffect.Navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment()) }
     }
 }

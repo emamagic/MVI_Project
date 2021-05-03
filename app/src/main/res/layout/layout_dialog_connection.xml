@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="220dp"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textColor="@color/textColor"
-        android:text="No Internet !!!"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:layout_marginTop="16dp" />
+        android:text="No Internet !!!"
+        android:textColor="@color/textColor"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        app:srcCompat="@drawable/cyber"
+        android:layout_marginTop="16dp"
         android:padding="16dp"
-        android:layout_marginTop="16dp"/>
+        app:srcCompat="@drawable/cyber" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_baseline_autorenew_24"
-        app:backgroundTint="#4196E1"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="#4196E1"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_baseline_autorenew_24" />
 
 
 </LinearLayout>
