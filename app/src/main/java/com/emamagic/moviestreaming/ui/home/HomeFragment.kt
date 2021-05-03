@@ -219,8 +219,8 @@ class HomeFragment :
         when(item.itemId) {
             R.id.nav_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
             R.id.nav_buy_account -> {}
-            R.id.nav_favorite -> {}
-            R.id.nav_profile -> { }
+            R.id.nav_favorite -> viewModel.setEvent(HomeEvent.FavoriteClicked)
+            R.id.nav_profile -> {}
             R.id.nav_home -> binding.drawerLayout.closeDrawer(GravityCompat.START)
             R.id.nav_search -> viewModel.setEvent(HomeEvent.SearchClicked)
         }

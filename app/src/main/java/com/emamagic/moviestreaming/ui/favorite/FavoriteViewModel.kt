@@ -29,7 +29,7 @@ class FavoriteViewModel @Inject constructor(
         setEffect { FavoriteEffect.Loading(isLoading = true) }
         repository.getFavoriteMovies().collect {
             setState { copy(movies = it) }
-            setEffect { FavoriteEffect.Loading(isLoading = true) }
+            setEffect { FavoriteEffect.Loading(isLoading = false) }
         }
     }
 }

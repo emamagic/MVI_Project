@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchTypeFragment"
             app:destination="@id/searchTypeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
 
 
     </fragment>
@@ -129,6 +132,11 @@
             android:id="@+id/action_searchTypeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.emamagic.moviestreaming.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 
 
 </navigation>

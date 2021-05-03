@@ -43,6 +43,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.GenreClicked -> genreClicked(event.genreName)
             is HomeEvent.MovieClicked -> movieClicked(event.movie)
             HomeEvent.SearchClicked -> searchClicked()
+            HomeEvent.FavoriteClicked -> favoriteCliced()
         }.exhaustive
     }
 
@@ -148,6 +149,10 @@ class HomeViewModel @Inject constructor(
 
     private fun searchClicked() = viewModelScope.launch {
         setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToSearchTypeFragment()) }
+    }
+
+    private fun favoriteCliced() = viewModelScope.launch {
+        setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()) }
     }
 
 

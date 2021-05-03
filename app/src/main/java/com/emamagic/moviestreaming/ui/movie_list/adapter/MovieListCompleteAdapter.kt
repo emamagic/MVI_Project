@@ -51,7 +51,7 @@ class MovieListCompleteAdapter(val interaction: MovieInteraction) :
             }
             if (item.categoryName == CategoryType.TOP) binding.rankMovie.visibility = View.VISIBLE
             else binding.rankMovie.visibility = View.GONE
-            if (item.isFavorite) binding.imgFav.setImageResource(R.drawable.ic_baseline_favorite_24)
+            if (item.isFavorite == true) binding.imgFav.setImageResource(R.drawable.ic_baseline_favorite_24)
             else binding.imgFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
         }

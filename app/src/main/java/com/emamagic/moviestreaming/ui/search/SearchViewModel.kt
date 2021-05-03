@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
     private fun searchMovies(category: String, query: String) = viewModelScope.launch {
         val response = repository.searchMovies(category ,query)
         when(response){
-            is ResultWrapper.Success -> setState { SearchState(movies = response.data!! ,currentState = CurrentSearchState.MOVIES_RECEIVED) }
+            is ResultWrapper.Success -> setState { copy(movies = response.data!! ,currentState = CurrentSearchState.MOVIES_RECEIVED) }
             is ResultWrapper.Failed -> setEffect { SearchEffect.ShowToast("${response.error?.message}" ,ToastyMode.MODE_TOAST_ERROR) }
             is ResultWrapper.FetchLoading -> { /* Do Nothing */ }
         }.exhaustive

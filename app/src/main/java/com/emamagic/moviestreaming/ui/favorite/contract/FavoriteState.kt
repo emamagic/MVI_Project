@@ -8,8 +8,6 @@ data class FavoriteState(
 ): BaseState {
     companion object{
         fun initialize() =
-            FavoriteState(
-                movies = emptyList()
-            )
+            FavoriteState(movies = emptyList())
     }
 }

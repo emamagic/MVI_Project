@@ -1,8 +1,12 @@
 package com.emamagic.moviestreaming.db.entity
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.OnConflictStrategy
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 

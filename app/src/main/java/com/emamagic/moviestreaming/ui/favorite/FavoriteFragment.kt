@@ -16,6 +16,7 @@ import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteState
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FavoriteFragment: BaseFragment<FragmentFavoriteBinding ,FavoriteState ,FavoriteEffect ,FavoriteEvent ,FavoriteViewModel>(),
@@ -32,6 +33,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding ,FavoriteState ,Fav
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         favoriteAdapter = FavoriteAdapter(this)
+        viewModel.setEvent(FavoriteEvent.GetFavoriteMovies)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +42,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding ,FavoriteState ,Fav
     }
 
     override fun renderViewState(viewState: FavoriteState) {
+        Timber.e("${viewState.movies}")
         setUpFavoriteRecycler(viewState.movies)
     }
 
