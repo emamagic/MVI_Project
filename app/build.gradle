@@ -113,4 +113,8 @@ dependencies {
     def exoplayer_version = '2.13.3'
     implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
 
+    def dataStoreVersion = '1.0.0-beta01'
+    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+
 }

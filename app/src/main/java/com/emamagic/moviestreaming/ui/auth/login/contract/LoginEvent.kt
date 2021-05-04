@@ -6,4 +6,5 @@ import com.emamagic.moviestreaming.network.request.LoginRequest
 sealed class LoginEvent: BaseEvent {
     object RegisterClicked: LoginEvent()
     data class LoginClicked(val request: LoginRequest): LoginEvent()
+    object CheckLogin: LoginEvent()
 }

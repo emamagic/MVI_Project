@@ -12,7 +12,6 @@ import com.emamagic.moviestreaming.network.request.LoginRequest
 import com.emamagic.moviestreaming.ui.auth.login.contract.LoginEffect
 import com.emamagic.moviestreaming.ui.auth.login.contract.LoginEvent
 import com.emamagic.moviestreaming.ui.auth.login.contract.LoginState
-import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteEffect
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +29,7 @@ class LoginFragment: BaseFragment<FragmentLoginBinding ,LoginState ,LoginEffect 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.setEvent(LoginEvent.CheckLogin)
         request = LoginRequest()
     }
 
@@ -53,7 +53,7 @@ class LoginFragment: BaseFragment<FragmentLoginBinding ,LoginState ,LoginEffect 
     override fun renderViewEffect(viewEffect: LoginEffect) {
         when(viewEffect) {
             is LoginEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-            is LoginEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
+            is LoginEffect.Loading -> if (viewEffect.isLoading) showLoading(viewEffect.isDim) else hideLoading()
             is LoginEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
         }.exhaustive
     }
