@@ -17,8 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val repository: RegisterRepository,
-    private val preferencesManager: PreferencesManager
+    private val repository: RegisterRepository
 ): BaseViewModel<RegisterState ,RegisterEffect ,RegisterEvent>() {
 
     override fun createInitialState() = RegisterState()
@@ -33,12 +32,7 @@ class RegisterViewModel @Inject constructor(
         if (request.name.isNotEmpty() && request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()) {
             setEffect { RegisterEffect.Loading(isLoading = true) }
             when(val response = repository.register(request)) {
-                "Register Ok" -> {
-                    preferencesManager.setUserName(request.name)
-                    preferencesManager.setUserEmail(request.email)
-                    preferencesManager.setUserPhone(request.phone)
-                    setEffect { RegisterEffect.Navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()) }
-                }
+                "Register Ok" -> setEffect { RegisterEffect.Navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()) }
                 else -> setEffect { RegisterEffect.ShowToast(response ,ToastyMode.MODE_TOAST_SUCCESS) }
             }
             setEffect { RegisterEffect.Loading(isLoading = false) }

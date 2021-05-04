@@ -36,6 +36,7 @@ class LoginFragment: BaseFragment<FragmentLoginBinding ,LoginState ,LoginEffect 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.checkRemember.setOnCheckedChangeListener { _, isChecked -> viewModel.setEvent(LoginEvent.CheckRememberChanged(isChecked))  }
         binding.txtRegister.setOnClickListener { viewModel.setEvent(LoginEvent.RegisterClicked) }
         binding.btnLogin.setOnClickListener {
             request.email = binding.edtEmail.text.toString().trim()

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.util.Const
 import com.squareup.picasso.Picasso
 
@@ -63,7 +64,7 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
                 binding.rankMovie.visibility = View.VISIBLE
                 binding.rankMovie.text = "Rank:${item.rank}"
             }else binding.rankMovie.visibility = View.GONE
-            if (item.categoryName == Const.SERIES_MOVIE)
+            if (item.categoryName == CategoryType.SERIES)
                 binding.imgMark.setImageResource(R.drawable.ic_baseline_folder_special_24)
             else binding.imgMark.setImageResource(R.drawable.ic_baseline_access_time_24)
 
