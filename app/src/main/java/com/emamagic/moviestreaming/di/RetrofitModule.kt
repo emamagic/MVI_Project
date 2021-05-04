@@ -47,7 +47,7 @@ object RetrofitModule {
     fun provideRetrofit(client: Lazy<OkHttpClient>): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(Const.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .callFactory { request ->
                 // this bellow fun ,called in background thread
                 client.get().newCall(request)
