@@ -2,8 +2,6 @@ package com.emamagic.moviestreaming.ui.home
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -11,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.navigation.fragment.findNavController
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseFragment
@@ -28,11 +27,12 @@ import com.emamagic.moviestreaming.ui.home.contract.HomeEvent
 import com.emamagic.moviestreaming.ui.home.contract.HomeState
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.util.exhaustive
+import com.emamagic.moviestreaming.util.onDrawerListener
 import com.emamagic.moviestreaming.util.toasty
 import com.google.android.material.navigation.NavigationView
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import java.util.*
 
 @ExperimentalCoroutinesApi
@@ -53,6 +53,12 @@ class HomeFragment :
     private var moviePopularAdapter: MovieHorAdapter? = null
     private var animationAdapter: MovieHorAdapter? = null
     private var genreAdapter: GenreAdapter? = null
+    private var shimmerCountGenre: Int = 0
+    private var shimmerCountMovieTop: Int = 0
+    private var shimmerCountMovieNew: Int = 0
+    private var shimmerCountMoviePopular: Int = 0
+    private var shimmerCountMovieSeries: Int = 0
+    private var shimmerCountMovieAnim: Int = 0
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -160,7 +166,6 @@ class HomeFragment :
         binding.recyclerViewNewMovie.itemAnimator = null
         if (!list.isNullOrEmpty())
         movieNewAdapter?.submitList(list)
-
     }
 
     private fun setUpTopMovieRecycler(list: List<MovieEntity>?) {
@@ -200,12 +205,7 @@ class HomeFragment :
         binding.navigationView.setNavigationItemSelectedListener(this)
         binding.navigationView.setCheckedItem(R.id.nav_home)
         binding.drawerLayout.setScrimColor(resources.getColor(R.color.colorPrimary))
-        binding.drawerLayout.addDrawerListener(object: DrawerLayout.DrawerListener{
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { slidFragment(binding.parent ,drawerView ,slideOffset) }
-            override fun onDrawerOpened(drawerView: View) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerStateChanged(newState: Int) {}
-        })
+        binding.drawerLayout.onDrawerListener { slideOffset, drawerView -> slidFragment(binding.parent ,drawerView ,slideOffset) }
     }
 
     private fun slidFragment(parent: View ,drawerView: View ,slideOffset: Float) {
@@ -230,7 +230,7 @@ class HomeFragment :
             R.id.nav_search -> viewModel.setEvent(HomeEvent.SearchClicked)
         }
 
-        return false
+        return true
     }
 
     override fun onClick(v: View?) {
@@ -260,12 +260,90 @@ class HomeFragment :
         viewModel.setEvent(HomeEvent.MovieClicked(item))
     }
 
+    override fun onShimmerStopMovieVer(item: MovieEntity) {
+        when(item.categoryName){
+            CategoryType.TOP -> {
+                shimmerCountMovieTop++
+                if (shimmerCountMovieTop >= 4){
+                    binding.shimmerFrameLayoutTop.stopShimmer()
+                    binding.shimmerFrameLayoutTop.visibility = View.GONE
+                    binding.recyclerViewTopMovieImdb.visibility = View.VISIBLE
+                }
+            }
+            CategoryType.NEW -> {
+                shimmerCountMovieNew++
+                if (shimmerCountMovieNew >= 4){
+                    binding.shimmerFrameLayoutNew.stopShimmer()
+                    binding.shimmerFrameLayoutNew.visibility = View.GONE
+                    binding.recyclerViewNewMovie.visibility = View.VISIBLE
+                }
+            }
+            CategoryType.SERIES -> {
+                shimmerCountMovieSeries++
+                if (shimmerCountMovieSeries >= 4){
+                    binding.shimmerFrameLayoutSeries.stopShimmer()
+                    binding.shimmerFrameLayoutSeries.visibility = View.GONE
+                    binding.recyclerViewSeries.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onMovieHorClicked(item: MovieEntity) {
         viewModel.setEvent(HomeEvent.MovieClicked(item))
     }
 
+    override fun onShimmerStopMovieHor(item: MovieEntity) {
+        when(item.categoryName){
+            CategoryType.POPULAR -> {
+                shimmerCountMoviePopular++
+                if (shimmerCountMoviePopular >= 2){
+                    binding.shimmerFrameLayoutPopular.stopShimmer()
+                    binding.shimmerFrameLayoutPopular.visibility = View.GONE
+                    binding.recyclerViewPopularMovie.visibility = View.VISIBLE
+                }
+            }
+            CategoryType.ANIMATION -> {
+                shimmerCountMovieAnim++
+                if (shimmerCountMovieAnim >= 2){
+                    binding.shimmerFrameLayoutAnim.stopShimmer()
+                    binding.shimmerFrameLayoutAnim.visibility = View.GONE
+                    binding.recyclerViewAnimation.visibility = View.VISIBLE
+                }
+            }
+
+        }
+    }
+
     override fun onGenreClicked(item: GenreEntity) {
         viewModel.setEvent(HomeEvent.GenreClicked(item.name))
+    }
+
+    override fun onShimmerStopGenre() {
+        shimmerCountGenre++
+        if (shimmerCountGenre >= 4) {
+            binding.shimmerFrameLayoutGenre.stopShimmer()
+            binding.shimmerFrameLayoutGenre.visibility = View.GONE
+            binding.recyclerViewGenre.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerFrameLayoutGenre.startShimmer()
+        binding.shimmerFrameLayoutTop.startShimmer()
+        binding.shimmerFrameLayoutNew.startShimmer()
+        binding.shimmerFrameLayoutPopular.startShimmer()
+        binding.shimmerFrameLayoutAnim.startShimmer()
+    }
+
+    override fun onPause() {
+        binding.shimmerFrameLayoutGenre.stopShimmer()
+        binding.shimmerFrameLayoutTop.stopShimmer()
+        binding.shimmerFrameLayoutNew.stopShimmer()
+        binding.shimmerFrameLayoutPopular.stopShimmer()
+        binding.shimmerFrameLayoutAnim.stopShimmer()
+        super.onPause()
     }
 
 }

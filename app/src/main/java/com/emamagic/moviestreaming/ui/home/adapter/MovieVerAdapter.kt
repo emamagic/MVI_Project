@@ -11,7 +11,9 @@ import com.emamagic.moviestreaming.databinding.ItemTopMovieImdbBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.util.Const
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class MovieVerAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -59,7 +61,16 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.imageLink).resize(500,600).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
+            Picasso.get().load(item.imageLink).resize(500,600).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb ,object:
+                Callback {
+                override fun onSuccess() {
+                    interaction?.onShimmerStopMovieVer(item)
+                }
+
+                override fun onError(e: Exception?) {
+
+                }
+            })
             if (item.rank?.isNotEmpty()!!) {
                 binding.rankMovie.visibility = View.VISIBLE
                 binding.rankMovie.text = "Rank:${item.rank}"
@@ -73,5 +84,6 @@ class MovieVerAdapter(private val interaction: Interaction? = null) :
 
     interface Interaction {
         fun onMovieVerClicked(item: MovieEntity)
+        fun onShimmerStopMovieVer(item: MovieEntity)
     }
 }

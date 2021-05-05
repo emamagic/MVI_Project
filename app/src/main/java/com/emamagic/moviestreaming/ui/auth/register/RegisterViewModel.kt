@@ -32,7 +32,7 @@ class RegisterViewModel @Inject constructor(
         if (request.name.isNotEmpty() && request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()) {
             setEffect { RegisterEffect.Loading(isLoading = true) }
             when(val response = repository.register(request)) {
-                "Register Ok" -> setEffect { RegisterEffect.Navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()) }
+                "Register Ok" -> setEffect { RegisterEffect.Navigate(navDirections = null) }
                 else -> setEffect { RegisterEffect.ShowToast(response ,ToastyMode.MODE_TOAST_SUCCESS) }
             }
             setEffect { RegisterEffect.Loading(isLoading = false) }

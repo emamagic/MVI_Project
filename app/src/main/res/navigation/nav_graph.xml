@@ -155,13 +155,8 @@
         android:id="@+id/registerFragment"
         android:name="com.emamagic.moviestreaming.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_registerFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/registerFragment"/>
-    </fragment>
+        tools:layout="@layout/fragment_register" />
+
     <fragment
         android:id="@+id/verifyFragment"
         android:name="com.emamagic.moviestreaming.ui.auth.verify.VerifyFragment"

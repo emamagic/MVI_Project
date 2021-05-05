@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemGenreBinding
 import com.emamagic.moviestreaming.db.entity.GenreEntity
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class GenreAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -55,11 +57,20 @@ class GenreAdapter(private val interaction: Interaction? = null) :
                 interaction?.onGenreClicked(item)
             }
             binding.nameGenre.text = item.name
-            Picasso.get().load(item.imageLing).resize(400,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre)
+            Picasso.get().load(item.imageLing).resize(400,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgGenre ,object: Callback{
+                override fun onSuccess() {
+                    interaction?.onShimmerStopGenre()
+                }
+
+                override fun onError(e: Exception?) {
+
+                }
+            })
         }
     }
 
     interface Interaction {
         fun onGenreClicked(item: GenreEntity)
+        fun onShimmerStopGenre()
     }
 }

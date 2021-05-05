@@ -11,4 +11,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="warning">#FFBF00</color>
+    <color name="colorGrey">#dddddd</color>
+    <color name="colorGrey2">#CFCCCC</color>
 </resources>

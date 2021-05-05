@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemPopularMovieBinding
 import com.emamagic.moviestreaming.db.entity.MovieEntity
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class MovieHorAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -56,12 +58,22 @@ class MovieHorAdapter(private val interaction: Interaction? = null) :
             }
             binding.nameTopMovieImdb.text = item.name
             binding.timeMovieImdb.text = item.time
-            Picasso.get().load(item.imageLink).resize(600,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb)
+            Picasso.get().load(item.imageLink).resize(600,400).placeholder(R.drawable.ic_movie_placeholder).into(binding.imgTopMovieImdb ,object:
+                Callback {
+                override fun onSuccess() {
+                    interaction?.onShimmerStopMovieHor(item)
+                }
+
+                override fun onError(e: Exception?) {
+
+                }
+            })
 
         }
     }
 
     interface Interaction {
         fun onMovieHorClicked(item: MovieEntity)
+        fun onShimmerStopMovieHor(item: MovieEntity)
     }
 }

@@ -147,16 +147,50 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/slider" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_genre"
+                    <FrameLayout
+                        android:id="@+id/frame_genre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_genre" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_genre">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_genre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_genre_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_genre_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_genre_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_genre_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_genre_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_genre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/txt_more_top_movie_imdb"
@@ -170,7 +204,7 @@
                         android:textColor="@color/textColor"
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_genre" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_genre" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -183,18 +217,50 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_genre" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_genre" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_top_movie_imdb"
+                    <FrameLayout
+                        android:id="@+id/frame_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_top_movie_imdb" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_top_movie_imdb">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_top_movie_imdb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </FrameLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -207,7 +273,7 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_top_movie_imdb" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_top" />
 
                     <TextView
                         android:id="@+id/txt_more_new_movie"
@@ -221,18 +287,53 @@
                         android:textColor="@color/textColor"
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_top_movie_imdb" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_top" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_new_movie"
+
+                    <FrameLayout
+                        android:id="@+id/frame_new"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_new_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_new_movie">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_new_movie"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </FrameLayout>
 
 
                     <TextView
@@ -246,7 +347,7 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_new_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_new" />
 
                     <TextView
                         android:id="@+id/txt_more_series"
@@ -260,18 +361,51 @@
                         android:textColor="@color/textColor"
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_new_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_new" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_series"
+                    <FrameLayout
+                        android:id="@+id/frame_series"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_series" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_series">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_series"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_series"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -284,7 +418,7 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_series" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_series" />
 
                     <TextView
                         android:id="@+id/txt_more_popular_movie"
@@ -298,18 +432,51 @@
                         android:textColor="@color/textColor"
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_series" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_series" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_popular_movie"
+                    <FrameLayout
+                        android:id="@+id/frame_popular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_popular_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_popular_movie">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_popular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_popular_movie"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -322,7 +489,7 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_popular_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_popular" />
 
                     <TextView
                         android:id="@+id/txt_more_animation"
@@ -336,18 +503,51 @@
                         android:textColor="@color/textColor"
                         android:textSize="12sp"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_popular_movie" />
+                        app:layout_constraintTop_toBottomOf="@+id/frame_popular" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_animation"
+                    <FrameLayout
+                        android:id="@+id/frame_anim"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_more_animation" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_more_animation">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerFrameLayout_anim"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:shimmer_duration="1000">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_movie_1_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_animation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </FrameLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,7 @@ package com.emamagic.moviestreaming.util
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.emamagic.moviestreaming.R
 
@@ -25,26 +27,27 @@ inline fun EditText.onTextChange(crossinline listener: (String) -> Unit) {
 
 inline fun SearchView.onQueryTextListener(crossinline listener: (String) -> Unit) {
     this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
         override fun onQueryTextSubmit(query: String?) = true
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            listener(newText.orEmpty())
+        override fun onQueryTextChange(newText: String?): Boolean { listener(newText.orEmpty())
             return true
         }
     })
-
 }
 
 inline fun SearchView.onQueryTextSubmitListener(crossinline listener: (String) -> Unit) {
     this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            listener(query.orEmpty())
+        override fun onQueryTextSubmit(query: String?): Boolean { listener(query.orEmpty())
             return true
         }
+        override fun onQueryTextChange(newText: String?) = true })
+}
 
-        override fun onQueryTextChange(newText: String?) = true
+inline fun DrawerLayout.onDrawerListener(crossinline listener: (Float ,View) -> Unit) {
+    this.addDrawerListener(object: DrawerLayout.DrawerListener{
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) { listener(slideOffset ,drawerView) }
+        override fun onDrawerOpened(drawerView: View) {}
+        override fun onDrawerClosed(drawerView: View) {}
+        override fun onDrawerStateChanged(newState: Int) {}
     })
 }
 

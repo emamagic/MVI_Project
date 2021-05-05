@@ -11,10 +11,12 @@ import com.emamagic.moviestreaming.util.PreferencesManager
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.internal.wait
+import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -42,31 +44,37 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loginClicked(request: LoginRequest) = viewModelScope.launch {
-        if (request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()){
-            setEffect { LoginEffect.Loading(isLoading = true ,isDim = true) }
-            when(val response = repository.login(request)) {
+        if (request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()) {
+            setEffect { LoginEffect.Loading(isLoading = true, isDim = true) }
+            when (val response = repository.login(request)) {
                 "Login Ok" -> {
                     if (isCheckedRemember) {
-//                        preferencesManager.setUserEmail(request.email).wait()
-//                        preferencesManager.setUserPhone(request.phone).wait()
-                    }
+                            preferencesManager.setUserEmail(request.email)
+                            preferencesManager.setUserPhone(request.phone)
+                        }
+                    delay(1000)
                     setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
                 }
-
                 else -> {
-                    setEffect { LoginEffect.ShowToast(response ,ToastyMode.MODE_TOAST_ERROR) }
-                    setEffect { LoginEffect.Loading(isLoading = false ,isDim = true) }
+                    setEffect { LoginEffect.ShowToast(response, ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { LoginEffect.Loading(isLoading = false, isDim = true) }
                 }
             }
-        } else setEffect { LoginEffect.ShowToast("Please fill all Field" ,ToastyMode.MODE_TOAST_WARNING) }
+        } else setEffect {
+            LoginEffect.ShowToast(
+                "Please fill all Field",
+                ToastyMode.MODE_TOAST_WARNING
+            )
+        }
 
     }
 
     private fun checkLogin() = viewModelScope.launch {
         setEffect { LoginEffect.Loading(isLoading = true) }
         preferencesManager.isLogin().collect {
-            if(it)
-            setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
+            Timber.e("$it")
+            if (it)
+                setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
             else setEffect { LoginEffect.Loading(isLoading = false) }
         }
     }

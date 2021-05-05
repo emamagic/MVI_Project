@@ -18,6 +18,7 @@ import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class RegisterFragment: BaseFragment<FragmentRegisterBinding ,RegisterState ,RegisterEffect ,RegisterEvent ,RegisterViewModel>() {
 
@@ -57,7 +58,11 @@ class RegisterFragment: BaseFragment<FragmentRegisterBinding ,RegisterState ,Reg
         when(viewEffect) {
             is RegisterEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
             is RegisterEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is RegisterEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
+            is RegisterEffect.Navigate -> {
+                if (viewEffect.navDirections == null)
+                findNavController().popBackStack()
+                else findNavController().navigate(viewEffect.navDirections)
+            }
         }.exhaustive
     }
 }
