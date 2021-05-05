@@ -15,5 +15,4 @@ public @interface ToastyMode {
     int MODE_TOAST_SUCCESS = 1;
     int MODE_TOAST_WARNING = 2;
     int MODE_TOAST_ERROR = 3;
-
 }
