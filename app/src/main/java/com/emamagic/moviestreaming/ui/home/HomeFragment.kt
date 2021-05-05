@@ -73,7 +73,6 @@ class HomeFragment :
         moviePopularAdapter = MovieHorAdapter(this)
         animationAdapter = MovieHorAdapter(this)
         genreAdapter = GenreAdapter(this)
-        Timber.e("onCreate")
         setEvents()
     }
 
@@ -82,13 +81,6 @@ class HomeFragment :
 
         setUpGenreRecycler(viewModel.currentState.genres)
         setUpSlider(requireContext() ,viewModel.currentState.sliders)
-        viewModel.currentState.movies.apply {
-            setUpTopMovieRecycler(top?.data)
-            setUpNewMovieRecycler(new?.data)
-            setUpSeriesRecycler(series?.data)
-            setUpPopularRecycler(popular?.data)
-            setUpAnimationRecycler(animation?.data)
-        }
         setUpMovie(viewModel.currentState.movies)
         setUpDrawer()
 
@@ -115,7 +107,7 @@ class HomeFragment :
             CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
             CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
             CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
-            CurrentHomeState.GENRE_RECEIVE -> genreAdapter?.submitList(viewState.genres)
+            CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
             CurrentHomeState.CLOSE_APP -> requireActivity().finish()
         }
 
@@ -146,18 +138,18 @@ class HomeFragment :
     }
 
     private fun setUpMovie(item: HomeApiHolder){
-        item.top?.data?.let { movieIMDBAdapter?.submitList(it) }
-        item.new?.data?.let { movieNewAdapter?.submitList(it) }
-        item.series?.data?.let { movieSeriesAdapter?.submitList(it) }
-        item.popular?.data?.let { moviePopularAdapter?.submitList(it) }
-        item.animation?.data?.let { animationAdapter?.submitList(it) }
+        item.top?.data?.let { setUpTopMovieRecycler(it) }
+        item.new?.data?.let { setUpNewMovieRecycler(it) }
+        item.series?.data?.let { setUpSeriesRecycler(it) }
+        item.popular?.data?.let { setUpPopularRecycler(it) }
+        item.animation?.data?.let { setUpAnimationRecycler(it) }
     }
 
     private fun setUpGenreRecycler(list: List<GenreEntity>) {
         binding.recyclerViewGenre.adapter = genreAdapter
         binding.recyclerViewGenre.setHasFixedSize(true)
         binding.recyclerViewGenre.itemAnimator = null
-        if (list.isNullOrEmpty())
+        if (!list.isNullOrEmpty())
         genreAdapter?.submitList(list)
     }
 

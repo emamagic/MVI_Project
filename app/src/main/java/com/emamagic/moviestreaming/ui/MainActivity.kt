@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() ,DialogListener{
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        radiusBottomNavigation(R.dimen.small_radius)
+      //  radiusBottomNavigation(R.dimen.small_radius)
       //  destinationBottomNavigation()
 
         if (savedInstanceState == null) {

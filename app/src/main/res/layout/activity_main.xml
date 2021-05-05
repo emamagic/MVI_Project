@@ -24,6 +24,7 @@
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
         app:labelVisibilityMode="labeled"
+        android:visibility="gone"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom" />

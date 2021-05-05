@@ -5,8 +5,11 @@
         android:id="@+id/nav_graph_home"
         android:icon="@android:drawable/arrow_down_float"
         android:title="home" />
+
     <item
         android:id="@+id/nav_graph_player"
         android:icon="@android:color/holo_red_dark"
         android:title="player" />
+
+
 </menu>
