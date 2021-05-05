@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.util.helper.conectivity.ConnectionLiveData
@@ -43,6 +44,8 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
         lifecycleScope.launchWhenStarted {
             viewModel.uiEffect.collect { renderViewEffect(it) }
         }
+
+        onFragmentBackPressed(viewLifecycleOwner){ findNavController().popBackStack() }
     }
 
     protected fun showLoading(isDim: Boolean = false){
