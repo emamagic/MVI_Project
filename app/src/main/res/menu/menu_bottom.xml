@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_graph_home"
+        android:icon="@android:drawable/arrow_down_float"
+        android:title="home" />
+    <item
+        android:id="@+id/nav_graph_player"
+        android:icon="@android:color/holo_red_dark"
+        android:title="player" />
+</menu>
