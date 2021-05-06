@@ -5,13 +5,11 @@ import com.emamagic.moviestreaming.base.upsert
 import com.emamagic.moviestreaming.db.dao.FavoriteDao
 import com.emamagic.moviestreaming.db.dao.MovieDao
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
-import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.mapper.MovieMapper
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import com.emamagic.moviestreaming.util.helper.safe.SafeApi
-import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import com.emamagic.moviestreaming.util.helper.safe.networkBoundResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +27,7 @@ class MovieListRepositoryImpl @Inject constructor(
     override fun getAllMovie(category: String): Flow<ResultWrapper<List<MovieWithFavorite>>> {
         return networkBoundResource(
             errorHandler = this,
-            databaseQuery = { movieDao.getAllMovie(category) },
+            databaseQuery = { movieDao.getMoviesWithFavoriteByCategory(category) },
             networkCall = { movieApi.getAllMovie(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) }
         )

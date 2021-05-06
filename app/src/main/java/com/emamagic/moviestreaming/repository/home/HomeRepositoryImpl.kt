@@ -55,7 +55,7 @@ class HomeRepositoryImpl @Inject constructor(
     override fun getMoviesByCategory(category: String): Flow<ResultWrapper<List<MovieEntity>>> {
         return networkBoundResource(
             errorHandler = this,
-            databaseQuery = { movieDao.getMoviesByCategory(category) },
+            databaseQuery = { movieDao.getMoviesByCategoryLimit6(category) },
             networkCall = { homeApi.getMoviesByCategory(category) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
             shouldFetch = { cachedMovies ->

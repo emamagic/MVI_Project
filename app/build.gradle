@@ -54,9 +54,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Test
-    androidTestImplementation 'junit:junit:4.13.2'
     testImplementation "com.google.truth:truth:1.1.2"
     androidTestImplementation "com.google.truth:truth:1.1.2"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.mockito:mockito-core:3.0.0'
 
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
@@ -97,8 +99,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     // Do Not Update This Below Library
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2"
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     def fragmentKtx_version = '1.3.3'
     implementation "androidx.fragment:fragment-ktx:$fragmentKtx_version"

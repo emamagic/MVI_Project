@@ -27,7 +27,7 @@ class GenreListRepositoryImpl @Inject constructor(
     override fun getGenreByCategory(genreName: String): Flow<ResultWrapper<List<MovieWithFavorite>>> {
         return networkBoundResource(
             errorHandler = this,
-            databaseQuery = { movieDao.getMoviesByGenre(genreName) },
+            databaseQuery = { movieDao.getMoviesWithFavoriteByGenre(genreName) },
             networkCall = { genreApi.getGenreByCategory(genreName) },
             saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(genreApi.getGenreByCategory(genreName).movies)) }
         )

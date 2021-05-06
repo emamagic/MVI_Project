@@ -11,7 +11,6 @@ import com.emamagic.moviestreaming.mapper.SeasonMapper
 import com.emamagic.moviestreaming.network.api.MovieApi
 import com.emamagic.moviestreaming.network.response.MovieResponse
 import com.emamagic.moviestreaming.util.helper.safe.*
-import com.emamagic.moviestreaming.util.helper.safe.error.GeneralErrorHandlerImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -66,7 +65,7 @@ class MovieRepositoryImpl @Inject constructor(
 
 
     private suspend fun updateDescription(id: Long, description: String? ,imageVideoLink: String? ,videoLink: String?) {
-        movieDao.updateMovieDetail(id = id, description = description ,imageVideoLink = imageVideoLink, videoLink = videoLink)
+        movieDao.updateMovieDetailById(id = id, description = description ,imageVideoLink = imageVideoLink, videoLink = videoLink)
     }
 
     private suspend fun getMovieDetail(id: Long): ResultWrapper<MovieResponse> {
