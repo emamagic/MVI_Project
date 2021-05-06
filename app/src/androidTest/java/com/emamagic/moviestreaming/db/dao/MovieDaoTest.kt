@@ -1,16 +1,14 @@
-package com.emamagic.moviestreaming.db
+package com.emamagic.moviestreaming.db.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.filters.SmallTest
 import com.emamagic.moviestreaming.MainCoroutineRuleAndroid
 import com.emamagic.moviestreaming.base.upsert
-import com.emamagic.moviestreaming.db.dao.FavoriteDao
-import com.emamagic.moviestreaming.db.dao.MovieDao
+import com.emamagic.moviestreaming.db.MovieDatabase
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.runBlocking
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,8 +23,7 @@ import javax.inject.Named
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-@SmallTest
-class MovieDatabaseTest{
+class MovieDaoTest {
 
     @Inject
     @Named("TEST_DB")
@@ -60,7 +57,7 @@ class MovieDatabaseTest{
     fun insetMovie() = mainCoroutineRule.runBlocking {
         val movie = MovieEntity(1 ,"hell boy" ,"imgLink" ,"imgVideo" ,"videoLing" ,"time" ,"series" ,"3")
         val id = movieDao.insert(movie)
-        assertThat(id).isEqualTo(1L)
+        Truth.assertThat(id).isEqualTo(1L)
     }
 
     @Test
@@ -68,8 +65,8 @@ class MovieDatabaseTest{
         val movie1 = MovieEntity(1 ,"hell boy" ,"imgLink" ,"imgVideo" ,"videoLing" ,"time" ,"series" ,"3")
         val movie2 = MovieEntity(2 ,"hell boy2" ,"imgLink2" ,"imgVideo2" ,"videoLing2" ,"time" ,"series" ,"3")
         val result = movieDao.insert(listOf(movie1 ,movie2))
-        assertThat(result).contains(1L)
-        assertThat(result).contains(2L)
+        Truth.assertThat(result).contains(1L)
+        Truth.assertThat(result).contains(2L)
     }
 
     @Test
@@ -77,7 +74,7 @@ class MovieDatabaseTest{
         val movie = MovieEntity(1 ,"hell boy" ,"imgLink" ,"imgVideo" ,"videoLing" ,"time" ,"series" ,"3")
         movieDao.upsert(movie)
         val result = movieDao.getMovies().take(1).toList()
-        assertThat(result[0]).contains(movie)
+        Truth.assertThat(result[0]).contains(movie)
     }
 
     @Test
@@ -86,8 +83,8 @@ class MovieDatabaseTest{
         val movie2 = MovieEntity(2 ,"hell boy2" ,"imgLink2" ,"imgVideo2" ,"videoLing2" ,"time2" ,"series2" ,"3")
         movieDao.upsert(listOf(movie1 ,movie2))
         val result = movieDao.getMovies().take(1).toList()
-        assertThat(result[0]).contains(movie1)
-        assertThat(result[0]).contains(movie2)
+        Truth.assertThat(result[0]).contains(movie1)
+        Truth.assertThat(result[0]).contains(movie2)
     }
 
     @Test
@@ -97,8 +94,8 @@ class MovieDatabaseTest{
         val movieNew = MovieEntity(1 ,"hell boy2" ,"imgLink2" ,"imgVideo2" ,"videoLing" ,"time" ,"series" ,"3")
         movieDao.upsert(movieNew)
         val result = movieDao.getMovies().take(1).toList()
-        assertThat(result).hasSize(1)
-        assertThat(result[0]).contains(movieNew)
+        Truth.assertThat(result).hasSize(1)
+        Truth.assertThat(result[0]).contains(movieNew)
     }
 
     @Test
@@ -112,10 +109,10 @@ class MovieDatabaseTest{
         val movie3_new = MovieEntity(3 ,"bad boy3" ,"imgLink3" ,"imgVideo3" ,"videoLing3" ,"time" ,"series" ,"3")
         movieDao.upsert(listOf(movie1_new, movie2_new, movie3_new))
         val result = movieDao.getMovies().take(1).toList()
-        assertThat(result[0]).hasSize(3)
-        assertThat(result[0]).contains(movie1_new)
-        assertThat(result[0]).contains(movie2_new)
-        assertThat(result[0]).contains(movie3_new)
+        Truth.assertThat(result[0]).hasSize(3)
+        Truth.assertThat(result[0]).contains(movie1_new)
+        Truth.assertThat(result[0]).contains(movie2_new)
+        Truth.assertThat(result[0]).contains(movie3_new)
     }
 
 
@@ -131,14 +128,14 @@ class MovieDatabaseTest{
         val movie8 = MovieEntity(8 ,"hell boy" ,"imgLink" ,"imgVideo" ,"videoLing" ,"time" ,"series" ,"3")
         movieDao.insert(listOf(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8))
         val result = movieDao.getMoviesByCategoryLimit6("series").take(1).toList()
-        assertThat(result[0]).contains(movie1)
-        assertThat(result[0]).contains(movie2)
-        assertThat(result[0]).contains(movie3)
-        assertThat(result[0]).contains(movie4)
-        assertThat(result[0]).contains(movie5)
-        assertThat(result[0]).contains(movie6)
-        assertThat(result[0]).doesNotContain(movie7)
-        assertThat(result[0]).doesNotContain(movie8)
+        Truth.assertThat(result[0]).contains(movie1)
+        Truth.assertThat(result[0]).contains(movie2)
+        Truth.assertThat(result[0]).contains(movie3)
+        Truth.assertThat(result[0]).contains(movie4)
+        Truth.assertThat(result[0]).contains(movie5)
+        Truth.assertThat(result[0]).contains(movie6)
+        Truth.assertThat(result[0]).doesNotContain(movie7)
+        Truth.assertThat(result[0]).doesNotContain(movie8)
     }
 
     @Test
@@ -148,7 +145,7 @@ class MovieDatabaseTest{
         val movie3 = MovieEntity(3 ,"hell boy" ,"imgLink" ,"imgVideo" ,"videoLing" ,"time" ,"series" ,"3")
         movieDao.insert(listOf(movie1, movie2, movie3))
         val result = movieDao.getMoviesByCategoryLimit6("invalid_category").take(1).toList()
-        assertThat(result[0]).isEmpty()
+        Truth.assertThat(result[0]).isEmpty()
     }
 
     @Test
@@ -159,7 +156,7 @@ class MovieDatabaseTest{
         favoriteDao.insert(favorite)
         val movieFavorite = MovieWithFavorite(movie ,favorite)
         val result = movieDao.getMoviesWithFavoriteByCategory("series").take(1).toList()
-        assertThat(result[0]).contains(movieFavorite)
+        Truth.assertThat(result[0]).contains(movieFavorite)
     }
 
     @Test
@@ -170,7 +167,7 @@ class MovieDatabaseTest{
         favoriteDao.insert(favorite)
         val result = movieDao.getMoviesWithFavoriteByCategory("series").take(1).toList()
         val movieFavorite = MovieWithFavorite(movie , null)
-        assertThat(result[0]).contains(movieFavorite)
+        Truth.assertThat(result[0]).contains(movieFavorite)
     }
 
     @Test
@@ -181,8 +178,8 @@ class MovieDatabaseTest{
         favoriteDao.insert(favorite)
         val movieFavorite = MovieWithFavorite(movie ,favorite)
         val result = movieDao.getMoviesWithFavoriteByCategory("invalid_category").take(1).toList()
-        assertThat(result[0]).doesNotContain(movieFavorite)
-        assertThat(result[0]).isEmpty()
+        Truth.assertThat(result[0]).doesNotContain(movieFavorite)
+        Truth.assertThat(result[0]).isEmpty()
     }
 
     @Test
@@ -192,8 +189,8 @@ class MovieDatabaseTest{
         movieDao.insert(listOf(movieOne, movieTwo))
         val resultOne = movieDao.getMovieById(1)
         val resultTwo = movieDao.getMovieById(2)
-        assertThat(resultOne).isEqualTo(resultOne)
-        assertThat(resultTwo).isEqualTo(resultTwo)
+        Truth.assertThat(resultOne).isEqualTo(resultOne)
+        Truth.assertThat(resultTwo).isEqualTo(resultTwo)
     }
 
     @Test
@@ -203,8 +200,8 @@ class MovieDatabaseTest{
         movieDao.insert(listOf(movieOne, movieTwo))
         val resultOne = movieDao.getMovieById(1)
         val resultTwo = movieDao.getMovieById(3)
-        assertThat(resultOne).isEqualTo(resultOne)
-        assertThat(resultTwo).isNull()
+        Truth.assertThat(resultOne).isEqualTo(resultOne)
+        Truth.assertThat(resultTwo).isNull()
     }
 
     @Test
@@ -213,9 +210,9 @@ class MovieDatabaseTest{
         movieDao.insert(movie)
         movieDao.updateMovieDetailById(1, "description", "imageUpdate", "videoLinkUpdate")
         val result = movieDao.getMovieById(1)
-        assertThat(result.description).isEqualTo("description")
-        assertThat(result.imageVideoLink).isEqualTo("imageUpdate")
-        assertThat(result.videoLink).isEqualTo("videoLinkUpdate")
+        Truth.assertThat(result.description).isEqualTo("description")
+        Truth.assertThat(result.imageVideoLink).isEqualTo("imageUpdate")
+        Truth.assertThat(result.videoLink).isEqualTo("videoLinkUpdate")
     }
 
     @Test
@@ -224,7 +221,7 @@ class MovieDatabaseTest{
         movieDao.insert(movie)
         movieDao.updateMovieDetailById(2, "description", "imageUpdate", "videoLinkUpdate")
         val result = movieDao.getMovieById(1)
-        assertThat(result).isEqualTo(movie)
+        Truth.assertThat(result).isEqualTo(movie)
     }
 
     @Test
@@ -238,8 +235,8 @@ class MovieDatabaseTest{
         val result1 = MovieWithFavorite(movie1 ,favorite1)
         val result2 = MovieWithFavorite(movie2 ,favorite2)
         val movies = movieDao.getMoviesWithFavoriteByGenre("war").take(1).toList()
-        assertThat(movies[0]).contains(result1)
-        assertThat(movies[0]).contains(result2)
+        Truth.assertThat(movies[0]).contains(result1)
+        Truth.assertThat(movies[0]).contains(result2)
     }
 
     @Test
@@ -249,7 +246,7 @@ class MovieDatabaseTest{
         movieDao.insert(movie)
         favoriteDao.insert(favorite)
         val result = movieDao.getFavoriteMovie().take(1).toList()
-        assertThat(result[0]).contains(movie)
+        Truth.assertThat(result[0]).contains(movie)
     }
 
     @Test
@@ -259,9 +256,7 @@ class MovieDatabaseTest{
         movieDao.insert(movie)
         favoriteDao.insert(favorite)
         val result = movieDao.getFavoriteMovie().take(1).toList()
-        assertThat(result[0]).isEmpty()
+        Truth.assertThat(result[0]).isEmpty()
     }
-
-    //////////////////////////////////////////// CastDao ///////////////////////////////////////////////////
 
 }
