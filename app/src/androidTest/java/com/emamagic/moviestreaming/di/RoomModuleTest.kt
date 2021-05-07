@@ -15,12 +15,33 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RoomModuleTest {
 
+  //  @Named("TEST_DB")
     @Provides
     @Singleton
-    @Named("TEST_DB")
     fun provideInMemoryDb(@ApplicationContext context: Context) =
         Room.inMemoryDatabaseBuilder(context ,MovieDatabase::class.java)
             .allowMainThreadQueries()
             .build()
+
+    @Provides
+    fun provideSliderDao(database: MovieDatabase) = database.sliderDao()
+
+    @Provides
+    fun provideMovieDao(database: MovieDatabase) = database.movieDao()
+
+    @Provides
+    fun provideGenreDao(database: MovieDatabase) = database.genreDao()
+
+    @Provides
+    fun provideCastDao(database: MovieDatabase) = database.castDao()
+
+    @Provides
+    fun provideSeasonDao(database: MovieDatabase) = database.seasonDao()
+
+    @Provides
+    fun provideEpisodeDao(database: MovieDatabase) = database.episodeDao()
+
+    @Provides
+    fun provideFavoriteDao(database: MovieDatabase) = database.favoriteDao()
 
 }

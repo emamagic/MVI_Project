@@ -7,10 +7,12 @@ import com.emamagic.moviestreaming.db.MovieDatabase
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
+import com.emamagic.moviestreaming.di.RoomModule
 import com.emamagic.moviestreaming.runBlocking
 import com.google.common.truth.Truth
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -22,11 +24,12 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @ExperimentalCoroutinesApi
+@UninstallModules(RoomModule::class)
 @HiltAndroidTest
 class MovieDaoTest {
 
+  //  @Named("TEST_DB")
     @Inject
-    @Named("TEST_DB")
     lateinit var db: MovieDatabase
     private lateinit var movieDao: MovieDao
     private lateinit var favoriteDao: FavoriteDao
