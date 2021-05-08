@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.FragmentPlayerBinding
@@ -22,6 +25,7 @@ class FragmentVideoPlayer : Fragment(R.layout.fragment_player) {
     private val args: FragmentVideoPlayerArgs by navArgs()
     private var _binding: FragmentPlayerBinding? = null
     private val binding: FragmentPlayerBinding get() = _binding!!
+    private var callback: OnBackPressedCallback? = null
 
     private lateinit var videoPlayer: SimpleExoPlayer
 
@@ -39,6 +43,9 @@ class FragmentVideoPlayer : Fragment(R.layout.fragment_player) {
 
         player = view.findViewById(R.id.video_view)
         initializePlayer(args.videoLink)
+
+        onFragmentBackPressed(viewLifecycleOwner) { findNavController().popBackStack() }
+
     }
 
     private fun initializePlayer(uri: String) {
@@ -53,6 +60,15 @@ class FragmentVideoPlayer : Fragment(R.layout.fragment_player) {
         val dataSourceFactory = DefaultDataSourceFactory(requireContext(), "sample")
         return ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(Uri.parse(uri))
+    }
+
+    fun onFragmentBackPressed(owner: LifecycleOwner, call: () -> Unit) {
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                call()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(owner, callback!!)
     }
 
     override fun onResume() {
@@ -73,5 +89,9 @@ class FragmentVideoPlayer : Fragment(R.layout.fragment_player) {
     override fun onDestroyView() {
         super.onDestroyView()
          _binding = null
+        if (callback != null){
+            callback?.isEnabled = false
+            callback?.remove()
+        }
     }
 }

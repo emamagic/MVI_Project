@@ -36,7 +36,7 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = binding.root.rootView?.findViewById(R.id.my_loading)!!
-
+        hideLoading()
         lifecycleScope.launchWhenStarted {
             viewModel.uiState.collect { renderViewState(it) }
         }
