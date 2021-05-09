@@ -1,7 +1,6 @@
 # MovieStreaming <br>
 **NOTE**<br> 
 In this project, I try to impelement MVI architecture and
-<br>
 <hr>
 <br>
 **Dependencies**<br>
@@ -16,8 +15,7 @@ In this project, I try to impelement MVI architecture and
 8.error handling<br>
 9.NetWorkBoundResource<br>
 10.exoplayer<br>
-11. ....<br>
-<br>
+11. ....
 <hr>
 <br>
 **Notice**<br>
