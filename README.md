@@ -15,7 +15,7 @@
 10.exoplayer<br>
 11. ....<br>
 <br><br>
-**<p style="color: red">Notice</P>**<br>
+**Notice**<br>
 This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br>
 
 <img src="/screenshots/home.jpg" width="300" >
