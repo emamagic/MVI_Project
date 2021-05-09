@@ -2,7 +2,7 @@
 **NOTE** In this project, I try to impelement MVI architecture and  
 
 **Dependencies**
-1.MVI
+1.MVI <br>
 2.Retrofit
 3.StateFlow SharedFlow Channel
 4.Hilt
