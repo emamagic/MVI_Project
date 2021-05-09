@@ -18,12 +18,12 @@
 **Notice**<br>
 This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br>
 
-<img src="/screenshots/home.jpg" style="display: inline" width="300" >
+<img src="/screenshots/home.jpg" width="300" >
 
-<img src="/screenshots/movie.jpg" style="display: inline" width="300" >
+<img src="/screenshots/movie.jpg" width="300" >
 
-<img src="/screenshots/movie_list.jpg" style="display: inline" width="300" >
+<img src="/screenshots/movie_list.jpg" width="300" >
 
-<img src="/screenshots/genre.jpg" style="display: inline" width="300" >
+<img src="/screenshots/genre.jpg" width="300" >
 
-<img src="/screenshots/series.jpg" style="display: inline" width="300" >
+<img src="/screenshots/series.jpg" width="300" >
