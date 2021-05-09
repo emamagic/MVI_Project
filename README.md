@@ -1,7 +1,7 @@
-# MovieStreaming <br><br>
+# MovieStreaming <br>
 **NOTE** In this project, I try to impelement MVI architecture and  <br><br>
 
-**Dependencies**<br><br>
+**Dependencies**<br>
 1.MVI <br>
 2.Retrofit<br>
 3.StateFlow SharedFlow Channel<br>
@@ -15,7 +15,7 @@
 10.exoplayer<br>
 11. ....<br>
 <br><br>
-**Notice**<br><br>
+**Notice**<br>
 This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br>
 
 <img src="/screenshots/home.jpg" width="300" >
