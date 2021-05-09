@@ -17,11 +17,11 @@ In this project, I try to impelement MVI architecture and
 11. ....<br>
 <hr>
 **Notice**<br>
-This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br>
+This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br><hr>
 
-<img src="/screenshots/home.jpg" width="300" >
+<img src="/screenshots/home.jpg" width="300" >  <img src="/screenshots/movie.jpg" width="300" >
 
-<img src="/screenshots/movie.jpg" width="300" >
+
 
 <img src="/screenshots/movie_list.jpg" width="300" >
 
