@@ -2,7 +2,6 @@
 **NOTE**<br> 
 In this project, I try to impelement MVI architecture and
 <hr>
-<br>
 **Dependencies**<br>
 1.MVI <br>
 2.Retrofit<br>
@@ -15,9 +14,8 @@ In this project, I try to impelement MVI architecture and
 8.error handling<br>
 9.NetWorkBoundResource<br>
 10.exoplayer<br>
-11. ....
+11. ....<br>
 <hr>
-<br>
 **Notice**<br>
 This is not a complete project , this is just a sample that you can use it and I try to update this project whenever that I could<br>
 
