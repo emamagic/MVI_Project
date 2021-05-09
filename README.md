@@ -1,6 +1,6 @@
 # MovieStreaming <br>
 **NOTE**<br> 
-In this project, I try to impelement MVI architecture and
+In this project, I try to impelement MVI architecture
 <hr>
 **Dependencies**<br>
 1.MVI <br>
