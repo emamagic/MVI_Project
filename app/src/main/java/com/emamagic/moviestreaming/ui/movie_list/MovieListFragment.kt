@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.base.BaseFragment
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentMovieBinding
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
@@ -20,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,MovieListEffect ,MovieListEvent ,MovieListViewModel>() ,MovieListCompleteAdapter.MovieInteraction{
+class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState , CommonEffect,MovieListEvent ,MovieListViewModel>() ,MovieListCompleteAdapter.MovieInteraction{
 
 
     override val viewModel: MovieListViewModel by viewModels()
@@ -55,14 +56,6 @@ class MovieListFragment : BaseFragment<FragmentMovieBinding ,MovieListState ,Mov
                 movieListAdapter.submitList(viewState.movieList)
             }
         }
-    }
-
-    override fun renderViewEffect(viewEffect: MovieListEffect) {
-        when(viewEffect){
-            is MovieListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is MovieListEffect.Navigate -> findNavController().navigate(viewEffect.navDirect)
-            is MovieListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-        }.exhaustive
     }
 
 

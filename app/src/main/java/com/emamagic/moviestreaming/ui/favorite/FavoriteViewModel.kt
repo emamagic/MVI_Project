@@ -2,8 +2,8 @@ package com.emamagic.moviestreaming.ui.favorite
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.repository.favorite.FavoriteRepository
-import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteEffect
 import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteEvent
 import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val repository: FavoriteRepository
-): BaseViewModel<FavoriteState ,FavoriteEffect ,FavoriteEvent>(){
+): BaseViewModel<FavoriteState ,CommonEffect ,FavoriteEvent>(){
 
     override fun createInitialState() = FavoriteState.initialize()
 
@@ -26,10 +26,10 @@ class FavoriteViewModel @Inject constructor(
     }
 
     private fun getFavoriteMovies() = viewModelScope.launch {
-        setEffect { FavoriteEffect.Loading(isLoading = true) }
+        setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getFavoriteMovies().collect {
             setState { copy(movies = it) }
-            setEffect { FavoriteEffect.Loading(isLoading = false) }
+            setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
 }

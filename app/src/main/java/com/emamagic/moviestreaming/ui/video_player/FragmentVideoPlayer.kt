@@ -62,7 +62,7 @@ class FragmentVideoPlayer : Fragment(R.layout.fragment_player) {
             .createMediaSource(Uri.parse(uri))
     }
 
-    fun onFragmentBackPressed(owner: LifecycleOwner, call: () -> Unit) {
+    private fun onFragmentBackPressed(owner: LifecycleOwner, call: () -> Unit) {
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 call()

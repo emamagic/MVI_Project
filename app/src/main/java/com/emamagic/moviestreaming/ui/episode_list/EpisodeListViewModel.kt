@@ -2,16 +2,14 @@ package com.emamagic.moviestreaming.ui.episode_list
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.repository.episode_list.EpisodeListRepository
-import com.emamagic.moviestreaming.ui.episode_list.contract.CurrentEpisodeListState
-import com.emamagic.moviestreaming.ui.episode_list.contract.EpisodeListEffect
 import com.emamagic.moviestreaming.ui.episode_list.contract.EpisodeListEvent
 import com.emamagic.moviestreaming.ui.episode_list.contract.EpisodeListState
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EpisodeListViewModel @Inject constructor(
     private val repository: EpisodeListRepository
-): BaseViewModel<EpisodeListState ,EpisodeListEffect ,EpisodeListEvent>() {
+): BaseViewModel<EpisodeListState , CommonEffect,EpisodeListEvent>() {
 
 
     override fun createInitialState() = EpisodeListState.initialize()
@@ -32,21 +30,21 @@ class EpisodeListViewModel @Inject constructor(
     }
 
     private fun getEpisodes(seasonId: Long) = viewModelScope.launch {
-        setEffect { EpisodeListEffect.Loading(isLoading = true) }
+        setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getEpisodesById(seasonId).collect {
             when(it) {
-                is ResultWrapper.Success -> setState { copy(episodes = it.data!! ,currentState = CurrentEpisodeListState.EPISODES_RECEIVED) }
+                is ResultWrapper.Success -> setState { copy(episodes = it.data) }
                 is ResultWrapper.Failed -> {
-                    setEffect { EpisodeListEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                    setState { copy(episodes = it.data!! ,currentState = CurrentEpisodeListState.EPISODES_RECEIVED) }
+                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                    setState { copy(episodes = it.data) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(episodes = it.data!! ,currentState = CurrentEpisodeListState.EPISODES_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(episodes = it.data) }
             }
-            setEffect { EpisodeListEffect.Loading(isLoading = false) }
+            setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
 
     private fun playEpisodeClicked(videoLink: String) = viewModelScope.launch {
-        setEffect { EpisodeListEffect.Navigate(EpisodeListFragmentDirections.actionEpisodeListFragmentToFragmentVideoPlayer(videoLink)) }
+        setEffect { CommonEffect.Navigate(EpisodeListFragmentDirections.actionEpisodeListFragmentToFragmentVideoPlayer(videoLink)) }
     }
 }

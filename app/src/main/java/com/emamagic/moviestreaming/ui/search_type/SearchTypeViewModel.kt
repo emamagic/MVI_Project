@@ -2,8 +2,8 @@ package com.emamagic.moviestreaming.ui.search_type
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchType
-import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeEffect
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeEvent
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchTypeViewModel @Inject constructor(): BaseViewModel<SearchTypeState ,SearchTypeEffect , SearchTypeEvent>() {
+class SearchTypeViewModel @Inject constructor(): BaseViewModel<SearchTypeState , CommonEffect, SearchTypeEvent>() {
 
     override fun createInitialState() = SearchTypeState()
 
@@ -23,6 +23,6 @@ class SearchTypeViewModel @Inject constructor(): BaseViewModel<SearchTypeState ,
     }
 
     private fun searchTypeClicked(@SearchType type: String) = viewModelScope.launch {
-        setEffect { SearchTypeEffect.Navigate(SearchTypeFragmentDirections.actionSearchTypeFragmentToSearchFragment(type)) }
+        setEffect { CommonEffect.Navigate(SearchTypeFragmentDirections.actionSearchTypeFragmentToSearchFragment(type)) }
     }
 }

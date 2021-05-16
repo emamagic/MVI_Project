@@ -2,11 +2,11 @@ package com.emamagic.moviestreaming.ui.movie_list
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.repository.movie_list.MovieListRepository
 import com.emamagic.moviestreaming.ui.movie_list.contract.CurrentMovieListState
-import com.emamagic.moviestreaming.ui.movie_list.contract.MovieListEffect
 import com.emamagic.moviestreaming.ui.movie_list.contract.MovieListEvent
 import com.emamagic.moviestreaming.ui.movie_list.contract.MovieListState
 import com.emamagic.moviestreaming.util.ToastyMode
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
     private val repository: MovieListRepository
-): BaseViewModel<MovieListState ,MovieListEffect ,MovieListEvent>() {
+): BaseViewModel<MovieListState , CommonEffect,MovieListEvent>() {
 
 
     override fun createInitialState() = MovieListState.initialize()
@@ -34,22 +34,22 @@ class MovieListViewModel @Inject constructor(
     }
 
     private fun getAllMovie(category: String) = viewModelScope.launch {
-        setEffect { MovieListEffect.Loading(isLoading = true) }
+        setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getAllMovie(category).collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieListState.RECEIVE_MOVIES) }
                 is ResultWrapper.Failed ->  {
-                    setEffect { MovieListEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieListState.RECEIVE_MOVIES) }
                 }
                 is ResultWrapper.FetchLoading ->  setState { copy(movieList = it.data!! ,currentMovieState = CurrentMovieListState.RECEIVE_MOVIES) }
             }.exhaustive
-            setEffect { MovieListEffect.Loading(isLoading = false) }
+            setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
 
     private fun movieClicked(movie: MovieEntity) = viewModelScope.launch {
-        setEffect { MovieListEffect.Navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieFragment(movie)) }
+        setEffect { CommonEffect.Navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieFragment(movie)) }
     }
 
 

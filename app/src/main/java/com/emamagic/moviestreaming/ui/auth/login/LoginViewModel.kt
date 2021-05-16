@@ -2,9 +2,9 @@ package com.emamagic.moviestreaming.ui.auth.login
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.network.request.LoginRequest
 import com.emamagic.moviestreaming.repository.auth.login.LoginRepository
-import com.emamagic.moviestreaming.ui.auth.login.contract.LoginEffect
 import com.emamagic.moviestreaming.ui.auth.login.contract.LoginEvent
 import com.emamagic.moviestreaming.ui.auth.login.contract.LoginState
 import com.emamagic.moviestreaming.util.PreferencesManager
@@ -13,9 +13,7 @@ import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,7 +22,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepository,
     private val preferencesManager: PreferencesManager
-): BaseViewModel<LoginState , LoginEffect ,LoginEvent>() {
+): BaseViewModel<LoginState , CommonEffect,LoginEvent>() {
 
     private var isCheckedRemember: Boolean = false
 
@@ -40,12 +38,12 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun registerClicked() = viewModelScope.launch {
-        setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment()) }
+        setEffect { CommonEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment()) }
     }
 
     private fun loginClicked(request: LoginRequest) = viewModelScope.launch {
         if (request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()) {
-            setEffect { LoginEffect.Loading(isLoading = true, isDim = true) }
+            setEffect { CommonEffect.Loading(isLoading = true, isDim = true) }
             when (val response = repository.login(request)) {
                 "Login Ok" -> {
                     if (isCheckedRemember) {
@@ -53,15 +51,15 @@ class LoginViewModel @Inject constructor(
                             preferencesManager.setUserPhone(request.phone)
                         }
                     delay(1000)
-                    setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
+                    setEffect { CommonEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
                 }
                 else -> {
-                    setEffect { LoginEffect.ShowToast(response, ToastyMode.MODE_TOAST_ERROR) }
-                    setEffect { LoginEffect.Loading(isLoading = false, isDim = true) }
+                    setEffect { CommonEffect.ShowToast(response, ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { CommonEffect.Loading(isLoading = false, isDim = true) }
                 }
             }
         } else setEffect {
-            LoginEffect.ShowToast(
+            CommonEffect.ShowToast(
                 "Please fill all Field",
                 ToastyMode.MODE_TOAST_WARNING
             )
@@ -70,12 +68,12 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun checkLogin() = viewModelScope.launch {
-        setEffect { LoginEffect.Loading(isLoading = true) }
+        setEffect { CommonEffect.Loading(isLoading = true) }
         preferencesManager.isLogin().collect {
             Timber.e("$it")
             if (it)
-                setEffect { LoginEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
-            else setEffect { LoginEffect.Loading(isLoading = false) }
+                setEffect { CommonEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
+            else setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
 

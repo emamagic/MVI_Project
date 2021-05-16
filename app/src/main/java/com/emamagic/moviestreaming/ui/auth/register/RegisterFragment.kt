@@ -7,20 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.emamagic.moviestreaming.base.BaseFragment
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentRegisterBinding
 import com.emamagic.moviestreaming.network.request.RegisterRequest
-import com.emamagic.moviestreaming.ui.auth.register.contract.RegisterEffect
 import com.emamagic.moviestreaming.ui.auth.register.contract.RegisterEvent
 import com.emamagic.moviestreaming.ui.auth.register.contract.RegisterState
-import com.emamagic.moviestreaming.ui.favorite.contract.FavoriteEffect
-import com.emamagic.moviestreaming.util.exhaustive
-import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
-class RegisterFragment: BaseFragment<FragmentRegisterBinding ,RegisterState ,RegisterEffect ,RegisterEvent ,RegisterViewModel>() {
+class RegisterFragment: BaseFragment<FragmentRegisterBinding ,RegisterState ,CommonEffect ,RegisterEvent ,RegisterViewModel>() {
 
     override val viewModel: RegisterViewModel by viewModels()
     private lateinit var request: RegisterRequest
@@ -54,15 +50,5 @@ class RegisterFragment: BaseFragment<FragmentRegisterBinding ,RegisterState ,Reg
 
     }
 
-    override fun renderViewEffect(viewEffect: RegisterEffect) {
-        when(viewEffect) {
-            is RegisterEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-            is RegisterEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is RegisterEffect.Navigate -> {
-                if (viewEffect.navDirections == null)
-                findNavController().popBackStack()
-                else findNavController().navigate(viewEffect.navDirections)
-            }
-        }.exhaustive
-    }
+
 }

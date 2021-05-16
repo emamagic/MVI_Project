@@ -2,27 +2,23 @@ package com.emamagic.moviestreaming.ui.movie
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.repository.movie.MovieRepository
 import com.emamagic.moviestreaming.ui.movie.contract.CurrentMovieState
-import com.emamagic.moviestreaming.ui.movie.contract.MovieEffect
 import com.emamagic.moviestreaming.ui.movie.contract.MovieEvent
 import com.emamagic.moviestreaming.ui.movie.contract.MovieState
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.helper.safe.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
     private val repository: MovieRepository
-) : BaseViewModel<MovieState, MovieEffect, MovieEvent>() {
+) : BaseViewModel<MovieState, CommonEffect, MovieEvent>() {
 
     override fun createInitialState() = MovieState.initialize()
 
@@ -36,7 +32,7 @@ class MovieViewModel @Inject constructor(
     }
 
     private fun getDetailMovie(id: Long) = viewModelScope.launch {
-        setEffect { MovieEffect.Loading(true) }
+        setEffect { CommonEffect.Loading(true) }
         val movie = repository.getMovieById(id)
         setState { copy(movie = movie, currentState = CurrentMovieState.MOVIE_RECEIVED) }
         repository.getCastsById(id).collect {
@@ -44,11 +40,11 @@ class MovieViewModel @Inject constructor(
                 is ResultWrapper.Success -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
                 is ResultWrapper.Failed -> {
                     setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
-                    setEffect { MovieEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
             }.exhaustive
-            setEffect { MovieEffect.Loading(false) }
+            setEffect { CommonEffect.Loading(false) }
         }
     }
 
@@ -59,7 +55,7 @@ class MovieViewModel @Inject constructor(
                 is ResultWrapper.Success -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
                 is ResultWrapper.Failed -> {
                     setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
-                    setEffect { MovieEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
+                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
             }.exhaustive
@@ -68,12 +64,12 @@ class MovieViewModel @Inject constructor(
 
 
     private fun playVideoClicked(videoLink: String) = viewModelScope.launch {
-        setEffect { MovieEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToFragmentVideoPlayer(videoLink)) }
+        setEffect { CommonEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToFragmentVideoPlayer(videoLink)) }
     }
 
 
     private fun seasonClicked(seasonId: Long) = viewModelScope.launch {
-        setEffect { MovieEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToEpisodeListFragment(seasonId)) }
+        setEffect { CommonEffect.Navigate(MovieFragmentDirections.actionMovieFragmentToEpisodeListFragment(seasonId)) }
     }
 
 

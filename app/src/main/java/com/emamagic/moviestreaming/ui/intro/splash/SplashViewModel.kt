@@ -2,7 +2,7 @@ package com.emamagic.moviestreaming.ui.intro.splash
 
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.base.BaseViewModel
-import com.emamagic.moviestreaming.ui.intro.splash.contract.SplashEffect
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.ui.intro.splash.contract.SplashEvent
 import com.emamagic.moviestreaming.ui.intro.splash.contract.SplashState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(): BaseViewModel<SplashState ,SplashEffect ,SplashEvent>() {
+class SplashViewModel @Inject constructor(): BaseViewModel<SplashState , CommonEffect,SplashEvent>() {
 
     override fun createInitialState() = SplashState()
 
@@ -22,6 +22,6 @@ class SplashViewModel @Inject constructor(): BaseViewModel<SplashState ,SplashEf
     }
 
     private fun timeFinished() = viewModelScope.launch {
-        setEffect { SplashEffect.Navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment()) }
+        setEffect { CommonEffect.Navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment()) }
     }
 }

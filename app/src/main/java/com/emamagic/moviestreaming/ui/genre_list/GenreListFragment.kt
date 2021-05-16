@@ -8,23 +8,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.base.BaseFragment
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentGenreListBinding
 import com.emamagic.moviestreaming.db.entity.FavoriteEntity
-import com.emamagic.moviestreaming.db.entity.MovieEntity
 import com.emamagic.moviestreaming.db.entity.MovieWithFavorite
 import com.emamagic.moviestreaming.ui.genre_list.adapter.GenreListAdapter
 import com.emamagic.moviestreaming.ui.genre_list.contract.CurrentGenreListState
-import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEffect
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListEvent
 import com.emamagic.moviestreaming.ui.genre_list.contract.GenreListState
-import com.emamagic.moviestreaming.ui.movie_list.contract.MovieListEvent
-import com.emamagic.moviestreaming.util.exhaustive
-import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class GenreListFragment: BaseFragment<FragmentGenreListBinding ,GenreListState ,GenreListEffect ,GenreListEvent ,GenreListViewModel>() ,
+class GenreListFragment: BaseFragment<FragmentGenreListBinding ,GenreListState , CommonEffect,GenreListEvent ,GenreListViewModel>() ,
     GenreListAdapter.Interaction{
 
 
@@ -55,13 +51,6 @@ class GenreListFragment: BaseFragment<FragmentGenreListBinding ,GenreListState ,
         }
     }
 
-    override fun renderViewEffect(viewEffect: GenreListEffect) {
-        when(viewEffect){
-            is GenreListEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is GenreListEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
-            is GenreListEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-        }.exhaustive
-    }
 
     private fun setUpGenreListRecycler(list: List<MovieWithFavorite>) {
         Timber.e("${list.size}")

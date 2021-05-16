@@ -8,17 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseFragment
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentSearchTypeBinding
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchType
-import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeEffect
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeEvent
 import com.emamagic.moviestreaming.ui.search_type.contract.SearchTypeState
-import com.emamagic.moviestreaming.util.exhaustive
-import com.emamagic.moviestreaming.util.toasty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchTypeFragment: BaseFragment<FragmentSearchTypeBinding ,SearchTypeState ,SearchTypeEffect ,SearchTypeEvent ,SearchTypeViewModel>() ,View.OnClickListener {
+class SearchTypeFragment: BaseFragment<FragmentSearchTypeBinding ,SearchTypeState , CommonEffect,SearchTypeEvent ,SearchTypeViewModel>() ,View.OnClickListener {
 
     override val viewModel: SearchTypeViewModel by viewModels()
 
@@ -39,13 +37,6 @@ class SearchTypeFragment: BaseFragment<FragmentSearchTypeBinding ,SearchTypeStat
 
     override fun renderViewState(viewState: SearchTypeState) {}
 
-    override fun renderViewEffect(viewEffect: SearchTypeEffect) {
-        when(viewEffect) {
-            is SearchTypeEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is SearchTypeEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
-            is SearchTypeEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-        }.exhaustive
-    }
 
     override fun onClick(v: View) {
         when(v.id){

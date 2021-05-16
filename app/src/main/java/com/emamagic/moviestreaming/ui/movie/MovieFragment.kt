@@ -1,6 +1,5 @@
 package com.emamagic.moviestreaming.ui.movie
 
-import android.graphics.Movie
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.base.BaseFragment
+import com.emamagic.moviestreaming.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentShowDetailMovieBinding
 import com.emamagic.moviestreaming.db.entity.CastEntity
 import com.emamagic.moviestreaming.db.entity.MovieEntity
@@ -18,16 +18,13 @@ import com.emamagic.moviestreaming.ui.home.contract.CategoryType
 import com.emamagic.moviestreaming.ui.movie.adaper.CastAdapter
 import com.emamagic.moviestreaming.ui.movie.adaper.SeasonAdapter
 import com.emamagic.moviestreaming.ui.movie.contract.CurrentMovieState
-import com.emamagic.moviestreaming.ui.movie.contract.MovieEffect
 import com.emamagic.moviestreaming.ui.movie.contract.MovieEvent
 import com.emamagic.moviestreaming.ui.movie.contract.MovieState
-import com.emamagic.moviestreaming.util.exhaustive
-import com.emamagic.moviestreaming.util.toasty
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,MovieEffect ,MovieEvent ,MovieViewModel>() ,
+class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState , CommonEffect,MovieEvent ,MovieViewModel>() ,
     SeasonAdapter.Interaction{
 
     override val viewModel: MovieViewModel by viewModels()
@@ -69,13 +66,6 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding ,MovieState ,Mo
         }
     }
 
-    override fun renderViewEffect(viewEffect: MovieEffect) {
-        when(viewEffect) {
-            is MovieEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
-            is MovieEffect.Loading -> if (viewEffect.isLoading) showLoading(true) else hideLoading()
-            is MovieEffect.Navigate -> findNavController().navigate(viewEffect.navDirections)
-        }.exhaustive
-    }
 
     private fun setUpViews(movie: MovieEntity) {
         binding.apply {

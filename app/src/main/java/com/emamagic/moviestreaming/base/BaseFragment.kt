@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.util.helper.conectivity.ConnectionLiveData
+import com.emamagic.moviestreaming.util.toasty
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffect ,EVENT: BaseEvent ,VM: BaseViewModel<STATE ,EFFECT ,EVENT>>: Fragment() {
@@ -74,7 +76,19 @@ abstract class BaseFragment<VB: ViewBinding ,STATE: BaseState ,EFFECT: BaseEffec
 
     abstract fun renderViewState(viewState: STATE)
 
-    abstract fun renderViewEffect(viewEffect: EFFECT)
+
+    protected open fun renderViewEffect(viewEffect: EFFECT) {
+        when(viewEffect) {
+            is CommonEffect.ShowToast -> toasty(viewEffect.message ,viewEffect.mode)
+            is CommonEffect.Loading -> if (viewEffect.isLoading) showLoading(viewEffect.isDim) else hideLoading()
+            is CommonEffect.Navigate -> {
+                if (viewEffect.navDirections == null)
+                    findNavController().popBackStack()
+                else findNavController().navigate(viewEffect.navDirections)
+            }
+        }
+    }
+
 
     fun onFragmentBackPressed(owner: LifecycleOwner, call: () -> Unit) {
         callback = object : OnBackPressedCallback(true) {
