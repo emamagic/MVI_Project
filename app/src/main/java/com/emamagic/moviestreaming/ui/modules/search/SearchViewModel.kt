@@ -30,11 +30,15 @@ class SearchViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun searchMovies(category: String, query: String) = viewModelScope.launch {
         val response = repository.searchMovies(category ,query)
         when(response){
             is ResultWrapper.Success -> setState { copy(movies = response.data) }
-            is ResultWrapper.Failed -> setEffect { CommonEffect.ShowToast("${response.error?.message}" ,ToastyMode.MODE_TOAST_ERROR) }
+            is ResultWrapper.Failed -> {  }
             is ResultWrapper.FetchLoading -> { /* Do Nothing */ }
         }.exhaustive
     }

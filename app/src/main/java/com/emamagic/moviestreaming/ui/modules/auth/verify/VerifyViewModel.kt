@@ -21,4 +21,8 @@ class VerifyViewModel @Inject constructor(
             else -> {}
         }.exhaustive
     }
+
+    override fun showError(errorMessage: String) {
+
+    }
 }

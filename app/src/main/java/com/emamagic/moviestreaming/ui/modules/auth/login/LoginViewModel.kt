@@ -37,6 +37,11 @@ class LoginViewModel @Inject constructor(
         }.exhaustive
     }
 
+
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage, ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun registerClicked() = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment()) }
     }
@@ -54,7 +59,6 @@ class LoginViewModel @Inject constructor(
                     setEffect { CommonEffect.Navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
                 }
                 else -> {
-                    setEffect { CommonEffect.ShowToast(response, ToastyMode.MODE_TOAST_ERROR) }
                     setEffect { CommonEffect.Loading(isLoading = false, isDim = true) }
                 }
             }
@@ -76,5 +80,6 @@ class LoginViewModel @Inject constructor(
             else setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
+
 
 }

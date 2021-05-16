@@ -18,4 +18,8 @@ class IntroViewModel @Inject constructor(): BaseViewModel<IntroState, CommonEffe
             else -> {}
         }.exhaustive
     }
+
+    override fun showError(errorMessage: String) {
+
+    }
 }

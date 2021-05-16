@@ -41,6 +41,10 @@ class HomeViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { HomeEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_ERROR) }
+    }
+
 
     private fun getSliders() = viewModelScope.launch {
         setEffect { HomeEffect.Loading(isLoading = true) }
@@ -55,7 +59,6 @@ class HomeViewModel @Inject constructor(
                         ....
                     }*/
                     setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
                 is ResultWrapper.FetchLoading -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
             }.exhaustive
@@ -106,10 +109,7 @@ class HomeViewModel @Inject constructor(
         }.collect {
             when (it) {
                 is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
-                is ResultWrapper.Failed -> {
-                    setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
-                    setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                }
+                is ResultWrapper.Failed -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                is ResultWrapper.FetchLoading -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
             }.exhaustive
             setEffect { HomeEffect.Loading(false) }
@@ -150,7 +150,7 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    private fun moreMovieClicked(@com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType categoryType: String) = viewModelScope.launch {
+    private fun moreMovieClicked(@CategoryType categoryType: String) = viewModelScope.launch {
         when (categoryType) {
             CategoryType.TOP,
             CategoryType.NEW,

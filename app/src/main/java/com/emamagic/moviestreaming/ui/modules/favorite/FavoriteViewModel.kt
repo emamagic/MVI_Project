@@ -6,6 +6,7 @@ import com.emamagic.moviestreaming.ui.base.BaseViewModel
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.ui.modules.favorite.contract.FavoriteEvent
 import com.emamagic.moviestreaming.ui.modules.favorite.contract.FavoriteState
+import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -25,6 +26,10 @@ class FavoriteViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage, ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun getFavoriteMovies() = viewModelScope.launch {
         setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getFavoriteMovies().collect {
@@ -32,4 +37,5 @@ class FavoriteViewModel @Inject constructor(
             setEffect { CommonEffect.Loading(isLoading = false) }
         }
     }
+
 }

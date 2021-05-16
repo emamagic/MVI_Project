@@ -31,6 +31,10 @@ class MovieViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun getDetailMovie(id: Long) = viewModelScope.launch {
         setEffect { CommonEffect.Loading(true) }
         val movie = repository.getMovieById(id)
@@ -38,10 +42,7 @@ class MovieViewModel @Inject constructor(
         repository.getCastsById(id).collect {
             when(it) {
                 is ResultWrapper.Success -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
-                is ResultWrapper.Failed -> {
-                    setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
-                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                }
+                is ResultWrapper.Failed -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
                 is ResultWrapper.FetchLoading -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
             }.exhaustive
             setEffect { CommonEffect.Loading(false) }
@@ -53,10 +54,7 @@ class MovieViewModel @Inject constructor(
         repository.getSeasonById(id).collect {
             when(it) {
                 is ResultWrapper.Success -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
-                is ResultWrapper.Failed -> {
-                    setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
-                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                }
+                is ResultWrapper.Failed -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
                 is ResultWrapper.FetchLoading -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
             }.exhaustive
         }

@@ -6,6 +6,7 @@ import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeEvent
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeState
+import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +23,12 @@ class SearchTypeViewModel @Inject constructor(): BaseViewModel<SearchTypeState, 
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        CommonEffect.ShowToast(errorMessage, ToastyMode.MODE_TOAST_ERROR)
+    }
+
     private fun searchTypeClicked(@SearchType type: String) = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(SearchTypeFragmentDirections.actionSearchTypeFragmentToSearchFragment(type)) }
     }
+
 }

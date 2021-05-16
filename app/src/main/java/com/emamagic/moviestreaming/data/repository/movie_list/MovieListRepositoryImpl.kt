@@ -29,7 +29,8 @@ class MovieListRepositoryImpl @Inject constructor(
             errorHandler = this,
             databaseQuery = { movieDao.getMoviesWithFavoriteByCategory(category) },
             networkCall = { movieApi.getAllMovie(category) },
-            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) }
+            saveCallResult = { movieDao.upsert(movieMapper.mapFromEntityList(it.movies)) },
+            onFetchFailed = {  }
         )
     }
 

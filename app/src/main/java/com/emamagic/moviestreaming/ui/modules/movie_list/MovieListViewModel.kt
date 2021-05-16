@@ -31,15 +31,17 @@ class MovieListViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage,ToastyMode.MODE_TOAST_ERROR) }
+
+    }
+
     private fun getAllMovie(category: String) = viewModelScope.launch {
         setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getAllMovie(category).collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(movieList = it.data) }
-                is ResultWrapper.Failed ->  {
-                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                    setState { copy(movieList = it.data) }
-                }
+                is ResultWrapper.Failed ->  setState { copy(movieList = it.data) }
                 is ResultWrapper.FetchLoading ->  setState { copy(movieList = it.data) }
             }.exhaustive
             setEffect { CommonEffect.Loading(isLoading = false) }
@@ -54,5 +56,6 @@ class MovieListViewModel @Inject constructor(
     private fun favoriteMovieClicked(item: com.emamagic.moviestreaming.data.db.entity.FavoriteEntity) = viewModelScope.launch {
         repository.updateFavoriteById(item)
     }
+
 
 }

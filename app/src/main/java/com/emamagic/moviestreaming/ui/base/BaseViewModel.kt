@@ -2,31 +2,33 @@ package com.emamagic.moviestreaming.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.emamagic.moviestreaming.provider.safe.error.ErrorRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<STATE : BaseState ,EFFECT : BaseEffect ,EVENT : BaseEvent> : ViewModel() {
+abstract class BaseViewModel<STATE : BaseState, EFFECT : BaseEffect, EVENT : BaseEvent> :
+    ViewModel() {
 
     // Create Initial State of View
-    private val initialState : STATE by lazy { createInitialState() }
-    abstract fun createInitialState() : STATE
+    private val initialState: STATE by lazy { createInitialState() }
+    abstract fun createInitialState(): STATE
 
     // Get Current State
     val currentState: STATE
         get() = uiState.value
 
-    private val _uiState : MutableStateFlow<STATE> = MutableStateFlow(initialState)
+    private val _uiState: MutableStateFlow<STATE> = MutableStateFlow(initialState)
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent : MutableSharedFlow<EVENT> = MutableSharedFlow()
+    private val _uiEvent: MutableSharedFlow<EVENT> = MutableSharedFlow()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val _uiEffect : Channel<EFFECT> = Channel()
+    private val _uiEffect: Channel<EFFECT> = Channel()
     val uiEffect = _uiEffect.receiveAsFlow()
 
 
-    fun setEvent(event : EVENT) {
+    fun setEvent(event: EVENT) {
         val newEvent = event
         viewModelScope.launch { _uiEvent.emit(newEvent) }
     }
@@ -46,13 +48,19 @@ abstract class BaseViewModel<STATE : BaseState ,EFFECT : BaseEffect ,EVENT : Bas
     }
 
 
-    private fun subscribeEvents() {
-        viewModelScope.launch {
-            uiEvent.collect {
-                handleEvent(it)
-            }
+    private fun subscribeEvents() = viewModelScope.launch {
+        uiEvent.collect {
+            handleEvent(it)
         }
     }
 
-    abstract fun handleEvent(event : EVENT)
+
+    abstract fun handleEvent(event: EVENT)
+
+    private fun subscribeOnErrorEvent() = viewModelScope.launch {
+        ErrorRepository.errorMessage.collect { showError(it) }
+    }
+
+    abstract fun showError(errorMessage: String)
+
 }

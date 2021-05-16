@@ -28,15 +28,16 @@ class GenreTypeViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun getAllGenre() = viewModelScope.launch {
         setEffect { CommonEffect.Loading(true) }
         typeRepository.getAllGenre().collect {
             when(it){
                 is ResultWrapper.Success -> setState { copy(genreList = it.data) }
-                is ResultWrapper.Failed -> {
-                    setState { copy(genreList = it.data) }
-                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                }
+                is ResultWrapper.Failed -> setState { copy(genreList = it.data) }
                 is ResultWrapper.FetchLoading -> setState { copy(genreList = it.data) }
             }.exhaustive
             setEffect { CommonEffect.Loading(false) }
@@ -46,6 +47,7 @@ class GenreTypeViewModel @Inject constructor(
     private fun genreTypeClicked(genreName: String) = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(GenreTypeFragmentDirections.actionGenreTypeFragmentToGenreListFragment(genreName)) }
     }
+
 
 
 }

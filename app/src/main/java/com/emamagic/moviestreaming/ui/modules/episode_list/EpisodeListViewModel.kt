@@ -29,13 +29,16 @@ class EpisodeListViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_ERROR) }
+    }
+
     private fun getEpisodes(seasonId: Long) = viewModelScope.launch {
         setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getEpisodesById(seasonId).collect {
             when(it) {
                 is ResultWrapper.Success -> setState { copy(episodes = it.data) }
                 is ResultWrapper.Failed -> {
-                    setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                     setState { copy(episodes = it.data) }
                 }
                 is ResultWrapper.FetchLoading -> setState { copy(episodes = it.data) }
@@ -47,4 +50,5 @@ class EpisodeListViewModel @Inject constructor(
     private fun playEpisodeClicked(videoLink: String) = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(EpisodeListFragmentDirections.actionEpisodeListFragmentToFragmentVideoPlayer(videoLink)) }
     }
+
 }

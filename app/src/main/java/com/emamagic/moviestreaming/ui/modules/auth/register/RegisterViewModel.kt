@@ -26,12 +26,15 @@ class RegisterViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        setEffect { CommonEffect.ShowToast(errorMessage ,ToastyMode.MODE_TOAST_SUCCESS) }
+    }
+
     private fun registerClicked(request: RegisterRequest) = viewModelScope.launch {
         if (request.name.isNotEmpty() && request.email.isNotEmpty() && request.phone.isNotEmpty() && request.password.isNotEmpty()) {
             setEffect { CommonEffect.Loading(isLoading = true) }
             when(val response = repository.register(request)) {
                 "Register Ok" -> setEffect { CommonEffect.Navigate(navDirections = null) }
-                else -> setEffect { CommonEffect.ShowToast(response ,ToastyMode.MODE_TOAST_SUCCESS) }
             }
             setEffect { CommonEffect.Loading(isLoading = false) }
         }else setEffect { CommonEffect.ShowToast("Please fill all Field" ,ToastyMode.MODE_TOAST_WARNING) }

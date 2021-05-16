@@ -31,6 +31,9 @@ class GenreListViewModel @Inject constructor(
         }.exhaustive
     }
 
+    override fun showError(errorMessage: String) {
+        CommonEffect.ShowToast(errorMessage, ToastyMode.MODE_TOAST_ERROR)
+    }
 
     private fun getGenreByCategory(category: String) = viewModelScope.launch {
         setEffect { CommonEffect.Loading(isLoading = true) }
