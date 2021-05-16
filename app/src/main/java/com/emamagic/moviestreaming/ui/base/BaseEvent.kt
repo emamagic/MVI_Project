@@ -1,0 +1,4 @@
+package com.emamagic.moviestreaming.ui.base
+
+/** marker interface */
+interface BaseEvent

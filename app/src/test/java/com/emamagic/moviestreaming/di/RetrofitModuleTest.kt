@@ -43,18 +43,23 @@ object RetrofitModuleTest {
     }
 
     @Provides
-    fun provideHomeApi(retrofit: Retrofit): HomeApi = retrofit.create(HomeApi::class.java)
+    fun provideHomeApi(retrofit: Retrofit): com.emamagic.moviestreaming.data.network.api.HomeApi = retrofit.create(
+        com.emamagic.moviestreaming.data.network.api.HomeApi::class.java)
 
     @Provides
-    fun provideGenreApi(retrofit: Retrofit): GenreApi = retrofit.create(GenreApi::class.java)
+    fun provideGenreApi(retrofit: Retrofit): com.emamagic.moviestreaming.data.network.api.GenreApi = retrofit.create(
+        com.emamagic.moviestreaming.data.network.api.GenreApi::class.java)
 
     @Provides
-    fun provideMovieApi(retrofit: Retrofit): MovieApi = retrofit.create(MovieApi::class.java)
+    fun provideMovieApi(retrofit: Retrofit): com.emamagic.moviestreaming.data.network.api.MovieApi = retrofit.create(
+        com.emamagic.moviestreaming.data.network.api.MovieApi::class.java)
 
     @Provides
-    fun provideSearchApi(retrofit: Retrofit): SearchApi = retrofit.create(SearchApi::class.java)
+    fun provideSearchApi(retrofit: Retrofit): com.emamagic.moviestreaming.data.network.api.SearchApi = retrofit.create(
+        com.emamagic.moviestreaming.data.network.api.SearchApi::class.java)
 
     @Provides
-    fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
+    fun provideAuthApi(retrofit: Retrofit): com.emamagic.moviestreaming.data.network.api.AuthApi = retrofit.create(
+        com.emamagic.moviestreaming.data.network.api.AuthApi::class.java)
 
 }

@@ -1,7 +1,7 @@
 package com.emamagic.moviestreaming
 
 import androidx.multidex.MultiDexApplication
-import com.emamagic.moviestreaming.util.helper.conectivity.ConnectionLiveData
+import com.emamagic.moviestreaming.provider.conectivity.ConnectionLiveData
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

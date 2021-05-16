@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.emamagic.moviestreaming.ui.home.HomeFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/genreTypeFragment"
-        android:name="com.emamagic.moviestreaming.ui.genre_type.GenreTypeFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.genre_type.GenreTypeFragment"
         android:label="fragment_genre"
         tools:layout="@layout/fragment_genre_type" >
         <action
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.emamagic.moviestreaming.ui.movie_list.MovieListFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.movie_list.MovieListFragment"
         android:label="fragment_movie"
         tools:layout="@layout/fragment_movie" >
         <argument
@@ -65,12 +65,12 @@
 
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.emamagic.moviestreaming.ui.movie.MovieFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.movie.MovieFragment"
         android:label="fragment_show_detail_movie"
         tools:layout="@layout/fragment_show_detail_movie" >
         <argument
             android:name="movie"
-            app:argType="com.emamagic.moviestreaming.db.entity.MovieEntity" />
+            app:argType="com.emamagic.moviestreaming.data.db.entity.MovieEntity" />
         <action
             android:id="@+id/action_movieFragment_to_fragmentVideoPlayer"
             app:destination="@id/fragmentVideoPlayer" />
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentVideoPlayer"
-        android:name="com.emamagic.moviestreaming.ui.video_player.FragmentVideoPlayer"
+        android:name="com.emamagic.moviestreaming.ui.modules.video_player.FragmentVideoPlayer"
         android:label="fragment_player"
         tools:layout="@layout/fragment_player" >
         <argument
@@ -89,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/episodeListFragment"
-        android:name="com.emamagic.moviestreaming.ui.episode_list.EpisodeListFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.episode_list.EpisodeListFragment"
         android:label="fragment_episode_list"
         tools:layout="@layout/fragment_episode_list" >
         <argument
@@ -101,7 +101,7 @@
     </fragment>
     <fragment
         android:id="@+id/genreListFragment"
-        android:name="com.emamagic.moviestreaming.ui.genre_list.GenreListFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.genre_list.GenreListFragment"
         android:label="fragment_genre_list"
         tools:layout="@layout/fragment_genre_list" >
         <action
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.emamagic.moviestreaming.ui.search.SearchFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <argument
@@ -125,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTypeFragment"
-        android:name="com.emamagic.moviestreaming.ui.search_type.SearchTypeFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.search_type.SearchTypeFragment"
         android:label="fragment_search_type"
         tools:layout="@layout/fragment_search_type" >
         <action
@@ -134,12 +134,12 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.emamagic.moviestreaming.ui.favorite.FavoriteFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.emamagic.moviestreaming.ui.auth.login.LoginFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -153,13 +153,13 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.emamagic.moviestreaming.ui.auth.register.RegisterFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.auth.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.emamagic.moviestreaming.ui.intro.intro.IntroFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.intro.intro.IntroFragment"
         android:label="fragment_intro"
         tools:layout="@layout/fragment_intro" >
         <action
@@ -170,7 +170,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.emamagic.moviestreaming.ui.intro.splash.SplashFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.intro.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action

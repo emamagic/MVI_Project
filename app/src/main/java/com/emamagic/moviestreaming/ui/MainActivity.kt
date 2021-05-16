@@ -5,18 +5,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ActivityMainBinding
-import com.emamagic.moviestreaming.ui.connectivity.AlarmType
-import com.emamagic.moviestreaming.ui.connectivity.ConnectivityFragment
-import com.emamagic.moviestreaming.ui.connectivity.DialogListener
-import com.emamagic.moviestreaming.util.helper.conectivity.ConnectionLiveData
-import com.emamagic.moviestreaming.util.helper.conectivity.DoesNetworkHaveInternet
+import com.emamagic.moviestreaming.provider.conectivity.*
 import com.emamagic.moviestreaming.util.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -25,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() ,DialogListener{
+class MainActivity : AppCompatActivity() , DialogListener {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var connectionLiveData: ConnectionLiveData

@@ -1,7 +1,7 @@
 package com.emamagic.moviestreaming.network.api
 
 import com.emamagic.moviestreaming.enqueueResponse
-import com.emamagic.moviestreaming.network.dto.GenreDto
+import com.emamagic.moviestreaming.data.network.dto.GenreDto
 import com.emamagic.moviestreaming.network.response.GenreListResponse
 import com.google.common.truth.Truth
 import kotlinx.coroutines.runBlocking
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 class GenreApiTest {
 
     private val mockWebServer = MockWebServer()
-    private lateinit var genreApi: GenreApi
+    private lateinit var genreApi: com.emamagic.moviestreaming.data.network.api.GenreApi
 
     @Before
     fun setUp() {
@@ -34,7 +34,7 @@ class GenreApiTest {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(GenreApi::class.java)
+            .create(com.emamagic.moviestreaming.data.network.api.GenreApi::class.java)
     }
 
 
@@ -51,7 +51,7 @@ class GenreApiTest {
             val actual = genreApi.getAllGenre()
 
             val expected = GenreListResponse(listOf(
-                GenreDto(
+                com.emamagic.moviestreaming.data.network.dto.GenreDto(
                     id = 1,
                     name = "comedy",
                     imageLink = "https://i.pinimg.com/originals/22/91/cb/2291cb462e2e33ece794c094b684fe5e.jpg"

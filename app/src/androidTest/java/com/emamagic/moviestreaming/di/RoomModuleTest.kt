@@ -2,7 +2,7 @@ package com.emamagic.moviestreaming.di
 
 import android.content.Context
 import androidx.room.Room
-import com.emamagic.moviestreaming.db.MovieDatabase
+import com.emamagic.moviestreaming.data.db.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,29 +19,29 @@ object RoomModuleTest {
     @Provides
     @Singleton
     fun provideInMemoryDb(@ApplicationContext context: Context) =
-        Room.inMemoryDatabaseBuilder(context ,MovieDatabase::class.java)
+        Room.inMemoryDatabaseBuilder(context , com.emamagic.moviestreaming.data.db.MovieDatabase::class.java)
             .allowMainThreadQueries()
             .build()
 
     @Provides
-    fun provideSliderDao(database: MovieDatabase) = database.sliderDao()
+    fun provideSliderDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.sliderDao()
 
     @Provides
-    fun provideMovieDao(database: MovieDatabase) = database.movieDao()
+    fun provideMovieDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.movieDao()
 
     @Provides
-    fun provideGenreDao(database: MovieDatabase) = database.genreDao()
+    fun provideGenreDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.genreDao()
 
     @Provides
-    fun provideCastDao(database: MovieDatabase) = database.castDao()
+    fun provideCastDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.castDao()
 
     @Provides
-    fun provideSeasonDao(database: MovieDatabase) = database.seasonDao()
+    fun provideSeasonDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.seasonDao()
 
     @Provides
-    fun provideEpisodeDao(database: MovieDatabase) = database.episodeDao()
+    fun provideEpisodeDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.episodeDao()
 
     @Provides
-    fun provideFavoriteDao(database: MovieDatabase) = database.favoriteDao()
+    fun provideFavoriteDao(database: com.emamagic.moviestreaming.data.db.MovieDatabase) = database.favoriteDao()
 
 }

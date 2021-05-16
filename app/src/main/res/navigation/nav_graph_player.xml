@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/verifyFragment"
-        android:name="com.emamagic.moviestreaming.ui.auth.verify.VerifyFragment"
+        android:name="com.emamagic.moviestreaming.ui.modules.auth.verify.VerifyFragment"
         android:label="fragment_verify"
         tools:layout="@layout/fragment_verify" />
 </navigation>
