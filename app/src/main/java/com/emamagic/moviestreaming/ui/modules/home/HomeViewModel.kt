@@ -8,9 +8,7 @@ import com.emamagic.moviestreaming.data.repository.home.HomeRepository
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.provider.safe.ResultWrapper
 import com.emamagic.moviestreaming.ui.base.BaseViewModel
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeEffect
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeEvent
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeState
+import com.emamagic.moviestreaming.ui.modules.home.contract.*
 import com.emamagic.moviestreaming.util.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,7 +46,7 @@ class HomeViewModel @Inject constructor(
         setEffect { HomeEffect.Loading(isLoading = true) }
         repository.getSliders().collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(sliders = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.SLIDER_RECEIVED) }
+                is ResultWrapper.Success -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                 is ResultWrapper.Failed -> {
                     /** You can error handling with ErrorEntity ->
                     when(it.error){
@@ -56,10 +54,10 @@ class HomeViewModel @Inject constructor(
                         is ErrorEntity.Api -> Timber.e("api ${it.error.code}")
                         ....
                     }*/
-                    setState { copy(sliders = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.SLIDER_RECEIVED) }
+                    setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
                     setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(sliders = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.SLIDER_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(sliders = it.data!! ,currentState = CurrentHomeState.SLIDER_RECEIVED) }
             }.exhaustive
         }
     }
@@ -67,15 +65,15 @@ class HomeViewModel @Inject constructor(
     private fun getMovies() = viewModelScope.launch {
 
         combine(
-            repository.getMoviesByCategory(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.TOP),
-            repository.getMoviesByCategory(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.NEW),
-            repository.getMoviesByCategory(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES),
-            repository.getMoviesByCategory(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.POPULAR),
-            repository.getMoviesByCategory(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.ANIMATION),
+            repository.getMoviesByCategory(CategoryType.TOP),
+            repository.getMoviesByCategory(CategoryType.NEW),
+            repository.getMoviesByCategory(CategoryType.SERIES),
+            repository.getMoviesByCategory(CategoryType.POPULAR),
+            repository.getMoviesByCategory(CategoryType.ANIMATION),
         ) { top, new, series, popular, animation ->
             HomeApiHolder(top,new ,series, popular, animation)
         }.collect {
-            setState { copy(movies = it ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.MOVIE_RECEIVED) }
+            setState { copy(movies = it ,currentState = CurrentHomeState.MOVIE_RECEIVED) }
         }
 
 /*        merge(
@@ -107,12 +105,12 @@ class HomeViewModel @Inject constructor(
             Timber.e("completed 2")
         }.collect {
             when (it) {
-                is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.GENRE_RECEIVE) }
+                is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                 is ResultWrapper.Failed -> {
-                    setState { copy(genres = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.GENRE_RECEIVE) }
+                    setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
                     setEffect { HomeEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-               is ResultWrapper.FetchLoading -> setState { copy(genres = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.GENRE_RECEIVE) }
+               is ResultWrapper.FetchLoading -> setState { copy(genres = it.data!! ,currentState = CurrentHomeState.GENRE_RECEIVE) }
             }.exhaustive
             setEffect { HomeEffect.Loading(false) }
             // if refresh mode is enabled , we should disabled
@@ -126,7 +124,7 @@ class HomeViewModel @Inject constructor(
         Handler(Looper.getMainLooper()).postDelayed({
             shouldCloseApp = false
         } ,3000)
-        if (shouldCloseApp) setState { copy(closeApp = true ,currentState = com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.CLOSE_APP) }
+        if (shouldCloseApp) setState { copy(closeApp = true ,currentState = CurrentHomeState.CLOSE_APP) }
         else {
             shouldCloseApp = true
             setEffect { HomeEffect.ShowToast("Please Press Back Button Again" ,ToastyMode.MODE_TOAST_WARNING) }
@@ -154,12 +152,12 @@ class HomeViewModel @Inject constructor(
 
     private fun moreMovieClicked(@com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType categoryType: String) = viewModelScope.launch {
         when (categoryType) {
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.TOP,
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.NEW,
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES,
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.POPULAR,
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieListFragment(categoryType)) }
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.GENRE -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreTypeFragment()) }
+            CategoryType.TOP,
+            CategoryType.NEW,
+            CategoryType.SERIES,
+            CategoryType.POPULAR,
+            CategoryType.ANIMATION -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToMovieListFragment(categoryType)) }
+            CategoryType.GENRE -> setEffect { HomeEffect.Navigate(HomeFragmentDirections.actionHomeFragmentToGenreTypeFragment()) }
         }
 
     }

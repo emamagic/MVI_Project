@@ -3,6 +3,7 @@ package com.emamagic.moviestreaming.ui.modules.search_type
 import androidx.lifecycle.viewModelScope
 import com.emamagic.moviestreaming.ui.base.BaseViewModel
 import com.emamagic.moviestreaming.ui.base.CommonEffect
+import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeEvent
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -21,7 +22,7 @@ class SearchTypeViewModel @Inject constructor(): BaseViewModel<SearchTypeState, 
         }.exhaustive
     }
 
-    private fun searchTypeClicked(@com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType type: String) = viewModelScope.launch {
+    private fun searchTypeClicked(@SearchType type: String) = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(SearchTypeFragmentDirections.actionSearchTypeFragmentToSearchFragment(type)) }
     }
 }

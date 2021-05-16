@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.emamagic.moviestreaming.data.db.entity.EpisodeEntity
 import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentEpisodeListBinding
@@ -46,14 +47,14 @@ class EpisodeListFragment: BaseFragment<FragmentEpisodeListBinding, EpisodeListS
     }
 
 
-    private fun setUpEpisodesRecycler(list: List<com.emamagic.moviestreaming.data.db.entity.EpisodeEntity>) {
+    private fun setUpEpisodesRecycler(list: List<EpisodeEntity>) {
         binding.recyclerViewEpisodes.adapter = episodeAdapter
         binding.recyclerViewEpisodes.setHasFixedSize(true)
         binding.recyclerViewEpisodes.itemAnimator = null
         episodeAdapter.submitList(list)
     }
 
-    override fun onEpisodeClicked(item: com.emamagic.moviestreaming.data.db.entity.EpisodeEntity) {
+    override fun onEpisodeClicked(item: EpisodeEntity) {
         viewModel.setEvent(EpisodeListEvent.PlayEpisodeClicked(item.videoLink!!))
     }
 

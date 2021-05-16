@@ -8,6 +8,7 @@ import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.databinding.ItemFavoriteBinding
 import com.emamagic.moviestreaming.data.db.entity.MovieEntity
 import com.emamagic.moviestreaming.ui.base.BaseDiffCallback
+import com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType
 import com.squareup.picasso.Picasso
 
 class FavoriteAdapter constructor(private val interaction: Interaction) :
@@ -38,7 +39,7 @@ class FavoriteAdapter constructor(private val interaction: Interaction) :
             nameMovie.text = item.name
             nameDirector.text = item.director
             rateImdb.text = "IMDb:${item.imdbRate}"
-            if (item.categoryName == com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES) {
+            if (item.categoryName == CategoryType.SERIES) {
                 published.text = "Episodes :${item.episode}"
                 imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
             } else {

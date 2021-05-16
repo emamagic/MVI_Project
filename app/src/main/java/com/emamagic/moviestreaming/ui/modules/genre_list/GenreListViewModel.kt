@@ -8,7 +8,6 @@ import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.provider.safe.ResultWrapper
 import com.emamagic.moviestreaming.ui.base.BaseViewModel
-import com.emamagic.moviestreaming.ui.modules.genre_list.contract.CurrentGenreListState
 import com.emamagic.moviestreaming.ui.modules.genre_list.contract.GenreListEvent
 import com.emamagic.moviestreaming.ui.modules.genre_list.contract.GenreListState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -37,13 +36,13 @@ class GenreListViewModel @Inject constructor(
         setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getGenreByCategory(category).collect {
             when(it) {
-                is ResultWrapper.Success -> setState { copy(genres = it.data!! ,currentState = CurrentGenreListState.GENRE_RECEIVED) }
+                is ResultWrapper.Success -> setState { copy(genres = it.data) }
                 is ResultWrapper.Failed -> {
                     setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,
                         ToastyMode.MODE_TOAST_ERROR) }
-                    setState { copy(genres = it.data!! ,currentState = CurrentGenreListState.GENRE_RECEIVED) }
+                    setState { copy(genres = it.data) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(genres = it.data!! ,currentState = CurrentGenreListState.GENRE_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(genres = it.data) }
             }
             setEffect { CommonEffect.Loading(isLoading = false) }
         }

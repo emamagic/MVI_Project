@@ -19,9 +19,7 @@ import com.emamagic.moviestreaming.ui.modules.home.adapter.GenreAdapter
 import com.emamagic.moviestreaming.ui.modules.home.adapter.MovieHorAdapter
 import com.emamagic.moviestreaming.ui.modules.home.adapter.MovieVerAdapter
 import com.emamagic.moviestreaming.ui.modules.home.adapter.SliderAdapter
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeEffect
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeEvent
-import com.emamagic.moviestreaming.ui.modules.home.contract.HomeState
+import com.emamagic.moviestreaming.ui.modules.home.contract.*
 import com.emamagic.moviestreaming.util.exhaustive
 import com.emamagic.moviestreaming.util.onDrawerListener
 import com.emamagic.moviestreaming.util.toasty
@@ -99,11 +97,11 @@ class HomeFragment :
 
     override fun renderViewState(viewState: HomeState) {
         when (viewState.currentState) {
-            com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
-            com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
-            com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
-            com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
-            com.emamagic.moviestreaming.ui.modules.home.contract.CurrentHomeState.CLOSE_APP -> requireActivity().finish()
+            CurrentHomeState.NON_STATE -> { /* Do Nothing */ }
+            CurrentHomeState.SLIDER_RECEIVED -> setUpSlider(requireContext(), viewState.sliders)
+            CurrentHomeState.MOVIE_RECEIVED -> setUpMovie(viewState.movies)
+            CurrentHomeState.GENRE_RECEIVE -> setUpGenreRecycler(viewState.genres)
+            CurrentHomeState.CLOSE_APP -> requireActivity().finish()
         }
 
 
@@ -209,7 +207,7 @@ class HomeFragment :
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.nav_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.GENRE))
+            R.id.nav_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
             R.id.nav_buy_account -> {}
             R.id.nav_favorite -> viewModel.setEvent(HomeEvent.FavoriteClicked)
             R.id.nav_profile -> {}
@@ -223,16 +221,12 @@ class HomeFragment :
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_menu -> binding.drawerLayout.openDrawer(GravityCompat.START)
-            R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.GENRE))
-            R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
-                com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.ANIMATION))
-            R.id.txt_more_new_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
-                com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.NEW))
-            R.id.txt_more_popular_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
-                com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.POPULAR))
-            R.id.txt_more_series -> viewModel.setEvent(HomeEvent.MoreMovieClicked(com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES))
-            R.id.txt_more_top_movie_imdb -> viewModel.setEvent(HomeEvent.MoreMovieClicked(
-                com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.TOP))
+            R.id.txt_more_genre -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.GENRE))
+            R.id.txt_more_animation -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.ANIMATION))
+            R.id.txt_more_new_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.NEW))
+            R.id.txt_more_popular_movie -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.POPULAR))
+            R.id.txt_more_series -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.SERIES))
+            R.id.txt_more_top_movie_imdb -> viewModel.setEvent(HomeEvent.MoreMovieClicked(CategoryType.TOP))
         }
     }
 
@@ -250,7 +244,7 @@ class HomeFragment :
 
     override fun onShimmerStopMovieVer(item: MovieEntity) {
         when(item.categoryName){
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.TOP -> {
+            CategoryType.TOP -> {
                 shimmerCountMovieTop++
                 if (shimmerCountMovieTop >= 4){
                     binding.shimmerFrameLayoutTop.stopShimmer()
@@ -258,7 +252,7 @@ class HomeFragment :
                     binding.recyclerViewTopMovieImdb.visibility = View.VISIBLE
                 }
             }
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.NEW -> {
+            CategoryType.NEW -> {
                 shimmerCountMovieNew++
                 if (shimmerCountMovieNew >= 4){
                     binding.shimmerFrameLayoutNew.stopShimmer()
@@ -266,7 +260,7 @@ class HomeFragment :
                     binding.recyclerViewNewMovie.visibility = View.VISIBLE
                 }
             }
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES -> {
+            CategoryType.SERIES -> {
                 shimmerCountMovieSeries++
                 if (shimmerCountMovieSeries >= 4){
                     binding.shimmerFrameLayoutSeries.stopShimmer()
@@ -283,7 +277,7 @@ class HomeFragment :
 
     override fun onShimmerStopMovieHor(item: MovieEntity) {
         when(item.categoryName){
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.POPULAR -> {
+            CategoryType.POPULAR -> {
                 shimmerCountMoviePopular++
                 if (shimmerCountMoviePopular >= 2){
                     binding.shimmerFrameLayoutPopular.stopShimmer()
@@ -291,7 +285,7 @@ class HomeFragment :
                     binding.recyclerViewPopularMovie.visibility = View.VISIBLE
                 }
             }
-            com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.ANIMATION -> {
+            CategoryType.ANIMATION -> {
                 shimmerCountMovieAnim++
                 if (shimmerCountMovieAnim >= 2){
                     binding.shimmerFrameLayoutAnim.stopShimmer()
@@ -303,7 +297,7 @@ class HomeFragment :
         }
     }
 
-    override fun onGenreClicked(item: com.emamagic.moviestreaming.data.db.entity.GenreEntity) {
+    override fun onGenreClicked(item: GenreEntity) {
         viewModel.setEvent(HomeEvent.GenreClicked(item.name))
     }
 

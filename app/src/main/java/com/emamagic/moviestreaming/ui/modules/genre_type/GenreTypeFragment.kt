@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.emamagic.moviestreaming.data.db.entity.GenreEntity
 import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentGenreTypeBinding
@@ -39,21 +40,18 @@ class GenreTypeFragment: BaseFragment<FragmentGenreTypeBinding, GenreTypeState, 
     }
 
     override fun renderViewState(viewState: GenreTypeState) {
-        when(viewState.currentState) {
-            com.emamagic.moviestreaming.ui.modules.genre_type.contract.CurrentGenreTypeState.NON_STATE -> { /* Do Nothing */ }
-            com.emamagic.moviestreaming.ui.modules.genre_type.contract.CurrentGenreTypeState.RECEIVE_GENRES -> setUpGenreRecycler(viewState.genreList)
-        }
+        viewState.genreList?.let { setUpGenreRecycler(it) }
     }
 
 
-    private fun setUpGenreRecycler(genreList: List<com.emamagic.moviestreaming.data.db.entity.GenreEntity>) {
+    private fun setUpGenreRecycler(genreList: List<GenreEntity>) {
         binding.recyclerViewGenreComplete.adapter = genreTypeAdapter
         binding.recyclerViewGenreComplete.setHasFixedSize(true)
         binding.recyclerViewGenreComplete.itemAnimator = null
         genreTypeAdapter.submitList(genreList)
     }
 
-    override fun onGenreClicked(item: com.emamagic.moviestreaming.data.db.entity.GenreEntity) {
+    override fun onGenreClicked(item: GenreEntity) {
         viewModel.setEvent(GenreTypeEvent.GenreTypeClicked(item.name))
     }
 

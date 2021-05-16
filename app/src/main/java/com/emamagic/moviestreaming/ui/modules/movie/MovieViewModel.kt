@@ -6,6 +6,7 @@ import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.util.ToastyMode
 import com.emamagic.moviestreaming.provider.safe.ResultWrapper
 import com.emamagic.moviestreaming.ui.base.BaseViewModel
+import com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState
 import com.emamagic.moviestreaming.ui.modules.movie.contract.MovieEvent
 import com.emamagic.moviestreaming.ui.modules.movie.contract.MovieState
 import com.emamagic.moviestreaming.util.exhaustive
@@ -33,15 +34,15 @@ class MovieViewModel @Inject constructor(
     private fun getDetailMovie(id: Long) = viewModelScope.launch {
         setEffect { CommonEffect.Loading(true) }
         val movie = repository.getMovieById(id)
-        setState { copy(movie = movie, currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.MOVIE_RECEIVED) }
+        setState { copy(movie = movie, currentState = CurrentMovieState.MOVIE_RECEIVED) }
         repository.getCastsById(id).collect {
             when(it) {
-                is ResultWrapper.Success -> setState { copy(casts = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.CASTS_RECEIVED) }
+                is ResultWrapper.Success -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
                 is ResultWrapper.Failed -> {
-                    setState { copy(casts = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.CASTS_RECEIVED) }
+                    setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
                     setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(casts = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.CASTS_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(casts = it.data!! ,currentState = CurrentMovieState.CASTS_RECEIVED) }
             }.exhaustive
             setEffect { CommonEffect.Loading(false) }
         }
@@ -51,12 +52,12 @@ class MovieViewModel @Inject constructor(
     private fun getSeasons(id: Long) = viewModelScope.launch{
         repository.getSeasonById(id).collect {
             when(it) {
-                is ResultWrapper.Success -> setState { copy(seasons = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.SEASONS_RECEIVED) }
+                is ResultWrapper.Success -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
                 is ResultWrapper.Failed -> {
-                    setState { copy(seasons = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.SEASONS_RECEIVED) }
+                    setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
                     setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(seasons = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.SEASONS_RECEIVED) }
+                is ResultWrapper.FetchLoading -> setState { copy(seasons = it.data!! ,currentState = CurrentMovieState.SEASONS_RECEIVED) }
             }.exhaustive
         }
     }

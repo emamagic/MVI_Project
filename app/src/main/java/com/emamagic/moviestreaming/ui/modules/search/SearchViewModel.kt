@@ -1,6 +1,7 @@
 package com.emamagic.moviestreaming.ui.modules.search
 
 import androidx.lifecycle.viewModelScope
+import com.emamagic.moviestreaming.data.network.dto.MovieDto
 import com.emamagic.moviestreaming.data.repository.search.SearchRepository
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.provider.mapper.MovieMapper
@@ -32,13 +33,13 @@ class SearchViewModel @Inject constructor(
     private fun searchMovies(category: String, query: String) = viewModelScope.launch {
         val response = repository.searchMovies(category ,query)
         when(response){
-            is ResultWrapper.Success -> setState { copy(movies = response.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.search.contract.CurrentSearchState.MOVIES_RECEIVED) }
+            is ResultWrapper.Success -> setState { copy(movies = response.data) }
             is ResultWrapper.Failed -> setEffect { CommonEffect.ShowToast("${response.error?.message}" ,ToastyMode.MODE_TOAST_ERROR) }
             is ResultWrapper.FetchLoading -> { /* Do Nothing */ }
         }.exhaustive
     }
 
-    private fun movieClicked(movie: com.emamagic.moviestreaming.data.network.dto.MovieDto) = viewModelScope.launch {
+    private fun movieClicked(movie: MovieDto) = viewModelScope.launch {
         setEffect { CommonEffect.Navigate(SearchFragmentDirections.actionSearchFragmentToMovieFragment(movieMapper.mapFromEntity(movie))) }
     }
 

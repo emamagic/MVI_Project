@@ -8,12 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.emamagic.moviestreaming.R
+import com.emamagic.moviestreaming.data.db.entity.CastEntity
 import com.emamagic.moviestreaming.data.db.entity.MovieEntity
+import com.emamagic.moviestreaming.data.db.entity.SeasonEntity
 import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentShowDetailMovieBinding
+import com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType
 import com.emamagic.moviestreaming.ui.modules.movie.adaper.CastAdapter
 import com.emamagic.moviestreaming.ui.modules.movie.adaper.SeasonAdapter
+import com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState
 import com.emamagic.moviestreaming.ui.modules.movie.contract.MovieEvent
 import com.emamagic.moviestreaming.ui.modules.movie.contract.MovieState
 import com.squareup.picasso.Picasso
@@ -38,7 +42,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding, MovieState, Co
         castAdapter = CastAdapter()
         seasonAdapter = SeasonAdapter(this)
         viewModel.setEvent(MovieEvent.GetDetailMovie(args.movie.id!!))
-        if (args.movie.categoryName == com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES)
+        if (args.movie.categoryName == CategoryType.SERIES)
             viewModel.setEvent(MovieEvent.GetSeasons(args.movie.id!!))
     }
 
@@ -55,10 +59,10 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding, MovieState, Co
 
     override fun renderViewState(viewState: MovieState) {
         when(viewState.currentState) {
-            com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.NON_STATE -> { /* Do Nothing */ }
-            com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.MOVIE_RECEIVED -> setUpViews(viewState.movie)
-            com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.CASTS_RECEIVED -> setUpCastRecycler(viewState.casts)
-            com.emamagic.moviestreaming.ui.modules.movie.contract.CurrentMovieState.SEASONS_RECEIVED -> setUpSeasonRecycler(viewState.seasons)
+            CurrentMovieState.NON_STATE -> { /* Do Nothing */ }
+            CurrentMovieState.MOVIE_RECEIVED -> setUpViews(viewState.movie)
+            CurrentMovieState.CASTS_RECEIVED -> setUpCastRecycler(viewState.casts)
+            CurrentMovieState.SEASONS_RECEIVED -> setUpSeasonRecycler(viewState.seasons)
         }
     }
 
@@ -67,7 +71,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding, MovieState, Co
         binding.apply {
             nameMovie.text = movie.name
             nameDirector.text = "Director : ${movie.director}"
-            if (movie.categoryName == com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES) {
+            if (movie.categoryName == CategoryType.SERIES) {
                 published.text = "Episodes : ${movie.episode}"
                 imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
                 seriesList.visibility = View.VISIBLE
@@ -85,14 +89,14 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding, MovieState, Co
     }
 
 
-    private fun setUpCastRecycler(list: List<com.emamagic.moviestreaming.data.db.entity.CastEntity>) {
+    private fun setUpCastRecycler(list: List<CastEntity>) {
         binding.recyclerViewCast.adapter = castAdapter
         binding.recyclerViewCast.setHasFixedSize(true)
         binding.recyclerViewCast.itemAnimator = null
         castAdapter.submitList(list)
     }
 
-    private fun setUpSeasonRecycler(list: List<com.emamagic.moviestreaming.data.db.entity.SeasonEntity>) {
+    private fun setUpSeasonRecycler(list: List<SeasonEntity>) {
         binding.recyclerViewSeason.adapter = seasonAdapter
         binding.recyclerViewSeason.setHasFixedSize(true)
         binding.recyclerViewSeason.itemAnimator = null
@@ -105,7 +109,7 @@ class MovieFragment: BaseFragment<FragmentShowDetailMovieBinding, MovieState, Co
         binding.recyclerViewSimilar.itemAnimator = null
     }
 
-    override fun onSeasonClicked(item: com.emamagic.moviestreaming.data.db.entity.SeasonEntity) {
+    override fun onSeasonClicked(item: SeasonEntity) {
         viewModel.setEvent(MovieEvent.SeasonClicked(item.id!!))
     }
 

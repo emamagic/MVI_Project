@@ -32,12 +32,12 @@ class GenreTypeViewModel @Inject constructor(
         setEffect { CommonEffect.Loading(true) }
         typeRepository.getAllGenre().collect {
             when(it){
-                is ResultWrapper.Success -> setState { copy(genreList = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.genre_type.contract.CurrentGenreTypeState.RECEIVE_GENRES) }
+                is ResultWrapper.Success -> setState { copy(genreList = it.data) }
                 is ResultWrapper.Failed -> {
-                    setState { copy(genreList = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.genre_type.contract.CurrentGenreTypeState.RECEIVE_GENRES) }
+                    setState { copy(genreList = it.data) }
                     setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
                 }
-                is ResultWrapper.FetchLoading -> setState { copy(genreList = it.data!! ,currentState = com.emamagic.moviestreaming.ui.modules.genre_type.contract.CurrentGenreTypeState.RECEIVE_GENRES) }
+                is ResultWrapper.FetchLoading -> setState { copy(genreList = it.data) }
             }.exhaustive
             setEffect { CommonEffect.Loading(false) }
         }

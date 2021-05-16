@@ -14,9 +14,9 @@ import com.emamagic.moviestreaming.ui.modules.auth.login.contract.LoginState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment: BaseFragment<FragmentLoginBinding, LoginState, CommonEffect, LoginEvent, com.emamagic.moviestreaming.ui.modules.auth.login.LoginViewModel>() {
+class LoginFragment: BaseFragment<FragmentLoginBinding, LoginState, CommonEffect, LoginEvent, LoginViewModel>() {
 
-    override val viewModel: com.emamagic.moviestreaming.ui.modules.auth.login.LoginViewModel by viewModels()
+    override val viewModel: LoginViewModel by viewModels()
     private lateinit var request: LoginRequest
 
     override fun getFragmentBinding(

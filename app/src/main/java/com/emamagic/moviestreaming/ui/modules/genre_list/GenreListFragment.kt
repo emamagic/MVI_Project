@@ -13,7 +13,6 @@ import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentGenreListBinding
 import com.emamagic.moviestreaming.ui.modules.genre_list.adapter.GenreListAdapter
-import com.emamagic.moviestreaming.ui.modules.genre_list.contract.CurrentGenreListState
 import com.emamagic.moviestreaming.ui.modules.genre_list.contract.GenreListEvent
 import com.emamagic.moviestreaming.ui.modules.genre_list.contract.GenreListState
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,10 +44,7 @@ class GenreListFragment: BaseFragment<FragmentGenreListBinding, GenreListState, 
     }
 
     override fun renderViewState(viewState: GenreListState) {
-        when(viewState.currentState) {
-           CurrentGenreListState.NON_STATE -> { /* Do Nothing */ }
-           CurrentGenreListState.GENRE_RECEIVED -> setUpGenreListRecycler(viewState.genres)
-        }
+        viewState.genres?.let { setUpGenreListRecycler(it) }
     }
 
 

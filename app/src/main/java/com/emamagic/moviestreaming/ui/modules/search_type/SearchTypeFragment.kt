@@ -10,6 +10,7 @@ import com.emamagic.moviestreaming.R
 import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentSearchTypeBinding
+import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeEvent
 import com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchTypeState
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,10 +40,10 @@ class SearchTypeFragment: BaseFragment<FragmentSearchTypeBinding, SearchTypeStat
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.card_top_movie -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType.TOP))
-            R.id.card_animation -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType.ANIMATION))
-            R.id.card_series -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType.SERIES))
-            R.id.card_movie_new -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(com.emamagic.moviestreaming.ui.modules.search_type.contract.SearchType.NEW))
+            R.id.card_top_movie -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(SearchType.TOP))
+            R.id.card_animation -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(SearchType.ANIMATION))
+            R.id.card_series -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(SearchType.SERIES))
+            R.id.card_movie_new -> viewModel.setEvent(SearchTypeEvent.SearchTypeClicked(SearchType.NEW))
         }
     }
 }

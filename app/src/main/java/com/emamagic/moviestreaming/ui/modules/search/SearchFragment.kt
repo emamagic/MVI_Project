@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.emamagic.moviestreaming.data.network.dto.MovieDto
 import com.emamagic.moviestreaming.ui.base.BaseFragment
 import com.emamagic.moviestreaming.ui.base.CommonEffect
 import com.emamagic.moviestreaming.databinding.FragmentSearchBinding
@@ -46,20 +47,17 @@ class SearchFragment: BaseFragment<FragmentSearchBinding, SearchState, CommonEff
     }
 
     override fun renderViewState(viewState: SearchState) {
-        when(viewState.currentState){
-            com.emamagic.moviestreaming.ui.modules.search.contract.CurrentSearchState.NON_STATE -> { /* Do Nothing */ }
-            com.emamagic.moviestreaming.ui.modules.search.contract.CurrentSearchState.MOVIES_RECEIVED -> setUpSearchRecycler(viewState.movies.movies)
-        }
+        viewState.movies?.movies?.let { setUpSearchRecycler(it) }
     }
 
-    private fun setUpSearchRecycler(list: List<com.emamagic.moviestreaming.data.network.dto.MovieDto>) {
+    private fun setUpSearchRecycler(list: List<MovieDto>) {
         binding.recyclerViewSearch.adapter = searchAdapter
         binding.recyclerViewSearch.setHasFixedSize(true)
         binding.recyclerViewSearch.itemAnimator = null
         searchAdapter.submitList(list)
     }
 
-    override fun onSearchItemClicked(item: com.emamagic.moviestreaming.data.network.dto.MovieDto) {
+    override fun onSearchItemClicked(item: MovieDto) {
         viewModel.setEvent(SearchEvent.MovieClicked(item))
     }
 }

@@ -47,7 +47,7 @@ class GenreListAdapter constructor(val interaction: Interaction) :
             rateImdb.text = "IMDb:${item.movie.imdbRate}"
             timeMovie.text = item.movie.time
             Picasso.get().load(item.movie.imageLink).resize(400, 400).into(imgMovie)
-            if (item.movie.categoryName == com.emamagic.moviestreaming.ui.modules.home.contract.CategoryType.SERIES) {
+            if (item.movie.categoryName == CategoryType.SERIES) {
                 published.text = "Episodes :${item.movie.episode}"
                 imgHour.setImageResource(R.drawable.ic_baseline_folder_special_24)
             } else {

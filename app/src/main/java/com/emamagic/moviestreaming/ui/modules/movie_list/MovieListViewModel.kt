@@ -35,12 +35,12 @@ class MovieListViewModel @Inject constructor(
         setEffect { CommonEffect.Loading(isLoading = true) }
         repository.getAllMovie(category).collect {
             when(it){
-                is ResultWrapper.Success -> setState { copy(movieList = it.data!! ,currentMovieState = com.emamagic.moviestreaming.ui.modules.movie_list.contract.CurrentMovieListState.RECEIVE_MOVIES) }
+                is ResultWrapper.Success -> setState { copy(movieList = it.data) }
                 is ResultWrapper.Failed ->  {
                     setEffect { CommonEffect.ShowToast("${it.error?.message} // ${it.error?.code} // ${it.error?.errorBody}" ,ToastyMode.MODE_TOAST_ERROR) }
-                    setState { copy(movieList = it.data!! ,currentMovieState = com.emamagic.moviestreaming.ui.modules.movie_list.contract.CurrentMovieListState.RECEIVE_MOVIES) }
+                    setState { copy(movieList = it.data) }
                 }
-                is ResultWrapper.FetchLoading ->  setState { copy(movieList = it.data!! ,currentMovieState = com.emamagic.moviestreaming.ui.modules.movie_list.contract.CurrentMovieListState.RECEIVE_MOVIES) }
+                is ResultWrapper.FetchLoading ->  setState { copy(movieList = it.data) }
             }.exhaustive
             setEffect { CommonEffect.Loading(isLoading = false) }
         }
